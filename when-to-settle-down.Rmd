@@ -383,7 +383,7 @@ It is also worth noting that love, as well as many other things in this world, a
 
 Anyway if you were like me, and most people I know, mathematics was seen as a somewhat boring and irrelevant topic when we were at highschool. And similar to how Hannah closed her presentation, I too, hope that this little bit of insight into the mathematics of love can persuade you to have a little bit more love for mathematics.
 
-## Note for other Data Analyst geeks
+## Note for Other Data Analyst Geeks
 
 The entire code of this analysis is available in my [github account](http://github.com/jaycode). Feel free to grab it and use it anyway you wish. The calculation methods are not optimized so they take quite awhile to compile. The reason is I am still a noob at numerical programming, if you have any suggestions for the code, please fork the code and create a pull request after you adjusted it.
 

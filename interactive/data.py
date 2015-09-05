@@ -1,9 +1,14 @@
 ### Python code to get data needed for our math app.
 import numpy as np
 from pandas import *
+import random
 
+# Random seed for testing purposes.
+# np.random.seed(42)
+# random.seed(42)
 
-def secretaryData(n):
+# Generates probability data calculated using Optimal Stopping Theory.
+def probability_data(n):
   # rejected is number of rejected people.
   # p_of_r is the probability of success ( a.k.a. P(r) ).
   title_r = 'rejected'
@@ -20,15 +25,36 @@ def secretaryData(n):
 
   return(rows)
 
-def getIntro():
-  partners = secretaryData(100)
+def get_intro():
+  partners = probability_data(100)
   return {'partners': partners}
 
-def run():
-  return {'test': 'json'}
+# Generates dataset given start age (a1), end age (a2),
+# min and max potential partners met per year (p1 and p2),
+# and number of lifetimes (l). 
+def get_compatibilities(a1=18, a2=24, p1=0, p2=8, l=10000):
+  compatibilities = []
+  for lt in range(1, l+1):
+    # Number of candidates met per year should range between p1 and p2.
+    yearly_num_candidates = random.sample(range(p1, p2), (a2-a1))
+    for year, num_candidates in enumerate(yearly_num_candidates):
+      # Compatibility scores of candidates should follow a normal distribution.
+      scores = np.random.normal(size=num_candidates)
+      for score in scores:
+        compatibilities.append({
+          'lifetime': lt,
+          'candidate_score': round(score,3),
+          'candidate_age_met': a1+year
+        })
+  return compatibilities
+
+def get(a1=18, a2=24, p1=0, p2=8, l=10000):
+  compatibilities = get_compatibilities(a1, a2, p1, p2, l)
+  return {'compatibilities': compatibilities}
 
 def main():
-  print getIntro()
+  compatibilities = get_compatibilities()
+  print len(compatibilities)
 
 if __name__ == '__main__':
   main()

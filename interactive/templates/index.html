@@ -78,7 +78,7 @@ P(5) = 4/10 * (1/4 + 1/5 + 1/6 + 1/7 + 1/8 + 1/9)
 
         <p>or <b>39.8%</b> chance that we will find best candidate if we follow the strategy.</p>
         <p>From that formula, the optimal value of r can be approximated as <b>1/e</b>. Being able to find That is actually a perk of being good at calculus, which I'm not. In my case, then, instead of proving it mathematically (which you can find in Wikipedia) the only way to prove it is to program it by plotting a scenario of, say, 100 candidates with several stopping times, to see where the largest <b>P(r)</b> is:</p>
-        <div id="plot-intro"></div>
+        <div id="intro_viz"></div>
         <p>From the above plot it's clear that the optimal value is located around the 37%-ish.</p>
 
         <h2>Simulating over different goals</h2>
@@ -88,9 +88,133 @@ P(5) = 4/10 * (1/4 + 1/5 + 1/6 + 1/7 + 1/8 + 1/9)
         <p>
           In this simulation, we are going to test our success probabilities of finding the right partner given that we can retry our life 10,000 times, each with different number of partners met each lifetime. You can view and compare each strategy by hovering over the curve. You can also examine generated dataset. Once you know how everything works, you can play around by generating your own simulation by entering your own plan i.e. from what age to what age are you going to search for partners and how many partners are you likely going to end up each year (I suggest that you compare it with your own history). Have fun!
         </p>
-        <div id="plot"></div>
+        <div class="main_viz text-center" id="main_viz">
+          <button data-bind="btn-start">Start The Simulation</button>
+        </div>
+        <script type="text/html" id="main_viz-main"></script>
+        <script type="text/html" id="main_viz-generate">
+          <div class="main_viz-generate">
+            <form>
+              <div class="row">
+                <article class="small-12 columns">
+                  <h1 class="small-only-text-center">Generate Dataset</h1>
+                </article>
+              </div>
+              <div class="row">
+                <div class="small-9 medium-4 columns">
+                  <label for="a1" class="inline right">Start dating from age</label>
+                </div>
+                <div class="small-3 medium-1 columns">
+                  <input id="a1" type="text" class="text-center" placeholder="18" />
+                </div>
+                <div class="mid_label small-9 medium-2 columns text-center">
+                  <label for="a2" class="inline">until age</label>
+                </div>
+                <div class="small-3 medium-1 end columns">
+                  <input id="a2" type="text" class="text-center" placeholder="24" />
+                </div>
+              </div>
+              <div class="row">
+                <div class="small-9 medium-4 columns">
+                  <label for="p1" class="inline right">Potential partners met per year</label>
+                </div>
+                <div class="small-3 medium-1 columns">
+                  <input id="p1" type="text" class="text-center" placeholder="0" />
+                </div>
+                <div class="mid_label small-9 medium-2 columns text-center">
+                  <label for="p2" class="inline">to</label>
+                </div>
+                <div class="small-3 medium-1 end columns">
+                  <input id="p2" type="text" class="text-center" placeholder="8" />
+                </div>
+              </div>
+              <div class="row">
+                <div class="small-7 medium-4 columns">
+                  <label for="l" class="inline right">Experiment on</label>
+                </div>
+                <div class="small-3 medium-2 columns">
+                  <input id="l" type="text" class="text-center" placeholder="10000" />
+                </div>
+                <div class="small-2 medium-1 end columns">
+                  <label class="inline">lifetimes.</label>
+                </div>
+              </div>
+              <div class="row">
+                <div class="small-only-right small-8 medium-3 medium-offset-7 columns">
+                  <button data-bind="click: generateDataset" class="expand">Generate</button>
+                </div>
+                <div class="small-4 medium-2 columns">
+                  <button data-bind="click: viewDataAnalysis" class="expand secondary">Back</button>
+                </div>
+              </div>
+            </form>
+          </div>
+        </script>
+        <script type="text/html" id="main_viz-view_generated">
+          <article class="main_viz-view_generated">
+            <div class="row">
+              <div class="small-12 columns">
+                <h1 class="small-only-text-center">View Generated Data</h1>
+              </div>
+            </div>
+            <div class="row">
+              <div class="small-12 columns">
+                <button data-bind="click: viewDataAnalysis" class="right tiny">Back to Data Analysis</button>
+                <p>Number of lifetimes: <span data-bind="text: l">10,000</span></p>
+                <p>Dating period from age <span data-bind="text: a1">18</span> to <span data-bind="text: a2">24</span></p>
+                <p>Number of potential partners per year: <span data-bind="text: p1">0</span> to <span data-bind="text: p2">8</span></p>
+                <h2>Some Stats</h2>
+                <div id="candidates_distribution_plot"></div>
+                <div id="compatibilities_distribution_plot"></div>
+              </div>
+            </div>
+            <div class="row">
+              <div class="right small-12 medium-3 columns">
+                <button data-bind="click: viewDataAnalysis" class="expand">Data Analysis</button>
+              </div>
+              <div class="left small-12 medium-4 columns">
+                <button data-bind="click: viewGenerateDataset" class="expand secondary">Generate Another Dataset</button>
+              </div>
+            </div>
+          </article>
+        </script>
+        <script type="text/html" id="main_viz-detail"></script>
+        <article class="main_viz-detail">
+          <div class="row">
+            <div class="small-12 column">
+              <h1>View Details</h1>
+            </div>
+          </div>
+          <div class="row">
+            <div class="small-4 medium-3 column">
+              <label for="detail-rp" class="inline right">Rejection Phase:</label>
+            </div>
+            <div class="small-4 medium-2 column">
+              <input id="detail-rp" type="text" value="18%" />
+            </div>
+            <div class="small-4 end column">
+              <label class="inline">of all cases.</label>
+            </div>
+          </div>
+          <div class="row">
+            <div class="small-4 medium-3 column">
+              <label for="detail-l" class="inline right">Lifetime #:</label>
+            </div>
+            <div class="small-4 medium-2 column">
+              <input data-bind="textInput: applyThousandSeparators" id="detail-l" type="text" value="8754" />
+            </div>
+            <div class="small-4 end column">
+              <label class="inline">of all cases.</label>
+            </div>
+          </div>
+        </article>
+        <div class="main_viz-main">
+          
+        </div>
       </div>
     </article>
+    <script src="{{ url_for('static', filename='js/intro_viz.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/main_viz.js') }}"></script>
     <script src="{{ url_for('static', filename='js/app.js') }}"></script>
   </body>
 </html>

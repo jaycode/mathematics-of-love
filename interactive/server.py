@@ -1,20 +1,31 @@
-from flask import Flask, render_template, jsonify
+from flask import Flask, render_template, jsonify, request
 app = Flask(__name__)
 
 @app.route('/')
 @app.route('/index')
-def runIndex():
+def run_index():
   return render_template('index.html')
 
 @app.route('/data/intro')
-def readDataIntro():
+def read_data_intro():
   import data
-  return jsonify(data.getIntro())
+  return jsonify(data.get_intro())
 
 @app.route('/data')
-def readData():
+def read_data():
   import data
-  return jsonify(data.run())
+  # a1: age start
+  # a2: age end
+  # p1: potential partners per year min
+  # p2: potential partners per year max
+  # l: lifetimes
+  return jsonify(data.get(
+    a1=request.args.get('a1', 18),
+    a2=request.args.get('a2', 24),
+    p1=request.args.get('p1', 0),
+    p2=request.args.get('p2', 8),
+    l=request.args.get('l', 10000)
+  ))
 
 if __name__ == '__main__':
   app.debug = True

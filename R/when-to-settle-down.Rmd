@@ -202,7 +202,7 @@ test_is_acceptable()
 ```{r rejection_test, echo=FALSE}
 rejection_test <- function(people_compats, top_x = 0) {
   s = c()
-  # If I rejected n people, then find the next person that is better than the rejected ones,
+  # If I rejected n% of people, then find the next person that is better than the rejected ones,
   # do I end up with person with max compatibility?
   # Then make that into a True/False table
   for (n in 0:99) {

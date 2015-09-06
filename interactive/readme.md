@@ -9,3 +9,4 @@ To start this app on a web server, run `python server.py`.
 
 - To add new javascript plugin, run `bower install pluginname`.
 - This project uses Foundation with Grunt, so when you need to update your css, cd to `static` dir and run `grunt`.
+  You may then update the scss files and they will be compiled into app.css used in this app.

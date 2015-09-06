@@ -10,6 +10,7 @@
     -->
     <script src="{{ url_for('static', filename='bower_components/knockout/dist/knockout.debug.js') }}"></script>
     <script src="{{ url_for('static', filename='bower_components/d3/d3.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/d3-slider/d3.slider.js') }}"></script>
   </head>
   <body>
     <header class="row">
@@ -190,7 +191,11 @@ P(5) = 4/10 * (1/4 + 1/5 + 1/6 + 1/7 + 1/8 + 1/9)
               <label for="detail-rp" class="inline right">Rejection Phase:</label>
             </div>
             <div class="small-4 medium-2 column">
-              <input id="detail-rp" type="text" value="18%" />
+              <input data-bind="value: detailRejectionPhase" id="detail-rp" type="text" value="" />
+              <div data-bind="click: showPhaseSlider" class="arrows_button">
+                <div class="arrow_up"></div>
+                <div class="arrow_down"></div>
+              </div>
             </div>
             <div class="small-4 end column">
               <label class="inline">of all cases.</label>
@@ -201,10 +206,22 @@ P(5) = 4/10 * (1/4 + 1/5 + 1/6 + 1/7 + 1/8 + 1/9)
               <label for="detail-l" class="inline right">Lifetime #:</label>
             </div>
             <div class="small-4 medium-2 column">
-              <input data-bind="textInput: applyThousandSeparators" id="detail-l" type="text" value="8754" />
+              <input data-bind="value: detailLifetime" id="detail-l" type="text" value="8754" />
+              <div data-bind="click: showLifetimeSlider" class="arrows_button">
+                <div class="arrow_up"></div>
+                <div class="arrow_down"></div>
+              </div>
             </div>
             <div class="small-4 end column">
-              <label class="inline">of all cases.</label>
+              <button class="tiny">next random</button>
+            </div>
+          </div>
+          <div class="row">
+            <div class="small-4 medium-3 column">
+              <label for="" class="inline right">Goals:</label>
+            </div>
+            <div class="small-12 medium-9 column" data-bind="foreach: goals">
+              <button data-bind="text: name, css: getClass" class="tiny">Top 1</button>
             </div>
           </div>
         </article>
@@ -213,8 +230,13 @@ P(5) = 4/10 * (1/4 + 1/5 + 1/6 + 1/7 + 1/8 + 1/9)
         </div>
       </div>
     </article>
+    <script src="{{ url_for('static', filename='js/data.js') }}"></script>
     <script src="{{ url_for('static', filename='js/intro_viz.js') }}"></script>
     <script src="{{ url_for('static', filename='js/main_viz.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/dataAnalysis.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/detail.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/generate.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/generated.js') }}"></script>
     <script src="{{ url_for('static', filename='js/app.js') }}"></script>
   </body>
 </html>

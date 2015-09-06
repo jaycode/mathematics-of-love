@@ -57,7 +57,10 @@
 1/e = 1/2.71828
     = 0.3679</pre>
         <p>And <i>that's where <b>37%</b> comes from.</i></p>
-
+      </div>
+    </article>
+    <article class="row">
+      <div class="small-12 columns">
         <h2>The mathematics behind 37% rule</h2>
 
         <p>The formula for <b>Optimal Stopping</b> is relatively simple:</p>
@@ -81,7 +84,10 @@ P(5) = 4/10 * (1/4 + 1/5 + 1/6 + 1/7 + 1/8 + 1/9)
         <p>From that formula, the optimal value of r can be approximated as <b>1/e</b>. Being able to find That is actually a perk of being good at calculus, which I'm not. In my case, then, instead of proving it mathematically (which you can find in Wikipedia) the only way to prove it is to program it by plotting a scenario of, say, 100 candidates with several stopping times, to see where the largest <b>P(r)</b> is:</p>
         <div id="intro_viz"></div>
         <p>From the above plot it's clear that the optimal value is located around the 37%-ish.</p>
-
+      </div>
+    </article>
+    <article class="row">
+      <div class="small-12 columns">
         <h2>Simulating over different goals</h2>
         <p>
           Now, this strategy may not always end you up with the most perfect candidates, but should you be too unhappy about it? What if you are happy enough with finding the top 10% or 15% of all possible candidates? Below we see how your success rate is affected by relaxing your requirements.
@@ -92,9 +98,50 @@ P(5) = 4/10 * (1/4 + 1/5 + 1/6 + 1/7 + 1/8 + 1/9)
         <div class="main_viz text-center" id="main_viz">
           <button data-bind="btn-start">Start The Simulation</button>
         </div>
-        <script type="text/html" id="main_viz-main"></script>
+        <script type="text/html" id="main_viz-main">
+          <article data-bind="with: Experiment" class="main_viz-simulation_analysis">
+            <div class="row">
+              <div class="small-12 column">
+                <h1>Simulation Analysis</h1>
+              </div>
+            </div>
+            <div class="main_viz_panel">
+              <div class="simulation_analysis-top">
+                <div class="row">
+                  <div class="small-6 medium-3 column">
+                    <label class="right">Total Lifetimes:</label>
+                  </div>
+                  <div class="small-6 medium-9 end column">
+                    <label data-bind="text: lifetimes" class=""></label>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="small-12 medium-3 column">
+                    <label class="inline right">Goals:</label>
+                  </div>
+                  <div class="small-12 medium-9 column">
+                    <div class="goals" data-bind="foreach: goals">
+                      <div data-bind="css: getClass" class="goal_box"></div>
+                      <div data-bind="text: name" class="goal_text">Top 1</div>
+                    </div>
+                    <button data-bind="click: addGoal" class="tiny add_goal">Add</button>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="small-12 column">
+                    <button data-bind="click: $parent.viewGeneratedDataset" class="tiny right">View Generated Data</button>
+                    <button data-bind="click: $parent.viewGenerateDataset" class="tiny right small-margin-right">Generate Different Dataset</button>
+                  </div>
+                </div>
+              </div>
+              <div class="simulation_analysis-content">
+                <div id="simulation_analysis"></div>
+              </div>
+            </div>
+          </article>
+        </script>
         <script type="text/html" id="main_viz-generate">
-          <div class="main_viz-generate">
+          <div class="main_viz_panel main_viz-generate">
             <form>
               <div class="row">
                 <article class="small-12 columns">
@@ -152,7 +199,7 @@ P(5) = 4/10 * (1/4 + 1/5 + 1/6 + 1/7 + 1/8 + 1/9)
           </div>
         </script>
         <script type="text/html" id="main_viz-view_generated">
-          <article class="main_viz-view_generated">
+          <article class="main_viz_panel main_viz-view_generated">
             <div class="row">
               <div class="small-12 columns">
                 <h1 class="small-only-text-center">View Generated Data</h1>
@@ -179,61 +226,69 @@ P(5) = 4/10 * (1/4 + 1/5 + 1/6 + 1/7 + 1/8 + 1/9)
             </div>
           </article>
         </script>
-        <script type="text/html" id="main_viz-detail"></script>
-        <article class="main_viz-detail">
-          <div class="row">
-            <div class="small-12 column">
-              <h1>View Details</h1>
-            </div>
-          </div>
-          <div class="row">
-            <div class="small-4 medium-3 column">
-              <label for="detail-rp" class="inline right">Rejection Phase:</label>
-            </div>
-            <div class="small-4 medium-2 column">
-              <input data-bind="value: detailRejectionPhase" id="detail-rp" type="text" value="" />
-              <div data-bind="click: showPhaseSlider" class="arrows_button">
-                <div class="arrow_up"></div>
-                <div class="arrow_down"></div>
+        <script type="text/html" id="main_viz-detail">
+          <article data-bind="with: CurrentDetail" class="main_viz-detail">
+            <div class="row">
+              <div class="small-12 column">
+                <h1>View Details</h1>
               </div>
             </div>
-            <div class="small-4 end column">
-              <label class="inline">of all cases.</label>
-            </div>
-          </div>
-          <div class="row">
-            <div class="small-4 medium-3 column">
-              <label for="detail-l" class="inline right">Lifetime #:</label>
-            </div>
-            <div class="small-4 medium-2 column">
-              <input data-bind="value: detailLifetime" id="detail-l" type="text" value="8754" />
-              <div data-bind="click: showLifetimeSlider" class="arrows_button">
-                <div class="arrow_up"></div>
-                <div class="arrow_down"></div>
+            <div class="main_viz_panel">
+              <div class="row">
+                <div class="small-4 medium-3 column">
+                  <label for="detail-rp" class="inline right">Rejection Phase:</label>
+                </div>
+                <div class="small-4 medium-2 column">
+                  <input data-bind="value: detailRejectionPhase" id="detail-rp" type="text" value="" />
+                  <div data-bind="click: showPhaseSlider" class="arrows_button">
+                    <div class="arrow_up"></div>
+                    <div class="arrow_down"></div>
+                  </div>
+                </div>
+                <div class="small-4 end column">
+                  <label class="inline">of all cases.</label>
+                </div>
+              </div>
+              <div class="row">
+                <div class="small-4 medium-3 column">
+                  <label for="detail-l" class="inline right">Lifetime #:</label>
+                </div>
+                <div class="small-4 medium-2 column">
+                  <input data-bind="value: detailLifetime" id="detail-l" type="text" value="8754" />
+                  <div data-bind="click: showLifetimeSlider" class="arrows_button">
+                    <div class="arrow_up"></div>
+                    <div class="arrow_down"></div>
+                  </div>
+                </div>
+                <div class="small-4 end column">
+                  <button class="tiny">next random</button>
+                </div>
+              </div>
+              <div class="row">
+                <div class="small-4 medium-3 column">
+                  <label class="inline right">Total Candidates:</label>
+                </div>
+                <div class="small-4 medium-2 end column">
+                  <label data-bind="text: people_met" class="inline"></label>
+                </div>
+              </div>
+              <div class="row">
+                <div class="small-4 medium-3 column">
+                  <label for="" class="inline right small-only-text-left">Goals:</label>
+                </div>
+                <div class="small-12 medium-9 column" data-bind="foreach: goals">
+                  <button data-bind="text: name, css: getClass" class="tiny">Top 1</button>
+                </div>
               </div>
             </div>
-            <div class="small-4 end column">
-              <button class="tiny">next random</button>
-            </div>
-          </div>
-          <div class="row">
-            <div class="small-4 medium-3 column">
-              <label for="" class="inline right">Goals:</label>
-            </div>
-            <div class="small-12 medium-9 column" data-bind="foreach: goals">
-              <button data-bind="text: name, css: getClass" class="tiny">Top 1</button>
-            </div>
-          </div>
-        </article>
-        <div class="main_viz-main">
-          
-        </div>
+          </article>
+        </script>
       </div>
     </article>
     <script src="{{ url_for('static', filename='js/data.js') }}"></script>
     <script src="{{ url_for('static', filename='js/intro_viz.js') }}"></script>
     <script src="{{ url_for('static', filename='js/main_viz.js') }}"></script>
-    <script src="{{ url_for('static', filename='js/dataAnalysis.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/simulationAnalysis.js') }}"></script>
     <script src="{{ url_for('static', filename='js/detail.js') }}"></script>
     <script src="{{ url_for('static', filename='js/generate.js') }}"></script>
     <script src="{{ url_for('static', filename='js/generated.js') }}"></script>

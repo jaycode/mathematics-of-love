@@ -8,6 +8,7 @@
     <script src="{{ url_for('static', filename='bower_components/jquery/dist/jquery.min.js') }}"></script>
     <script src="{{ url_for('static', filename='bower_components/foundation/js/foundation.min.js') }}"></script>
     -->
+    <script src="{{ url_for('static', filename='bower_components/underscore/underscore.js') }}"></script>
     <script src="{{ url_for('static', filename='bower_components/knockout/dist/knockout.debug.js') }}"></script>
     <script src="{{ url_for('static', filename='bower_components/d3/d3.js') }}"></script>
     <script src="{{ url_for('static', filename='js/d3-slider/d3.slider.js') }}"></script>
@@ -95,11 +96,13 @@ P(5) = 4/10 * (1/4 + 1/5 + 1/6 + 1/7 + 1/8 + 1/9)
         <p>
           In this simulation, we are going to test our success probabilities of finding the right partner given that we can retry our life 10,000 times, each with different number of partners met each lifetime. You can view and compare each strategy by hovering over the curve. You can also examine generated dataset. Once you know how everything works, you can play around by generating your own simulation by entering your own plan i.e. from what age to what age are you going to search for partners and how many partners are you likely going to end up each year (I suggest that you compare it with your own history). Have fun!
         </p>
-        <div class="main_viz text-center" id="main_viz">
-          <button data-bind="btn-start">Start The Simulation</button>
-        </div>
-        <script type="text/html" id="main_viz-main">
-          <article data-bind="with: Experiment" class="main_viz-simulation_analysis">
+        <div class="main_viz" id="main_viz">
+          <div id="start_button_container" class="text-center is_active">
+            <button data-bind="btn-start">Start The Simulation</button>
+          </div>
+
+          <!-- Simulation Analysis -->
+          <article id="main_viz-simulation_analysis" data-bind="with: Experiment" class="main_viz-simulation_analysis">
             <div class="row">
               <div class="small-12 column">
                 <h1>Simulation Analysis</h1>
@@ -139,14 +142,14 @@ P(5) = 4/10 * (1/4 + 1/5 + 1/6 + 1/7 + 1/8 + 1/9)
               </div>
             </div>
           </article>
-        </script>
-        <script type="text/html" id="main_viz-generate">
-          <div class="main_viz_panel main_viz-generate">
+
+          <!-- Generate Dataset -->
+          <article id="main_viz-generate" class="main_viz_panel main_viz-generate">
             <form>
               <div class="row">
-                <article class="small-12 columns">
+                <div class="small-12 columns">
                   <h1 class="small-only-text-center">Generate Dataset</h1>
-                </article>
+                </div>
               </div>
               <div class="row">
                 <div class="small-9 medium-4 columns">
@@ -192,14 +195,14 @@ P(5) = 4/10 * (1/4 + 1/5 + 1/6 + 1/7 + 1/8 + 1/9)
                   <button data-bind="click: generateDataset" class="expand">Generate</button>
                 </div>
                 <div class="small-4 medium-2 columns">
-                  <button data-bind="click: viewDataAnalysis" class="expand secondary">Back</button>
+                  <button data-bind="click: viewSimulationAnalysis" class="expand secondary">Back</button>
                 </div>
               </div>
             </form>
-          </div>
-        </script>
-        <script type="text/html" id="main_viz-view_generated">
-          <article class="main_viz_panel main_viz-view_generated">
+          </article>
+
+          <!-- Generated Dataset -->
+          <article id="main_viz-generated" data-bind="with: Experiment" class="main_viz_panel main_viz-generated">
             <div class="row">
               <div class="small-12 columns">
                 <h1 class="small-only-text-center">View Generated Data</h1>
@@ -207,27 +210,26 @@ P(5) = 4/10 * (1/4 + 1/5 + 1/6 + 1/7 + 1/8 + 1/9)
             </div>
             <div class="row">
               <div class="small-12 columns">
-                <button data-bind="click: viewDataAnalysis" class="right tiny">Back to Data Analysis</button>
-                <p>Number of lifetimes: <span data-bind="text: l">10,000</span></p>
+                <!--todo: Disabled attribute when data not ready. -->
+                <button data-bind="click: $parent.viewSimulationAnalysis" class="right tiny">Back to Data Analysis</button>
+                <p>Number of lifetimes: <span data-bind="text: lifetimes">10,000</span></p>
                 <p>Dating period from age <span data-bind="text: a1">18</span> to <span data-bind="text: a2">24</span></p>
                 <p>Number of potential partners per year: <span data-bind="text: p1">0</span> to <span data-bind="text: p2">8</span></p>
-                <h2>Some Stats</h2>
-                <div id="candidates_distribution_plot"></div>
-                <div id="compatibilities_distribution_plot"></div>
+                <div id="generated-plot_area"></div>
               </div>
             </div>
             <div class="row">
               <div class="right small-12 medium-3 columns">
-                <button data-bind="click: viewDataAnalysis" class="expand">Data Analysis</button>
+                <button data-bind="click: $parent.viewSimulationAnalysis" class="expand">Data Analysis</button>
               </div>
               <div class="left small-12 medium-4 columns">
-                <button data-bind="click: viewGenerateDataset" class="expand secondary">Generate Another Dataset</button>
+                <button data-bind="click: $parent.viewGenerateDataset" class="expand secondary">Generate Another Dataset</button>
               </div>
             </div>
           </article>
-        </script>
-        <script type="text/html" id="main_viz-detail">
-          <article data-bind="with: CurrentDetail" class="main_viz-detail">
+
+          <!-- Detail -->
+          <article id="main_viz-detail" data-bind="with: CurrentDetail" class="main_viz-detail">
             <div class="row">
               <div class="small-12 column">
                 <h1>View Details</h1>
@@ -282,12 +284,28 @@ P(5) = 4/10 * (1/4 + 1/5 + 1/6 + 1/7 + 1/8 + 1/9)
               </div>
             </div>
           </article>
-        </script>
+        </div>
+      </div>
+    </article>
+    <article class="row">
+      <div class="small-12 columns">
+        <h2>Final Note</h2>
+        <p>
+          Apart from the Mathematics, I hope nobody takes too seriously the idea proposed in this project. While the numbers made sense, this strategy made much assumptions about how love works. For one, the fact that compatibility score does actually gets higher the longer you are together, thus ending up with even a suboptimal person early might be better than waiting too long for the prince/ss charming.
+        </p>
+        <p>
+          Note also that the simulation method here can be used in other fields with similar problems. Also known as <b>Monte Carlo Analysis</b>, this kind of simulation combined with other strategies such as genetic algorithm is often used in decision making in finance related sector.
+        </p>
+        <p>
+          With this project I hope I have demonstrated how the principles in Mathematics can be used, not necessarily in a too abstract fashion, in building a workable model of the real world and derive a strategy from it.
+        </p>
       </div>
     </article>
     <script src="{{ url_for('static', filename='js/data.js') }}"></script>
-    <script src="{{ url_for('static', filename='js/intro_viz.js') }}"></script>
-    <script src="{{ url_for('static', filename='js/main_viz.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/introViz.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/generatedViz.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/mainViz.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/detailViz.js') }}"></script>
     <script src="{{ url_for('static', filename='js/simulationAnalysis.js') }}"></script>
     <script src="{{ url_for('static', filename='js/detail.js') }}"></script>
     <script src="{{ url_for('static', filename='js/generate.js') }}"></script>

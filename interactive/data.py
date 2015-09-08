@@ -4,8 +4,8 @@ from pandas import *
 import random
 
 # Random seed for testing purposes.
-# np.random.seed(42)
-# random.seed(42)
+np.random.seed(42)
+random.seed(42)
 
 # Generates probability data calculated using Optimal Stopping Theory.
 def probability_data(n):
@@ -34,6 +34,12 @@ def get_intro():
 # and number of lifetimes (l). 
 def get_compatibilities(a1=18, a2=24, p1=0, p2=8, l=10000):
   compatibilities = []
+  a1 = int(a1)
+  a2 = int(a2)
+  p1 = int(p1)
+  p2 = int(p2)
+  l = int(l)
+  
   for lt in range(1, l+1):
     # Number of candidates met per year should range between p1 and p2.
     yearly_num_candidates = random.sample(range(p1, p2), (a2-a1))

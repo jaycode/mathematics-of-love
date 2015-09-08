@@ -1,10 +1,56 @@
 import pdb
+import numpy as np
+from itertools import groupby
 
-def process(compatibilities, goal='top-1'):
-  values = re.findall('[0-9]+|%', goal)
-  top_x = values[0]
-  percent = values[1] == '%'
-  
+# Generates probability data calculated using Optimal Stopping Theory.
+def compute_ost_theory(n):
+  # rejected is number of rejected people.
+  # p_of_r is the probability of success ( a.k.a. P(r) ).
+  rows = np.zeros(n)
+  for i in range(0,n):
+    e = 0.0
+    for j in range(i,n):
+      if (j == 1):
+        e = 0.0
+      else:
+        e = float(e + (1 / (float(j) - 1)))
+    val = ((float(i) - 1) / float(n)) * e
+    if val < 0:
+      val = 0
+    # pdb.set_trace()
+    rows[i] = val
+  return(np.round(rows, 3))
+
+def process(compatibilities, lifetimes=10000, goal='top-1'):
+  import re
+  if goal == 'theory':
+    # Output based on formula instead of data.
+    success_rates = compute_ost_theory(lifetimes)
+  else:
+    title_pr = 'p_of_r'
+    values = re.findall('[0-9]+|%', goal)
+    top_x = values[0]
+    percent = (False if len(values) == 1 else values[1] == '%')
+
+    groups = groupby(compatibilities, lambda x: x.pop('lifetime'))
+
+    successes = np.zeros([100, lifetimes])
+
+    for k, g in groups:
+      l_compats = [];
+      for v in g:
+        l_compats.append(v['candidate_score'])
+      row = rejection_test(l_compats, top_x, percent)
+      successes[:,k-1] = row
+    success_rates = successes.sum(1) / lifetimes
+  return success_rates
+
+def test_process():
+  import data
+  process(data.get_compatibilities(), 10000, 'top-1')
+  process(data.get_compatibilities(), 10000, 'top-10%25')
+  process(data.get_compatibilities(), 10000, 'top-15%25')
+  process(data.get_compatibilities(), 10000, 'theory')
 
 # Checks if given compatibility_scores is acceptable(i.e. within the top x percent / number of
 # everyone, if 0 then only take the top one).
@@ -12,7 +58,7 @@ def is_acceptable(compatibility_score, all_compatibility_scores, top_x = 1, perc
   if (percent):
     min_accepted = sorted(all_compatibility_scores)[-int(round(len(all_compatibility_scores) * float(top_x) / 100))]
   else:
-    min_accepted = sorted(all_compatibility_scores)[-top_x]
+    min_accepted = sorted(all_compatibility_scores)[-int(top_x)]
   return (compatibility_score >= min_accepted)
 
 def test_is_acceptable():
@@ -98,5 +144,7 @@ def test_rejection_test():
     results[99] == False
   ), "Assertion failed"
 
-test_is_acceptable()
-test_rejection_test()
+# test_is_acceptable()
+# test_rejection_test()
+# test_process()
+# compute_ost_theory(100)

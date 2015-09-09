@@ -114,8 +114,12 @@ P(5) = 4/10 * (1/4 + 1/5 + 1/6 + 1/7 + 1/8 + 1/9)
                   <div class="small-6 medium-3 column">
                     <label class="right">Total Lifetimes:</label>
                   </div>
-                  <div class="small-6 medium-9 end column">
-                    <label data-bind="text: lifetimes" class=""></label>
+                  <div class="small-6 medium-9 column">
+                    <span data-bind="text: lifetimes" class=""></span>
+                    &nbsp;&nbsp;&nbsp;&nbsp;
+                    <a class="toplinks" data-bind="click: $parent.viewGenerateDataset" href="#">Generate Different Dataset</a>
+                    &nbsp;&nbsp;|&nbsp;&nbsp;
+                    <a class="toplinks" data-bind="click: $parent.viewGeneratedDataset" href="#">View Generated Data</a>
                   </div>
                 </div>
                 <div class="row">
@@ -130,15 +134,21 @@ P(5) = 4/10 * (1/4 + 1/5 + 1/6 + 1/7 + 1/8 + 1/9)
                     <button data-bind="click: addGoal" class="tiny add_goal">Add</button>
                   </div>
                 </div>
-                <div class="row">
-                  <div class="small-12 column">
-                    <button data-bind="click: $parent.viewGeneratedDataset" class="tiny right">View Generated Data</button>
-                    <button data-bind="click: $parent.viewGenerateDataset" class="tiny right small-margin-right">Generate Different Dataset</button>
-                  </div>
-                </div>
               </div>
               <div class="simulation_analysis-content">
                 <div id="simulation_analysis-plot_area"></div>
+                <div data-bind="with: $parent.CurrentDetail, style: {top: $parent.CurrentDetail.window_top, left: $parent.CurrentDetail.window_left}" class="tooltip" id="detail_window">
+                  <div class="top_area text-right">
+                    <a data-bind="click: closeDetailWindow" href="#">X</a>
+                  </div>
+                  <ul data-bind="foreach: goals">
+                    <li><div data-bind="css: getClass" class="goal_box"></div><span data-bind="text: name" class="goal-name"></span><span data-bind="text: success_rate_percent" class="goal-value"></span></li>
+                  </ul>
+                  <div class="bottom_area">
+                    <button data-bind="click: $root.viewDetail" class="tiny">More Detail</button>
+                  </div>
+                  <div class="nub"></div>
+                </div>
               </div>
             </div>
           </article>
@@ -240,7 +250,7 @@ P(5) = 4/10 * (1/4 + 1/5 + 1/6 + 1/7 + 1/8 + 1/9)
                   <label for="detail-rp" class="inline right">Rejection Phase:</label>
                 </div>
                 <div class="small-4 medium-2 column">
-                  <input data-bind="value: detailRejectionPhase" id="detail-rp" type="text" value="" />
+                  <input data-bind="value: rejection_phase" id="detail-rp" type="text" value="" />
                   <div data-bind="click: showPhaseSlider" class="arrows_button">
                     <div class="arrow_up"></div>
                     <div class="arrow_down"></div>
@@ -255,14 +265,14 @@ P(5) = 4/10 * (1/4 + 1/5 + 1/6 + 1/7 + 1/8 + 1/9)
                   <label for="detail-l" class="inline right">Lifetime #:</label>
                 </div>
                 <div class="small-4 medium-2 column">
-                  <input data-bind="value: detailLifetime" id="detail-l" type="text" value="8754" />
+                  <input data-bind="value: lifetime" id="detail-l" type="text" value="8754" />
                   <div data-bind="click: showLifetimeSlider" class="arrows_button">
                     <div class="arrow_up"></div>
                     <div class="arrow_down"></div>
                   </div>
                 </div>
                 <div class="small-4 end column">
-                  <button class="tiny">next random</button>
+                  <button data-bind="click: nextRandomLifetime" class="tiny">next random</button>
                 </div>
               </div>
               <div class="row">
@@ -270,7 +280,7 @@ P(5) = 4/10 * (1/4 + 1/5 + 1/6 + 1/7 + 1/8 + 1/9)
                   <label class="inline right">Total Candidates:</label>
                 </div>
                 <div class="small-4 medium-2 end column">
-                  <label data-bind="text: people_met" class="inline"></label>
+                  <label data-bind="text: total_candidates" class="inline"></label>
                 </div>
               </div>
               <div class="row">

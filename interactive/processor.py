@@ -4,20 +4,18 @@ from itertools import groupby
 
 # Generates probability data calculated using Optimal Stopping Theory.
 def compute_ost_theory(n):
-  # rejected is number of rejected people.
-  # p_of_r is the probability of success ( a.k.a. P(r) ).
   rows = np.zeros(n)
   for i in range(0,n):
-    e = 0.0
-    for j in range(i,n):
-      if (j == 1):
-        e = 0.0
-      else:
-        e = float(e + (1 / (float(j) - 1)))
-    val = ((float(i) - 1) / float(n)) * e
+    # Python's base 0 made it much complicated.
+    index = i+1
+
+    e_r = np.arange((n+1)-index).astype(float)
+    e_r = 1 / (e_r + index - 1)
+    e_r[np.isinf(e_r)] = 0
+    e = np.sum(e_r)
+    val = ((float(index) - 1) / float(n)) * e
     if val < 0:
       val = 0
-    # pdb.set_trace()
     rows[i] = val
   return(np.round(rows, 3))
 
@@ -25,7 +23,7 @@ def process(compatibilities, lifetimes=10000, goal='top-1'):
   import re
   if goal == 'theory':
     # Output based on formula instead of data.
-    success_rates = compute_ost_theory(lifetimes)
+    success_rates = compute_ost_theory(100)
   else:
     title_pr = 'p_of_r'
     values = re.findall('[0-9]+|%', goal)
@@ -147,4 +145,5 @@ def test_rejection_test():
 # test_is_acceptable()
 # test_rejection_test()
 # test_process()
-# compute_ost_theory(100)
+result = compute_ost_theory(1000)
+print result

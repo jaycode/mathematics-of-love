@@ -1,0 +1,4 @@
+*.DS_Store
+/interactive/static/css/*
+/interactive/static/bower_components/*
+/interactive/static/node_modules/*

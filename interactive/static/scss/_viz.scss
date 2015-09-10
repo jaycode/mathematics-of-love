@@ -8,7 +8,7 @@
 }
 .color1_is_active {
   background-color: $primary-color;
-  border: 4px solid $yellow;
+  border: 4px solid $yellow !important;
 }
 .color2 {
   background-color: $alert-color;
@@ -19,7 +19,7 @@
 }
 .color2_is_active {
   background-color: $alert-color;
-  border: 4px solid $yellow;
+  border: 4px solid $yellow !important;
 }
 .color3 {
   background-color: $success-color;
@@ -30,7 +30,7 @@
 }
 .color3_is_active {
   background-color: $success-color;
-  border: 4px solid $yellow;
+  border: 4px solid $yellow !important;
 }
 .color4 {
   background-color: $warning-color;
@@ -41,7 +41,7 @@
 }
 .color4_is_active {
   background-color: $warning-color;
-  border: 4px solid $yellow;
+  border: 4px solid $yellow !important;
 }
 
 .color-theory {
@@ -53,7 +53,7 @@
 }
 .color-theory_is_active {
   background-color: #000000;
-  border: 4px solid $yellow;
+  border: 4px solid $yellow !important;
 }
 
 
@@ -88,7 +88,7 @@
     stroke: #000000;
   }
 
-  path {
+  .axis {
     fill: none;
     stroke: $steel;
     stroke-width: 1px;
@@ -96,6 +96,7 @@
 
   .path-intro {
     stroke: green;
+    fill: none;
   }
 
   .tick {
@@ -110,8 +111,11 @@
 
   rect {
     fill: $sea;
+    transition: fill .4s ease;
     &.focus {
       fill: $maroon;
+      // from {fill: $sea;}
+      // to {fill: $maroon;}
     }
   }
 
@@ -214,11 +218,35 @@
 }
 
 .main_viz-detail {
+  .goal_section {
+    text-align: center;
+    float: left;
+    margin-right: 5px;
+    &.goal_labels {
+      float: right !important;
+    }
+    button {
+      border: 4px solid white;
+    }
+    .goal_success_rate {
+      font-size: $small-font-size;
+    }
+  }
   .x2 {
     fill: #DDD;
   }
   label, input, button {
     margin-bottom: 0;
+  }
+  g.r_phase {
+    text {
+      stroke: none;
+      fill: white;
+      font-size: $h4-font-size;
+    }
+    rect {
+      fill: $orange;
+    }
   }
 }
 

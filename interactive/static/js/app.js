@@ -1,4 +1,3 @@
-// Hub to all other pages and functions. Like header file in C++.
 var app = app || {};
 
 (function(){
@@ -26,8 +25,8 @@ var app = app || {};
   // "top-5" to 5 and false.
   app.helpers.parseGoal = function(text) {
     var matches = text.match(/[0-9]+|%/g);
-    if (matches.length == 0) {
-      return ['theory', false];
+    if (matches == null || matches.length == 0) {
+      return [1, false];
     }
     else {
       var topX = parseFloat(matches[0]);
@@ -37,6 +36,10 @@ var app = app || {};
       }
       return [topX, percent];
     }
+  };
+
+  app.helpers.url = function(path) {
+    return window.location.protocol + '//' + window.location.host + '/' + path;
   };
 
   // Show "now loading" area at given selector.
@@ -163,8 +166,8 @@ var app = app || {};
       ko.applyBindings(app.vm);
       app.generate.generateDataset(function() {
         // Display initial view (generated dataset).
-        // app.vm.viewGeneratedDataset();
-        app.vm.viewDetail();
+        app.vm.viewGeneratedDataset();
+        // app.vm.viewDetail();
       }, function(data) {
         app.generatedViz.draw(data, '#generated-plot_area');
       });

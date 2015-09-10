@@ -5,9 +5,9 @@
     <link rel="stylesheet" href="{{ url_for('static', filename='css/app.css') }}" />
     <!--
     No need to load what we don't use.
-    <script src="{{ url_for('static', filename='bower_components/jquery/dist/jquery.min.js') }}"></script>
     <script src="{{ url_for('static', filename='bower_components/foundation/js/foundation.min.js') }}"></script>
     -->
+    <script src="{{ url_for('static', filename='bower_components/jquery/dist/jquery.min.js') }}"></script>
     <script src="{{ url_for('static', filename='bower_components/underscore/underscore.js') }}"></script>
     <script src="{{ url_for('static', filename='bower_components/knockout/dist/knockout.debug.js') }}"></script>
     <script src="{{ url_for('static', filename='bower_components/d3/d3.js') }}"></script>
@@ -257,6 +257,7 @@ P(5) = 4/10 * (1/4 + 1/5 + 1/6 + 1/7 + 1/8 + 1/9)
                   </div>
                 </div>
                 <div class="small-4 end column">
+                  <a data-bind="click: $root.viewSimulationAnalysis" href="#" class="right">Back to Analysis</a>
                   <button data-bind="click: nextRandomLifetime" class="tiny">next random</button>
                 </div>
               </div>
@@ -272,7 +273,6 @@ P(5) = 4/10 * (1/4 + 1/5 + 1/6 + 1/7 + 1/8 + 1/9)
                   </div>
                 </div>
                 <div class="small-4 end column">
-                  <label class="inline">of all cases.</label>
                 </div>
               </div>
               <div class="row">
@@ -285,10 +285,16 @@ P(5) = 4/10 * (1/4 + 1/5 + 1/6 + 1/7 + 1/8 + 1/9)
               </div>
               <div class="row">
                 <div class="small-4 medium-3 column">
-                  <label for="" class="inline right small-only-text-left">Goals:</label>
+                  <div class="goal_section goal_labels">
+                    <label for="" class="inline right small-only-text-left">Goals:</label>
+                    <div class="goal_success_rate">Success Rates:</div>
+                  </div>
                 </div>
                 <div class="small-12 medium-9 column" data-bind="foreach: goals">
-                  <button data-bind="text: name, css: getClassAndActiveStatus, click: setActive" class="tiny">Top 1</button>
+                  <div class="goal_section">
+                    <button data-bind="text: name, css: getClassAndActiveStatus, click: setActive" class="tiny">Top 1</button>
+                    <div data-bind="text: success_rate_percent" class="goal_success_rate">37%</div>
+                  </div>
                 </div>
               </div>
               <div class="row">
@@ -326,5 +332,6 @@ P(5) = 4/10 * (1/4 + 1/5 + 1/6 + 1/7 + 1/8 + 1/9)
     <script src="{{ url_for('static', filename='js/generate.js') }}"></script>
     <script src="{{ url_for('static', filename='js/generated.js') }}"></script>
     <script src="{{ url_for('static', filename='js/app.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/images.js') }}"></script>
   </body>
 </html>

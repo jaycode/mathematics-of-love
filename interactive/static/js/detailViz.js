@@ -17,7 +17,8 @@ var app = app || {};
     binsize: null,
     data: [],
     topX: null,
-    percent: false
+    percent: false,
+    rejectionPhase: null
   };
 
   // data: list of compatibilities for given lifetime.
@@ -29,9 +30,10 @@ var app = app || {};
   // }
   app.detailViz.draw = function(data, selector, params) {
     var self = this;
-    self.topX = params['topX'];
-    self.percent = params['percent'];
-    self.data = app.detailVizHelpers.prepareData(data, self.topX, self.percent);
+    self.topX = typeof(params['topX']) == 'undefined' ? self.topX : params['topX'];
+    self.percent = typeof(params['percent']) == 'undefined' ? self.percent : params['percent'];
+    self.rejectionPhase = typeof(params['rejectionPhase']) == 'undefined' ? self.rejectionPhase : params['rejectionPhase'];
+    self.data = app.detailVizHelpers.prepareData(data, self.rejectionPhase, self.topX, self.percent);
     d3.select(selector)
       .append('svg')
         .attr('width', self.width + self.marginLeft + self.rightOffset)
@@ -147,8 +149,70 @@ var app = app || {};
 
     app.detailViz.drawHistContent.call(self);
 
-    app.detailViz.drawExperiment.call(self, self.data);
+    app.detailViz.drawRejectionPhase.call(self, function() {
+      app.detailViz.drawExperiment.call(self, self.data);
+    });
   };
+
+  app.detailViz.drawRejectionPhase = function(callback) {
+    var self = this;
+    var selector = '#r_phase';
+    var selector_id = 'r_phase';
+    d3.select(selector)
+      .remove();
+
+    var r = self.rejectionPhase/100;
+    var id = Math.round(self.data.length * r);
+    if (id > 0) {
+      var x = self.marginLeft;
+      var y = self.marginTop;
+      var width = self.xScale(id+1) - x;
+      var height = self.height - self.marginTop;
+      var area = d3.select(self.chartSelector)
+        .insert('g', ':first-child')
+          .classed('r_phase', true)
+          .attr('id', selector_id)
+          .attr('transform', 'translate('+x+', '+y+')')
+          .attr('width', width)
+          .attr('height', height);
+      area
+        .append('rect')
+          .attr('transform', 'translate('+(width-5)+', '+height+')')
+          .attr('width', 5)
+          .transition()
+          .attr('transform', 'translate('+(width-5)+', '+0+')')
+          .attr('height', height)
+          .each('end', function() {
+            d3.select(selector)
+              .select('rect')
+                .transition()
+                .attr('transform', 'translate('+0+', '+0+')')
+                .attr('width', width)
+                .each('end', function() {
+                  callback();
+                });          
+          });
+      area
+        .append('text')
+          .attr('class', 'x2-label')
+          .attr('text-anchor', 'middle')
+          .attr('transform', 'translate('+(0 + width/2)+','+30+')')
+          .text("Rejection")
+          .style('opacity', 0)
+          .transition()
+          .style('opacity', 1);
+      area
+        .append('text')
+          .attr('class', 'x2-label')
+          .attr('text-anchor', 'middle')
+          .attr('transform', 'translate('+(0 + width/2)+','+60+')')
+          .text("Phase")
+          .style('opacity', 0)
+          .transition()
+          .style('opacity', 1);
+
+    }
+  }
 
   app.detailViz.drawHistContent = function() {
     var self = this;
@@ -195,7 +259,85 @@ var app = app || {};
   app.detailViz.drawExperiment = function(data) {
     var self = this;
     if (typeof(data) == 'undefined') {
-      var data = app.detailVizHelpers.prepareData(self.data, self.topX, self.percent);
+      var data = app.detailVizHelpers.prepareData(self.data, self.rejectionPhase, self.topX, self.percent);
     }
+    var bars = d3.selectAll(self.chartSelector+' .bar')
+    bars.select('rect')
+      .classed('focus', false);
+    d3.selectAll(self.chartSelector + ' .marker').remove();
+
+    data.forEach(function(d, id) {
+      var x = self.xScale(d['id']);
+      var y = self.yScale(d['candidate_score']);
+
+      var bar = d3.select(bars[0][id])
+      if (d['is_optimal']) {
+        // nth-of-type cannot work with class i.e.:
+        // .bar:nth-of-type('+(d['id'])+') still chooses the first few non- .bar
+        // g's, so we have to do it the javascript way.
+
+        bar.select('rect')
+          .classed('focus', true);
+      }
+
+      if (d['is_top']) {
+        app.detailViz.drawMarker.call(self, bar, app.images.star, d, id, 'yellow');
+      }
+      if (d['chosen_status'] == 1) {
+        app.detailViz.drawMarker.call(self, bar, app.images.ok, d, id, 'green');
+      }
+      else if (d['chosen_status'] == -1) {
+        app.detailViz.drawMarker.call(self, bar, app.images.remove, d, id, 'red');
+      }
+      else if (d['chosen_status'] == -2) {
+        app.detailViz.drawMarker.call(self, bar, app.images.remove2, d, id, 'red');
+      }
+
+    });
+  }
+
+  app.detailViz.drawMarker = function(bar, image, d, i, color) {
+    var self = this;
+    var img = bar
+      .insert('g', ':first-child')
+      .classed('marker', true);
+
+    img
+      .html(image);
+
+    // Needed to avoid translation while scaling.
+    // See: http://stackoverflow.com/questions/24173560/svg-scale-without-moving-location
+    // var bbox=img.node().getBBox();
+    // var cx=bbox.x+(bbox.width/2),
+    //     cy=bbox.y+(bbox.height/2);   // finding center of element
+    // // var scalex=self.binsize/bbox.width, scaley=self.binsize/bbox.width;    // your desired scale
+    // var scalex=1, scaley=1;
+    // var imgLeft=-cx*(scalex-1);
+    // var imgTop2=-cy*(scaley-1) - bbox.height*2;                        
+
+    // ALRIGHT I GIVE UP! NO SCALING FOR NOW!!!
+
+
+    // var imgWidth = img.node().getBoundingClientRect().width;
+    var imgHeight = img.node().getBoundingClientRect().width;
+    // var imgScaleWidth = self.binsize/imgWidth;
+
+    var imgLeft = self.xScale(d['id']);
+    var imgTop1 = self.yScale(d['candidate_score']);
+    var imgTop2 = (self.yScale(d['candidate_score']) - imgHeight - 10);
+
+    imgTop1 = 0;
+    imgTop2 = -imgHeight*2;
+    imgLeft = -7;
+
+    // img.select('path').attr('transform', 'scale('+(scalestr)+')');
+    img
+      .attr('transform', 'translate('+(imgLeft)+', '+imgTop1+')')
+      .style('opacity', 0)
+      .attr('fill', color)
+      .transition()
+      .delay(i*50)
+      .style('opacity', 1)
+      .attr('transform', 'translate('+(imgLeft)+', '+imgTop2+')');
   }
 })();

@@ -3,10 +3,10 @@ var app = app || {};
 (function() {
   app.detailVizHelpers = {};
 
-  app.detailVizHelpers.prepareData = function(data, topX, percent) {
+  app.detailVizHelpers.prepareData = function(data, rejectPercent, topX, percent) {
     // Order by age, then make the following marks in each datum:
     // id = Sequential number starting from 1.
-    // chosen_status: -1 for rejected, 0 for undecided, 1 for chosen.
+    // chosen_status: -2 for rejected (under rejection phase), -1 for not chosen, 0 for undecided, 1 for chosen.
     // is_optimal = Based on topX and percent, is this candidate part of our optimal goals?
     // is_top = The top most candidate out of all.
     data = _.sortBy(data, function(d) {return d['candidate_age_met'];});
@@ -14,26 +14,34 @@ var app = app || {};
       return d['candidate_score'];
     });
     var foundChosen = false;
+    var maxVal = -9999;
     data = _.map(data, function(d, i) {
       d['id'] = i+1;
-      console.log(topX);
-      console.log(percent);
       d['is_optimal'] = app.detailVizHelpers.isAcceptable(d['candidate_score'], allScores, topX, percent);
       d['is_top'] = app.detailVizHelpers.isAcceptable(d['candidate_score'], allScores);
       d['chosen_status'] = 0;
-      if (!foundChosen) {
-        foundChosen = d['is_optimal'];
-        if (!foundChosen) {
-          d['chosen_status'] = -1;
+
+      var r = rejectPercent/100;
+      var id = Math.round(data.length * r);
+      if (d['id'] <= id) {
+        if (d['candidate_score'] > maxVal) {
+          maxVal = d['candidate_score'];
         }
-        else {
-          d['chosen_status'] = 1;
+        d['chosen_status'] = -2;
+      }
+      else {
+        if (!foundChosen) {
+          foundChosen = d['candidate_score'] > maxVal;
+          if (!foundChosen) {
+            d['chosen_status'] = -1;
+          }
+          else {
+            d['chosen_status'] = 1;
+          }
         }
       }
       return d;
     });
-    debugger;
-
     return data;
   }
 
@@ -83,63 +91,58 @@ var app = app || {};
     );
   }
 
+  // -------------------
+  // For reference only
+  // -------------------
   // topX: Float, showing the top x percent or //, depending on percent.
-  app.detailVizHelpers.rejectionTest = function(compatibilityScores, topX, percent) {
-    var s = [];
-    // If I rejected n% of people, then find the next person who is better than the rejected ones,
+  app.detailVizHelpers.rejectionTest = function(compatibilityScores, rejectPercent, topX, percent) {
+    // If I rejected rejectPercent% of people, then find the next person who is better than the rejected ones,
     // do I end up with person with max compatibility?
-    // Then make that into a true/false table.
-    for(var x=0; x < 100; x++) {
-      var pos = (parseInt(Math.round(compatibilityScores.length * x / 100)) + 1);
-      if (pos > compatibilityScores.length) {
-        pos = compatibilityScores.length;
-      }
-      
-      var maxScore = _.max(compatibilityScores.slice(0, pos));
-      var foundId = _.find(compatibilityScores.slice(pos), function(num) { return num > maxScore; });
-      if (foundId) {
-        var posFinal = foundId + pos;
-        s.push(app.detailVizHelpers.isAcceptable(compatibilityScores[posFinal], compatibilityScores, topX, percent));
-      }
-      else {
-        s.push(false);
-      }
+    var pos = (parseInt(Math.round(compatibilityScores.length * rejectPercent / 100)) + 1);
+    if (pos > compatibilityScores.length) {
+      pos = compatibilityScores.length;
     }
-
-    return(s);
+    
+    var maxScore = _.max(compatibilityScores.slice(0, pos));
+    var foundId = _.find(compatibilityScores.slice(pos), function(num) { return num > maxScore; });
+    if (foundId) {
+      var posFinal = foundId + pos;
+      return app.detailVizHelpers.isAcceptable(compatibilityScores[posFinal], compatibilityScores, topX, percent);
+    }
+    else {
+      return false;
+    }
   }
 
   // Testing if function rejectionTest works as expected.
   app.detailVizHelpers.testRejectionTest = function() {
     var compatibilityScores = [3, 5, 4, 8, 9, 5, 10, 1, 10, 3];
-    var results = app.detailVizHelpers.rejectionTest(compatibilityScores);
     // pos 0 = at 0% rejected
     // pos 1 = at 1% rejected
     // pos 14 = at 14% rejected
     // pos 99 = at 99% rejected
     app.helpers.stopifnot(
-      results[0] == false &&
-      results[34] == false &&
-      results[35] == true &&
-      results[45] == true &&
-      results[85] == false &&
-      results[99] == false
+      app.detailVizHelpers.rejectionTest(compatibilityScores, 0) == false &&
+      app.detailVizHelpers.rejectionTest(compatibilityScores, 34) == false &&
+      app.detailVizHelpers.rejectionTest(compatibilityScores, 35) == true &&
+      app.detailVizHelpers.rejectionTest(compatibilityScores, 45) == true &&
+      app.detailVizHelpers.rejectionTest(compatibilityScores, 85) == false &&
+      app.detailVizHelpers.rejectionTest(compatibilityScores, 99) == false
     );
     
     // With top x%
     compatibilityScores = [3, 5, 4, 8, 9, 5, 10, 1, 10, 3];
-    results = app.detailVizHelpers.rejectionTest(compatibilityScores, 30, true);
     // pos 0 = at 0% rejected
     // pos 1 = at 1% rejected
     // pos 14 = at 14% rejected
     // pos 99 = at 99% rejected
     app.helpers.stopifnot(
-      results[0] == false &&
-      results[24] == false &&
-      results[25] == true &&
-      results[45] == true &&
-      results[85] == false &&
-      results[99] == false
+      app.detailVizHelpers.rejectionTest(compatibilityScores, 0, 30, true) == false &&
+      app.detailVizHelpers.rejectionTest(compatibilityScores, 24, 30, true) == false &&
+      app.detailVizHelpers.rejectionTest(compatibilityScores, 25, 30, true) == true &&
+      app.detailVizHelpers.rejectionTest(compatibilityScores, 45, 30, true) == true &&
+      app.detailVizHelpers.rejectionTest(compatibilityScores, 85, 30, true) == false &&
+      app.detailVizHelpers.rejectionTest(compatibilityScores, 99, 30, true) == false
     );
   }
 })();

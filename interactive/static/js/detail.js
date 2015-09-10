@@ -6,15 +6,16 @@ var app = app || {};
   };
 
   app.detail.view = function() {
+    var self = this;
+    app.vm.CurrentDetail.activeGoal().setActive();
     app.helpers.changePage('#main_viz-detail', function() {
-      
+      app.detail.redrawPlot();
     });
   }
 
   // Redraw plot in detail page based on rejection phase, lifetime, and goals stored in app.vm.CurrentDetail.
   app.detail.redrawPlot = function() {
-    var activeGoal = app.vm.CurrentDetail.activeGoal();
-    var parsedGoal = app.helpers.parseGoal(activeGoal.name());
+    d3.select('#detail-plot_area').selectAll('*').transition();
     var plotAreaSelector = '#detail-plot_area';
     d3.select(plotAreaSelector).html('');
 
@@ -22,14 +23,21 @@ var app = app || {};
       app.data.currentDetail.candidates,
       plotAreaSelector,
       {
-        rejectionPhase: app.data.currentDetail['rejection_phase'],
-        topX: parsedGoal[0],
-        percent: parsedGoal[1]
+        rejectionPhase: app.vm.CurrentDetail._rejection_phase()
       });
+  }
+
+  app.detail.redrawRejectionPhase = function() {
+    d3.select('#detail-plot_area').selectAll('*').transition();
+    app.detailViz.rejectionPhase = app.vm.CurrentDetail._rejection_phase();
+    app.detailViz.drawRejectionPhase(function() {
+      app.detailViz.drawExperiment();
+    });
   }
 
   // Redraw experiment results in detail page based on data stored in app.vm.CurrentDetail.
   app.detail.redrawExperiment = function() {
+    d3.select('#detail-plot_area').selectAll('*').transition();
     app.detailViz.drawExperiment();
   }
 
@@ -60,13 +68,16 @@ var app = app || {};
       return combined;
     });
 
-    this.setActive = function(self, e) {
+    this.setActive = function() {
       // var name = e.target.textContent;
       // var detailGoal = _.find(app.vm.CurrentDetail.goals(), function(o) {return o.name() == name;});
       app.vm.CurrentDetail.goals().forEach(function(dg) {
         dg.active(false);
       });
       self.active(true);
+      var parsedGoal = app.helpers.parseGoal(self.name());
+      app.detailViz.topX = parsedGoal[0];
+      app.detailViz.percent = parsedGoal[1];
       app.detail.redrawExperiment();
     };
   }
@@ -83,7 +94,8 @@ var app = app || {};
       self.goals.push(new app.DetailGoal(goal));
     });
     this.activeGoal = function() {
-      return _.find(self.goals(), function(g) {return g.active();});
+      var active = _.find(self.goals(), function(g) {return g.active();});
+      return active;
     };
 
     // Use _lifetime (or other _varname) to access the numeric values directly,
@@ -115,6 +127,7 @@ var app = app || {};
         self.total_candidates(group.values['total_candidates']);
         var candidates = group.values['candidates'];
         app.data.currentDetail.candidates = candidates;
+        app.detail.redrawPlot();
       }
     });
 
@@ -133,6 +146,7 @@ var app = app || {};
         goals.forEach(function(goal, i) {
           self.goals()[i].success_rate(goal.data[value]);
         });
+        app.detail.redrawRejectionPhase();
       }
     });
 
@@ -181,21 +195,20 @@ var app = app || {};
   app.detail.showPhaseSlider = function(vm, e) {
     // Create vertical slider.
     this.slider = this.slider || this.createVSlider(vm, e);
+    this.slider.type = 'phase';
 
     // Activate vertical slider.
     d3.select('#active_slider > div')
       .call(
         d3.slider()
           .value(
-            app.vm.CurrentDetail.rejection_phase()
+            app.vm.CurrentDetail._rejection_phase()
           )
           .orientation("vertical")
+          .min(1)
+          .max(100)
           .on('slide', function(evt, value) {
             app.vm.CurrentDetail.rejection_phase(parseInt(value));
-          })
-          .on('slideend', function(evt, value) {
-            // Refresh detail plot.
-            app.detail.redrawPlot();
           })
       );
   }
@@ -204,6 +217,7 @@ var app = app || {};
     // Create vertical slider.
     this.slider = this.slider || this.createVSlider(vm, e);
     this.slider.style('top', (e.pageY-100) + 'px');
+    this.slider.type = 'lifetime';
 
     // Activate vertical slider.
     d3.select('#active_slider > div')
@@ -212,16 +226,12 @@ var app = app || {};
         d3.slider()
           .orientation("vertical")
           .min(1)
-          .max(app.data.experiment['lifetimes'])
+          .max(app.vm.Experiment._lifetimes())
           .value(
             app.vm.CurrentDetail.lifetime()
           )
           .on('slide', function(evt, value) {
             app.vm.CurrentDetail.lifetime(value);
-          })
-          .on('slideend', function(evt, value) {
-            // Refresh detail plot.
-            app.detail.redrawPlot();
           })
       );
   }
@@ -237,6 +247,12 @@ var app = app || {};
       .attr('class', 'invisible_layer')
       .on('click', function() {
         this.remove();
+        if (self.slider.type == 'lifetime') {
+          app.detail.redrawPlot();
+        }
+        else {
+          app.detail.redrawRejectionPhase();
+        }
         self.slider.remove();
         self.slider = null;
       });

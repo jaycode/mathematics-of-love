@@ -17,7 +17,6 @@ var app = app || {};
         d3.select(selector)
           .transition()
           .style('opacity', 1);
-
       });
   }
 
@@ -89,7 +88,7 @@ var app = app || {};
         .attr('id', 'g2')
         .attr('class','chart');
     
-    var chart_selector = '#g2';
+    var chartSelector = '#g2';
     var map = data.map(function(d) {return d['candidate_score'];});
     var histogram = d3.layout.histogram().bins(100)(map);
     
@@ -110,21 +109,25 @@ var app = app || {};
   //   height: Height of chart.
   //   margin: Margin of chart. 
   // }
-  app.generatedViz.drawHistContent = function(data, chart_selector, params) {
+  app.generatedViz.drawHistContent = function(data, chartSelector, params) {
     // Find range of x axis.
     var xExtent = d3.extent(data, params.xFunc);
-    if (params.categorical) {
-      xExtent[1] += 1;
-    }
 
     // Find range of y axis.
     var yExtent = d3.extent(data, params.yFunc);
     yExtent[0] = 0;
 
     // Create x-axis scale.
-    var xScale = d3.scale.linear()
-      .range([params.margin, params.width+params.margin])
-      .domain(xExtent);
+    if (params.categorical) {
+      var xScale = d3.scale.ordinal()
+        .rangeBands([params.margin, params.width+params.margin])
+        .domain(_.range(xExtent[0], xExtent[1]+1));
+    }
+    else {
+      var xScale = d3.scale.linear()
+        .range([params.margin, params.width+params.margin])
+        .domain(xExtent);
+    }      
 
     // Create y-axis scale.
     var yScale = d3.scale.linear()
@@ -133,27 +136,17 @@ var app = app || {};
 
     // Create the actual x-axis.
     var xAxis = d3.svg.axis()
-      .scale(xScale)
+      .scale(xScale);
 
-    d3.select(chart_selector)
+    d3.select(chartSelector)
       .append('g')
         .attr('class', 'x axis')
         .attr('transform', "translate(0," + params.height + ")")
       .call(xAxis);
 
-    if (params.categorical) {
-      // Shift labels by half the distance.
-      d3.select(chart_selector).selectAll('.x .tick')
-        .attr('transform', function(v) {
-          var tickWidth = xScale(v+1) - xScale(v);
-          return 'translate('+(xScale(v) + tickWidth/2)+',0)';});
-      // And remove last tick.
-      d3.select(chart_selector).select('.x .tick:last-of-type').remove();
-    }
-
     // Add x-axis label
     var xAxisLength = xScale(xExtent[1]) - xScale(xExtent[0]);
-    d3.select(chart_selector)
+    d3.select(chartSelector)
       .append('text')
         .attr('class', 'x_label axis_label')
         .attr('text-anchor', 'middle')
@@ -165,7 +158,7 @@ var app = app || {};
       .scale(yScale)
       .orient('left');
 
-    d3.select(chart_selector)
+    d3.select(chartSelector)
       .append('g')
         .attr('class', 'y axis')
         .attr('transform', "translate(" + params.margin + ",0)")
@@ -173,7 +166,7 @@ var app = app || {};
 
     // Add y-axis label
     var yAxisHeight = yScale(yExtent[0]) - yScale(yExtent[1]);
-    d3.select(chart_selector)
+    d3.select(chartSelector)
       .append('text')
         .attr('class', 'y_label axis_label')
         .attr('text-anchor', 'middle')
@@ -182,7 +175,7 @@ var app = app || {};
         .text(params.yLabel);
 
     // Add plot title
-    d3.select(chart_selector)
+    d3.select(chartSelector)
       .append('text')
         .attr('class', 'plot_title')
         .attr('text-anchor', 'middle')
@@ -192,29 +185,44 @@ var app = app || {};
     // Set up the bars.
     var xAxisWidth = xScale(xExtent[1]) - xScale(xExtent[0]);
     var binsize = xAxisWidth / data.length;
-    // var binsize = params.width / data.length;
-    var bar = d3.select(chart_selector)
+    var bar = d3.select(chartSelector)
       .selectAll(".bar")
       .data(data)
       .enter()
       .append("g")
         .attr("class", "bar")
         .attr("transform", function(d, i) { 
-          return "translate(" + 
-             (params.margin + i * (binsize)) + "," + yScale(0) + ")"; })
+          if (params.categorical) {
+            return "translate(" + 
+               (xScale(params.xFunc(d))) + "," + yScale(0) + ")";
+          }
+          else {
+            return "translate(" + 
+               (params.margin + i * (binsize)) + "," + yScale(0) + ")";
+          }
+        });
+
     bar
       .transition()
       .duration(1500)
       .attr("transform", function(d, i) { 
-        return "translate(" + 
-           (params.margin + i * (binsize)) + "," + yScale(params.yFunc(d)) + ")"; });
+        if (params.categorical) {
+          return "translate(" + 
+             (xScale(params.xFunc(d))) + "," + yScale(params.yFunc(d)) + ")";
+        }
+        else {
+          return "translate(" + 
+             (params.margin + i * (binsize)) + "," + yScale(params.yFunc(d)) + ")";
+        }
+      });
+
+      // Todo: Add tooltips.
       // .on('mouseover', tip.show)
       // .on('mouseout', tip.hide);
 
-    // add rectangles of correct size at correct location
+    // Add rectangles of correct size at correct location.
     bar.append("rect")
       .attr('height', 0)
-      // .attr("x", params.binmargin)
       .attr("width", binsize)
       .transition()
       .duration(1500)

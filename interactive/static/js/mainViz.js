@@ -24,17 +24,16 @@ var app = app || {};
     // Todo: when screen size changed, change this.
     var width = 800,
         height = 400,
-        margin_left = 60,
-        margin_top = 30,
-        bottom_offset = 60,
+        marginLeft = 60,
+        marginTop = 30,
+        bottomOffset = 60,
         right_offset = 20,
-        radius = 5,
-        color = 'red';
+        radius = 5;
 
     d3.select(selector)
       .append('svg')
-        .attr('width', width + margin_left + right_offset)
-        .attr('height', height + margin_top + bottom_offset)
+        .attr('width', width + marginLeft + right_offset)
+        .attr('height', height + marginTop + bottomOffset)
       .append('g')
         .attr('id', 'g-sa')
         .attr('class','chart sa_plot');
@@ -60,9 +59,9 @@ var app = app || {};
       yExtent: yExtent,
       width: width,
       height: height,
-      margin_left: margin_left,
-      margin_top: margin_top,
-      bottom_offset: bottom_offset,
+      marginLeft: marginLeft,
+      marginTop: marginTop,
+      bottomOffset: bottomOffset,
       xLabel: "% Rejected",
       yLabel: "Success Rate (%)",
       title: "Success Rates Throughout Different Rejection Periods And Goals"
@@ -157,22 +156,29 @@ var app = app || {};
 
   app.vizHelpers = {};
 
-  app.vizHelpers.drawAxes = function(chart_selector, params) {
+  app.vizHelpers.drawAxes = function(chartSelector, params) {
     // Create x-axis scale.
-    var xScale = d3.scale.linear()
-      .range([params.margin_left, params.width+params.margin_left])
-      .domain(params.xExtent);
+    if (params.categorical) {
+      var xScale = d3.scale.ordinal()
+        .rangeBands([params.marginLeft, params.width+params.marginLeft])
+        .domain(_.range(params.xExtent[0], params.xExtent[1]+1));
+    }
+    else {
+      var xScale = d3.scale.linear()
+        .range([params.marginLeft, params.width+params.marginLeft])
+        .domain(params.xExtent);
+    }    
 
     // Create y-axis scale.
     var yScale = d3.scale.linear()
-      .range([params.height, params.margin_top])
+      .range([params.height, params.marginTop])
       .domain(params.yExtent);
 
     // Create the actual x-axis.
     var xAxis = d3.svg.axis()
       .scale(xScale)
 
-    d3.select(chart_selector)
+    d3.select(chartSelector)
       .append('g')
         .attr('class', 'x axis')
         .attr('transform', "translate(0," + params.height + ")")
@@ -180,11 +186,11 @@ var app = app || {};
 
     // Add x-axis label
     var xAxisLength = xScale(params.xExtent[1]) - xScale(params.xExtent[0]);
-    d3.select(chart_selector)
+    d3.select(chartSelector)
       .append('text')
         .attr('class', 'x_label axis_label')
         .attr('text-anchor', 'middle')
-        .attr('transform', "translate("+(xAxisLength/2 + params.margin_left)+","+(params.margin_top+params.height+params.bottom_offset-15)+")")
+        .attr('transform', "translate("+(xAxisLength/2 + params.marginLeft)+","+(params.marginTop+params.height+params.bottomOffset-15)+")")
         .text(params.xLabel);
 
     // Create the actual y-axis.
@@ -192,28 +198,28 @@ var app = app || {};
       .scale(yScale)
       .orient('left');
 
-    d3.select(chart_selector)
+    d3.select(chartSelector)
       .append('g')
         .attr('class', 'y axis')
-        .attr('transform', "translate(" + params.margin_left + ",0)")
+        .attr('transform', "translate(" + (params.marginLeft-3) + ",0)")
       .call(yAxis);
 
     // Add y-axis label
     var yAxisHeight = yScale(params.yExtent[0]) - yScale(params.yExtent[1]);
-    d3.select(chart_selector)
+    d3.select(chartSelector)
       .append('text')
         .attr('class', 'y_label axis_label')
         .attr('text-anchor', 'middle')
         .attr('transform', "rotate(270), " +
-          "translate("+(-params.margin_top-yAxisHeight/2)+","+20+")")
+          "translate("+(-params.marginTop-yAxisHeight/2)+","+20+")")
         .text(params.yLabel);
 
     // Add plot title
-    d3.select(chart_selector)
+    d3.select(chartSelector)
       .append('text')
         .attr('class', 'plot_title')
         .attr('text-anchor', 'middle')
-        .attr('transform', "translate("+(params.width/2 + params.margin_left)+","+20+")")
+        .attr('transform', "translate("+(params.width/2 + params.marginLeft)+","+20+")")
         .text(params.title);
 
     return [xScale, yScale];

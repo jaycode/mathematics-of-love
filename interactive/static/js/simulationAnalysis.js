@@ -25,9 +25,9 @@ var app = app || {};
   // ViewModel to display in this page.
   app.Experiment = function(data) {
     var self = this;
-    this.lifetimes = ko.observable(data['lifetimes']);
-    this.computedLifetimes = ko.computed(function() {
-      return app.helpers.formatThousandSeparators(data['lifetimes']);
+    this._lifetimes = ko.observable(data['lifetimes']);
+    this.lifetimes = ko.computed(function() {
+      return app.helpers.formatThousandSeparators(self._lifetimes());
     }, this);
 
     this.a1 = ko.observable(data['a1']);

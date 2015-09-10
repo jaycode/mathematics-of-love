@@ -34,7 +34,7 @@ var app = app || {};
   };
 
   app.data.experiment = {
-    lifetimes: 10000,
+    lifetimes: 1000,
     a1: 18,
     a2: 24,
     p1: 0,
@@ -83,6 +83,9 @@ var app = app || {};
     rejection_phase: 18,
     lifetime: 8723,
     total_candidates: 30,
+
+    // Compatibilities data of current detail, used in detail plot.
+    compatibilities: [],
 
     // window top and left position in main viz.
     window_top: '100px',

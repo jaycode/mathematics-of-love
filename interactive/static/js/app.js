@@ -26,12 +26,17 @@ var app = app || {};
   // "top-5" to 5 and false.
   app.helpers.parseGoal = function(text) {
     var matches = text.match(/[0-9]+|%/g);
-    var topX = parseFloat(matches[0]);
-    var percent = true;
-    if (matches[1] !== '%') {
-      percent = false;
+    if (matches.length == 0) {
+      return ['theory', false];
     }
-    return [topX, percent];
+    else {
+      var topX = parseFloat(matches[0]);
+      var percent = true;
+      if (matches[1] !== '%') {
+        percent = false;
+      }
+      return [topX, percent];
+    }
   };
 
   // Show "now loading" area at given selector.
@@ -79,7 +84,7 @@ var app = app || {};
   // Get raw data url
   app.helpers.dataUrl = function() {
     return 'data?l=' + 
-      app.vm.Experiment.lifetimes() +
+      app.vm.Experiment._lifetimes() +
       '&a1=' +
       app.vm.Experiment.a1() +
       '&a2=' +
@@ -95,6 +100,11 @@ var app = app || {};
     return app.helpers.dataUrl() +
       '&p=1' +
       '&g=' + _.map(app.data.experiment.goals, function(v) {return v.name;}).join(',');
+  }
+
+  // Picks one of 20 colors in cycle.
+  app.helpers.pickColor = function(i) {
+    return d3.scale.category20().domain(_.range(0,20))(i%20);
   }
 
   app.ViewModel = function() {
@@ -153,7 +163,8 @@ var app = app || {};
       ko.applyBindings(app.vm);
       app.generate.generateDataset(function() {
         // Display initial view (generated dataset).
-        app.vm.viewGeneratedDataset();
+        // app.vm.viewGeneratedDataset();
+        app.vm.viewDetail();
       }, function(data) {
         app.generatedViz.draw(data, '#generated-plot_area');
       });

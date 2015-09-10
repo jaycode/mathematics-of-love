@@ -247,21 +247,6 @@ P(5) = 4/10 * (1/4 + 1/5 + 1/6 + 1/7 + 1/8 + 1/9)
             <div class="main_viz_panel">
               <div class="row">
                 <div class="small-4 medium-3 column">
-                  <label for="detail-rp" class="inline right">Rejection Phase:</label>
-                </div>
-                <div class="small-4 medium-2 column">
-                  <input data-bind="value: rejection_phase" id="detail-rp" type="text" value="" />
-                  <div data-bind="click: showPhaseSlider" class="arrows_button">
-                    <div class="arrow_up"></div>
-                    <div class="arrow_down"></div>
-                  </div>
-                </div>
-                <div class="small-4 end column">
-                  <label class="inline">of all cases.</label>
-                </div>
-              </div>
-              <div class="row">
-                <div class="small-4 medium-3 column">
                   <label for="detail-l" class="inline right">Lifetime #:</label>
                 </div>
                 <div class="small-4 medium-2 column">
@@ -277,6 +262,21 @@ P(5) = 4/10 * (1/4 + 1/5 + 1/6 + 1/7 + 1/8 + 1/9)
               </div>
               <div class="row">
                 <div class="small-4 medium-3 column">
+                  <label for="detail-rp" class="inline right">Rejection Phase:</label>
+                </div>
+                <div class="small-4 medium-2 column">
+                  <input data-bind="value: rejection_phase" id="detail-rp" type="text" value="" />
+                  <div data-bind="click: showPhaseSlider" class="arrows_button">
+                    <div class="arrow_up"></div>
+                    <div class="arrow_down"></div>
+                  </div>
+                </div>
+                <div class="small-4 end column">
+                  <label class="inline">of all cases.</label>
+                </div>
+              </div>
+              <div class="row">
+                <div class="small-4 medium-3 column">
                   <label class="inline right">Total Candidates:</label>
                 </div>
                 <div class="small-4 medium-2 end column">
@@ -288,7 +288,12 @@ P(5) = 4/10 * (1/4 + 1/5 + 1/6 + 1/7 + 1/8 + 1/9)
                   <label for="" class="inline right small-only-text-left">Goals:</label>
                 </div>
                 <div class="small-12 medium-9 column" data-bind="foreach: goals">
-                  <button data-bind="text: name, css: getClass" class="tiny">Top 1</button>
+                  <button data-bind="text: name, css: getClassAndActiveStatus, click: setActive" class="tiny">Top 1</button>
+                </div>
+              </div>
+              <div class="row">
+                <div class="small-12 column">
+                  <div id="detail-plot_area"></div>
                 </div>
               </div>
             </div>
@@ -314,6 +319,7 @@ P(5) = 4/10 * (1/4 + 1/5 + 1/6 + 1/7 + 1/8 + 1/9)
     <script src="{{ url_for('static', filename='js/introViz.js') }}"></script>
     <script src="{{ url_for('static', filename='js/generatedViz.js') }}"></script>
     <script src="{{ url_for('static', filename='js/mainViz.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/detailVizHelpers.js') }}"></script>
     <script src="{{ url_for('static', filename='js/detailViz.js') }}"></script>
     <script src="{{ url_for('static', filename='js/simulationAnalysis.js') }}"></script>
     <script src="{{ url_for('static', filename='js/detail.js') }}"></script>

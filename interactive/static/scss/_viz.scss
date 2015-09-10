@@ -6,12 +6,20 @@
     fill: $primary-color !important;
   }
 }
+.color1_is_active {
+  background-color: $primary-color;
+  border: 4px solid $yellow;
+}
 .color2 {
   background-color: $alert-color;
   stroke: $alert-color !important;
   &.datum-circle {
     fill: $alert-color !important;
   }
+}
+.color2_is_active {
+  background-color: $alert-color;
+  border: 4px solid $yellow;
 }
 .color3 {
   background-color: $success-color;
@@ -20,12 +28,20 @@
     fill: $success-color !important;
   }
 }
+.color3_is_active {
+  background-color: $success-color;
+  border: 4px solid $yellow;
+}
 .color4 {
   background-color: $warning-color;
   stroke: $warning-color !important;
   &.datum-circle {
     fill: $warning-color !important;
   }
+}
+.color4_is_active {
+  background-color: $warning-color;
+  border: 4px solid $yellow;
 }
 
 .color-theory {
@@ -34,6 +50,10 @@
   &.datum-circle {
     fill: #000000 !important;
   }
+}
+.color-theory_is_active {
+  background-color: #000000;
+  border: 4px solid $yellow;
 }
 
 
@@ -58,9 +78,14 @@
     font-weight: bold;
   }
 
-  .axis {
+  .axis, .x-label {
     font-family: arial;
     font-size: 0.6em;
+    stroke: #000000;
+  }
+
+  .x2-label {
+    stroke: #000000;
   }
 
   path {
@@ -81,6 +106,13 @@
   circle {
     opacity: 0.5;
     stroke: none;
+  }
+
+  rect {
+    fill: $sea;
+    &.focus {
+      fill: $maroon;
+    }
   }
 
   .line_plot {
@@ -178,6 +210,15 @@
         margin-bottom: 0;
       }
     }
+  }
+}
+
+.main_viz-detail {
+  .x2 {
+    fill: #DDD;
+  }
+  label, input, button {
+    margin-bottom: 0;
   }
 }
 

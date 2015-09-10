@@ -6,19 +6,33 @@ var app = app || {};
   };
 
   app.detail.view = function() {
-    app.helpers.changePage('#main_viz-detail');
+    app.helpers.changePage('#main_viz-detail', function() {
+      
+    });
   }
 
   // Redraw plot in detail page based on rejection phase, lifetime, and goals stored in app.vm.CurrentDetail.
   app.detail.redrawPlot = function() {
+    var activeGoal = app.vm.CurrentDetail.activeGoal();
+    var parsedGoal = app.helpers.parseGoal(activeGoal.name());
+    var plotAreaSelector = '#detail-plot_area';
+    d3.select(plotAreaSelector).html('');
+
     app.detailViz.draw(
-      app.data.compatibilities,
-      '#simulation_analysis-plot_area',
+      app.data.currentDetail.candidates,
+      plotAreaSelector,
       {
-        lifetime: app.data.currentDetail['lifetime'],
-        rejection_phase: app.data.currentDetail['rejection_phase']
+        rejectionPhase: app.data.currentDetail['rejection_phase'],
+        topX: parsedGoal[0],
+        percent: parsedGoal[1]
       });
   }
+
+  // Redraw experiment results in detail page based on data stored in app.vm.CurrentDetail.
+  app.detail.redrawExperiment = function() {
+    app.detailViz.drawExperiment();
+  }
+
 
   app.DetailGoal = function(data) {
     var self = this;
@@ -37,6 +51,24 @@ var app = app || {};
     this.success_rate_percent = ko.computed(function() {
       return app.helpers.formatPercent(Math.round(self.success_rate()*10000) / 100);
     });
+
+    this.active = ko.observable(data['active']);
+    this.getClassAndActiveStatus = ko.computed(function() {
+      var class1 = self.getClass();
+      var class2 = self.active() ? '_is_active' : '';
+      var combined = [class1, class2].join('');
+      return combined;
+    });
+
+    this.setActive = function(self, e) {
+      // var name = e.target.textContent;
+      // var detailGoal = _.find(app.vm.CurrentDetail.goals(), function(o) {return o.name() == name;});
+      app.vm.CurrentDetail.goals().forEach(function(dg) {
+        dg.active(false);
+      });
+      self.active(true);
+      app.detail.redrawExperiment();
+    };
   }
 
   app.CurrentDetail = function(data) {
@@ -50,6 +82,9 @@ var app = app || {};
     data.goals.forEach(function(goal) {
       self.goals.push(new app.DetailGoal(goal));
     });
+    this.activeGoal = function() {
+      return _.find(self.goals(), function(g) {return g.active();});
+    };
 
     // Use _lifetime (or other _varname) to access the numeric values directly,
     // but for other needs e.g. updating or display, use lifetime (or varname).
@@ -60,7 +95,7 @@ var app = app || {};
       read: function() {
         return app.helpers.formatThousandSeparators(self._lifetime());
       },
-      // Update people met when updating lifetime.
+      // Update compatibilities and total candidates when updating lifetime.
       write: function(value) {
         self._lifetime(app.helpers.parseNumberWithSeparators(value));
 
@@ -71,11 +106,15 @@ var app = app || {};
           })
           .rollup(function(leaves) {
             return {
-              'total_candidates': leaves.length
+              'total_candidates': leaves.length,
+              'candidates': leaves
             };
           })
           .entries(app.data.compatibilities);
-        self.total_candidates(nested[self._lifetime()-1].values['total_candidates']);
+        var group = nested[self._lifetime()-1];
+        self.total_candidates(group.values['total_candidates']);
+        var candidates = group.values['candidates'];
+        app.data.currentDetail.candidates = candidates;
       }
     });
 
@@ -120,7 +159,8 @@ var app = app || {};
     };
 
     this.nextRandomLifetime = function() {
-      app.vm.CurrentDetail.lifetime(_.random(1, app.vm.Experiment.lifetimes()));
+      app.vm.CurrentDetail.lifetime(_.random(1, app.vm.Experiment._lifetimes()));
+      app.detail.redrawPlot();
     };
     this.showLifetimeSlider = function(vm, e) {
       app.detail.showLifetimeSlider(vm, e);

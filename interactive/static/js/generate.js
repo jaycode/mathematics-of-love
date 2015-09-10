@@ -31,7 +31,7 @@ var app = app || {};
         app.simulationAnalysis.updateExperiment(data.processed);
 
         // Set default random chosen lifetime.
-        app.vm.CurrentDetail.lifetime(_.random(1, app.vm.Experiment.lifetimes()));
+        app.vm.CurrentDetail.lifetime(_.random(1, app.vm.Experiment._lifetimes()));
       });
     }
     callbackDirect();

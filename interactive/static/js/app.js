@@ -86,6 +86,7 @@ var app = app || {};
 
   // Get raw data url
   app.helpers.dataUrl = function() {
+    // return 'http://159.203.71.247/data?l=' + 
     return 'data?l=' + 
       app.vm.Experiment._lifetimes() +
       '&a1=' +

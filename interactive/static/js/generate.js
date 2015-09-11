@@ -20,18 +20,18 @@ var app = app || {};
     else {
       d3.json(url, function(data) {
         app.data.compatibilities = data.compatibilities;
-        callbackWait(app.data.compatibilities);
-      });
+        // Set experiment.processed to false.
+        app.vm.Experiment.processed(false);
 
-      // Set experiment.processed to false.
-      app.vm.Experiment.processed(false);
+        // Also loads experiment-related data and set "processed" to true afterward.
+        d3.json(app.helpers.experimentUrl(), function(data1) {
+          app.simulationAnalysis.updateExperiment(data1.processed);
 
-      // Also loads experiment-related data and set "processed" to true afterward.
-      d3.json(app.helpers.experimentUrl(), function(data) {
-        app.simulationAnalysis.updateExperiment(data.processed);
+          // Set default random chosen lifetime.
+          app.vm.CurrentDetail.lifetime(_.random(1, app.vm.Experiment._lifetimes()));
 
-        // Set default random chosen lifetime.
-        app.vm.CurrentDetail.lifetime(_.random(1, app.vm.Experiment._lifetimes()));
+          callbackWait(app.data.compatibilities);
+        });
       });
     }
     callbackDirect();

@@ -7,7 +7,11 @@ To start this app on a web server, run `python server.py`.
 
 ## How to Run
 
-This app needs python's Flask module (`pip install flask`) and Bower ([see installation here](http://bower.io/#install-bower)).
+This app needs following python modules:
+- Flask (`pip install flask`)
+- uJson (`pip install ujson`)
+
+and Bower ([see installation here](http://bower.io/#install-bower)).
 
 Once you got them installed, do the following to run the app on your server:
 

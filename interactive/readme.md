@@ -7,12 +7,18 @@ To start this app on a web server, run `python server.py`.
 
 ## How to Run
 
-- To add new javascript plugin, run `bower install pluginname`.
-- This project uses Foundation with Grunt, so when you need to update your css, cd to `static` dir and run `grunt`.
-  You may then update the scss files and they will be compiled into app.css used in this app.
+This app needs python's Flask module (`pip install flask`) and Bower ([see installation here](http://bower.io/#install-bower)).
+
+Once you got them installed, do the following to run the app on your server:
+
+- `bower install --allow-root` to install all the required javascript.
+- `python server.py`
 
 ## Development Notes
 
+- To add new javascript plugin, run `bower install pluginname`.
+- This project uses Foundation with Grunt, so when you need to update your css, cd to `static` dir and run `grunt`.
+  You may then update the scss files and they will be compiled into app.css used in this app.
 - ViewModels are capitalized e.g.  `app.Goal`, `app.ViewModel`.
 - For everything else use standard camelcase e.g. `app.simulationAnalysis`.
 - ViewModel can be accessed using `app.vm`. Use this to get data e.g. app.vm.CurrentDetail.lifetime().

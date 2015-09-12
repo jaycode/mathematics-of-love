@@ -61,10 +61,10 @@ var app = app || {};
         },
         onNext: function(tour) {
           console.log('next2');
-          if (app.tour.getCurrentStep != app.tour.__currentStep) {
-            return false;
-          }
-          else {
+          // if (app.tour.getCurrentStep != app.tour.__currentStep) {
+          //   return false;
+          // }
+          // else {
             console.trace();
             app.vm.CurrentDetail.lifetime(430);
             app.detail.redrawPlot(function() {
@@ -74,7 +74,7 @@ var app = app || {};
               // DON'T FORGET TO UPDATE WHEN STEPS CHANGED.
               // tour.goTo(5);
             });
-          }
+          // }
         },
         onPrev: function(tour) {
           app.vm.CurrentDetail.lifetime(165);

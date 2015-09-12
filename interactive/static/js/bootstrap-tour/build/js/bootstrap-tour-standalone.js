@@ -300,17 +300,6 @@
   }
 
   Tooltip.prototype.hide = function () {
-    console.log('hide');
-
-    console.log('__currentStep = ' + app.tour.__currentStep + ' getCurrentStep() = ' + app.tour.getCurrentStep());
-    console.trace();
-
-    // debugger;
-    if (!app.tour.__endJustClicked && app.tour.getCurrentStep() != app.tour.__currentStep) {
-      return this;
-    }
-    app.tour.__endJustClicked = false;
-
     var that = this
     var $tip = this.tip()
     var e    = $.Event('hide.bs.' + this.type)
@@ -759,10 +748,6 @@
     Tour.prototype.goTo = function(i) {
       var promise;
       promise = this.hideStep(this._current);
-
-      app.tour.__currentStep = i;
-      // debugger;
-
       return this._callOnPromiseDone(promise, this.showStep, i);
     };
 
@@ -943,12 +928,7 @@
           };
         })(this), step.delay);
       } else {
-        console.log('__currentStep = ' + app.tour.__currentStep + ' getCurrentStep() = ' + app.tour.getCurrentStep());
-        console.trace();
-        // debugger;
-        if (app.tour.getCurrentStep() == app.tour.__currentStep || app.tour.__currentStep == null) {
-          this._callOnPromiseDone(promise, showStepHelper);
-        }
+        this._callOnPromiseDone(promise, showStepHelper);
       }
       return promise;
     };
@@ -1027,6 +1007,15 @@
           return _this.showStep(step.next);
         };
       })(this);
+
+      // debugger;
+      if (!this.__nextJustClicked) {
+        step.onNext = null;
+      }
+      else {
+        this.__nextJustClicked = false;
+      }
+
       promise = this._makePromise(step.onNext != null ? step.onNext(this) : void 0);
       return this._callOnPromiseDone(promise, showNextStepHelper);
     };
@@ -1039,6 +1028,15 @@
           return _this.showStep(step.prev);
         };
       })(this);
+
+      // debugger;
+      if (!this.__prevJustClicked) {
+        step.onNext = null;
+      }
+      else {
+        this.__prevJustClicked = false;
+      }
+
       promise = this._makePromise(step.onPrev != null ? step.onPrev(this) : void 0);
       return this._callOnPromiseDone(promise, showPrevStepHelper);
     };
@@ -1227,8 +1225,7 @@
         return function(e) {
           e.preventDefault();
 
-          console.log('next clicked, set __currentStep to ' + app.tour.getCurrentStep());
-          app.tour.__currentStep = app.tour.getCurrentStep();
+          _this.__nextJustClicked = true;
           // debugger;
 
           return _this.next();
@@ -1237,8 +1234,7 @@
         return function(e) {
           e.preventDefault();
 
-          console.log('prev clicked, set __currentStep to ' + app.tour.getCurrentStep());
-          app.tour.__currentStep = app.tour.getCurrentStep();
+          _this.__prevJustClicked = true;
           // debugger;
 
           return _this.prev();
@@ -1246,8 +1242,10 @@
       })(this)).on("click.tour-" + this._options.name, ".popover.tour-" + this._options.name + " *[data-role='end']", (function(_this) {
         return function(e) {
           e.preventDefault();
-          app.tour.__endJustClicked = true;
+
+          _this.__endJustClicked = true;
           // debugger;
+          
           return _this.end();
         };
       })(this)).on("click.tour-" + this._options.name, ".popover.tour-" + this._options.name + " *[data-role='pause-resume']", function(e) {

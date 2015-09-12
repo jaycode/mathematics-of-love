@@ -38,6 +38,22 @@ var app = app || {};
     }
   };
 
+  app.helpers.groupCompatibilitiesByLifetime = function(compatibilities) {
+    // Find number of total candidates within this lifetime from compatibilities dataset.
+    var nested = d3.nest()
+      .key(function(d) {
+        return d['lifetime'];
+      })
+      .rollup(function(leaves) {
+        return {
+          'total_candidates': leaves.length,
+          'candidates': leaves
+        };
+      })
+      .entries(compatibilities);
+    return nested;
+  };
+
   app.helpers.url = function(path) {
     return window.location.protocol + '//' + window.location.host + '/' + path;
   };
@@ -157,20 +173,26 @@ var app = app || {};
       d3.select(this)
         .transition()
         .style('opacity', 0)
-        .each('end', function() {
-          d3.select('#start_button_container')
-            .remove();
-        });
+        // .each('end', function() {
+        //   d3.select('#start_button_container')
+        //     .remove();
+        // });
 
       // Apply bindings, then generate dataset based on values in data.
       app.vm = new app.ViewModel();
       ko.applyBindings(app.vm);
       app.generate.generateDataset(function() {
         // Display initial view (generated dataset).
-        app.vm.viewGeneratedDataset();
-        // app.vm.viewDetail();
+        // app.generated.view();
       }, function(data) {
-        app.generatedViz.draw(data, '#generated-plot_area');
+        // Set initial lifetime
+        app.vm.CurrentDetail.lifetime(165);
+        app.vm.CurrentDetail.activeGoal().active(true);
+
+        app.detail.view(function() {
+          app.tour.init();
+          app.tour.start(true);          
+        });
       });
     });
 

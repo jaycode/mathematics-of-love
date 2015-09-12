@@ -5,25 +5,33 @@ var app = app || {};
     slider: null
   };
 
-  app.detail.view = function() {
+  app.detail.view = function(callback) {
     var self = this;
-    app.vm.CurrentDetail.activeGoal().setActive();
+    // Dont run this with observable i.e. app.vm.CurrentDetail.activeGoal().setActive();
+    // since that would cause the page redrawn multiple times since setActive method
+    // runs redrawExeriment, while redrawPlot also runs it.
     app.helpers.changePage('#main_viz-detail', function() {
-      app.detail.redrawPlot();
+      app.detail.redrawPlot(callback);
     });
   }
 
   // Redraw plot in detail page based on rejection phase, lifetime, and goals stored in app.vm.CurrentDetail.
-  app.detail.redrawPlot = function() {
+  app.detail.redrawPlot = function(callback) {
     d3.select('#detail-plot_area').selectAll('*').transition();
     var plotAreaSelector = '#detail-plot_area';
     d3.select(plotAreaSelector).html('');
+
+    var parsedGoal = app.helpers.parseGoal(app.vm.CurrentDetail.activeGoal().name());
 
     app.detailViz.draw(
       app.data.currentDetail.candidates,
       plotAreaSelector,
       {
-        rejectionPhase: app.vm.CurrentDetail._rejection_phase()
+        lifetime: app.vm.CurrentDetail._lifetime(),
+        topX: parsedGoal[0],
+        percent: parsedGoal[1],
+        rejectionPhase: app.vm.CurrentDetail._rejection_phase(),
+        callback: callback
       });
   }
 
@@ -101,6 +109,7 @@ var app = app || {};
     // Use _lifetime (or other _varname) to access the numeric values directly,
     // but for other needs e.g. updating or display, use lifetime (or varname).
     this._lifetime = ko.observable(data['lifetime']);
+    
     // read: Get value from model, turn 10000 to 10,000.
     // write: Turn 10,000 to 10000, set to model
     this.lifetime = ko.pureComputed({
@@ -111,22 +120,22 @@ var app = app || {};
       write: function(value) {
         self._lifetime(app.helpers.parseNumberWithSeparators(value));
 
-        // Find number of total candidates within this lifetime from compatibilities dataset.
-        var nested = d3.nest()
-          .key(function(d) {
-            return d['lifetime'];
-          })
-          .rollup(function(leaves) {
-            return {
-              'total_candidates': leaves.length,
-              'candidates': leaves
-            };
-          })
-          .entries(app.data.compatibilities);
+        var nested = app.helpers.groupCompatibilitiesByLifetime(app.data.compatibilities);
         var group = nested[self._lifetime()-1];
         self.total_candidates(group.values['total_candidates']);
         var candidates = group.values['candidates'];
         app.data.currentDetail.candidates = candidates;
+      }
+    });
+
+    // Used in html that, when changed, also redraw plot.
+    this.displayedLifetime = ko.pureComputed({
+      read: function() {
+        return app.helpers.formatThousandSeparators(self._lifetime());
+      },
+      // Update compatibilities and total candidates when updating lifetime.
+      write: function(value) {
+        self.lifetime(app.helpers.parseNumberWithSeparators(value));
         app.detail.redrawPlot();
       }
     });

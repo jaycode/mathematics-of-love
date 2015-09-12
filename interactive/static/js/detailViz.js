@@ -8,7 +8,7 @@ var app = app || {};
     marginLeft: 60,
     marginTop: 80,
     x2Height: 60,
-    bottomOffset: 60,
+    bottomOffset: 20,
     rightOffset: 20,
     xExtent: null,
     yExtent: null,
@@ -150,7 +150,7 @@ var app = app || {};
     app.detailViz.drawHistContent.call(self);
 
     app.detailViz.drawRejectionPhase.call(self, function() {
-      app.detailViz.drawExperiment.call(self, self.data);
+      app.detailViz.drawExperiment.call(self, self.data, params.callback);
     });
   };
 
@@ -256,7 +256,7 @@ var app = app || {};
   }
 
   // Pass in data to avoid prepareData being called again.
-  app.detailViz.drawExperiment = function(data) {
+  app.detailViz.drawExperiment = function(data, callback) {
     var self = this;
     if (typeof(data) == 'undefined') {
       var data = app.detailVizHelpers.prepareData(self.data, self.rejectionPhase, self.topX, self.percent);
@@ -265,6 +265,10 @@ var app = app || {};
     bars.select('rect')
       .classed('focus', false);
     d3.selectAll(self.chartSelector + ' .marker').remove();
+
+    // Number of markers still animated.
+    // Used to decide when to call the callback.
+    self._animatedMarkers = 0;
 
     data.forEach(function(d, id) {
       var x = self.xScale(d['id']);
@@ -281,26 +285,32 @@ var app = app || {};
       }
 
       if (d['is_top']) {
-        app.detailViz.drawMarker.call(self, bar, app.images.star, d, id, 'yellow');
+        app.detailViz.drawMarker.call(self, bar, app.images.star, d, id, 'yellow', 'top', callback);
       }
       if (d['chosen_status'] == 1) {
-        app.detailViz.drawMarker.call(self, bar, app.images.ok, d, id, 'green');
+        app.detailViz.drawMarker.call(self, bar, app.images.ok, d, id, 'green', 'chosen', callback);
       }
       else if (d['chosen_status'] == -1) {
-        app.detailViz.drawMarker.call(self, bar, app.images.remove, d, id, 'red');
+        app.detailViz.drawMarker.call(self, bar, app.images.remove, d, id, 'red', 'rejected', callback);
       }
       else if (d['chosen_status'] == -2) {
-        app.detailViz.drawMarker.call(self, bar, app.images.remove2, d, id, 'red');
+        app.detailViz.drawMarker.call(self, bar, app.images.remove2, d, id, 'red', 'unchosen', callback);
       }
 
     });
+    if (typeof(callback) == 'function' && self._animatedMarkers == 0) {
+      callback();
+    }
   }
 
-  app.detailViz.drawMarker = function(bar, image, d, i, color) {
+  app.detailViz.drawMarker = function(bar, image, d, i, color, elclass, callback) {
     var self = this;
+    self._animatedMarkers++;
+
     var img = bar
       .insert('g', ':first-child')
-      .classed('marker', true);
+      .classed('marker', true)
+      .classed(elclass, true);
 
     img
       .html(image);
@@ -338,6 +348,12 @@ var app = app || {};
       .transition()
       .delay(i*50)
       .style('opacity', 1)
-      .attr('transform', 'translate('+(imgLeft)+', '+imgTop2+')');
+      .attr('transform', 'translate('+(imgLeft)+', '+imgTop2+')')
+      .each('end', function() {
+        self._animatedMarkers--;
+        if (self._animatedMarkers <= 0 && typeof(callback) == 'function') {
+          callback();
+        }
+      });
   }
 })();

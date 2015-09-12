@@ -28,7 +28,10 @@ var app = app || {};
           app.simulationAnalysis.updateExperiment(data1.processed);
 
           // Set default random chosen lifetime.
-          app.vm.CurrentDetail.lifetime(_.random(1, app.vm.Experiment._lifetimes()));
+          // Not needed since this caused initial load update detail page several times
+          // and broke the tour feature. Instead, set lifetime in 
+          // callbackWait method.
+          // app.vm.CurrentDetail.lifetime(_.random(1, app.vm.Experiment._lifetimes()));
 
           callbackWait(app.data.compatibilities);
         });

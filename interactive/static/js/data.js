@@ -56,7 +56,7 @@ var app = app || {};
         ]
       },
       {
-        name: 'top-10%',
+        name: 'top-5%',
         active: true,
         color_id: 1,
         destructible: true,
@@ -80,8 +80,8 @@ var app = app || {};
   };
 
   app.data.currentDetail = {
-    rejection_phase: 18,
-    lifetime: 8723,
+    rejection_phase: 37,
+    lifetime: 0, // Will be set at random after generated, to adjust initial value set it after data generation.
     total_candidates: 30,
 
     // Compatibilities data of current detail, used in detail plot.
@@ -95,7 +95,7 @@ var app = app || {};
       {
         goal_id: 0,
         success_rate: .35,
-        active: false
+        active: true
       },
       {
         goal_id: 1,
@@ -105,7 +105,7 @@ var app = app || {};
       {
         goal_id: 2,
         success_rate: .45,
-        active: true
+        active: false
       },
       {
         goal_id: 3,

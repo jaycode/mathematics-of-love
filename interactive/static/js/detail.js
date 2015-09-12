@@ -53,6 +53,10 @@ var app = app || {};
   app.DetailGoal = function(data) {
     var self = this;
 
+    this.id = ko.observable(data['goal_id']);
+    this.idClass = ko.computed(function() {
+      return "goal-"+self.id();
+    });
     this.name = ko.computed(function() {
       var goal = app.data.experiment.goals[data['goal_id']];
       var matches = goal['name'].match(/[a-zA-Z0-9%]+/g);
@@ -109,7 +113,7 @@ var app = app || {};
     // Use _lifetime (or other _varname) to access the numeric values directly,
     // but for other needs e.g. updating or display, use lifetime (or varname).
     this._lifetime = ko.observable(data['lifetime']);
-    
+
     // read: Get value from model, turn 10000 to 10,000.
     // write: Turn 10,000 to 10000, set to model
     this.lifetime = ko.pureComputed({

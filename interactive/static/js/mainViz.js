@@ -4,7 +4,7 @@ var app = app || {};
   "use strict";
   app.mainViz = {};
 
-  app.mainViz.draw = function(data, selector) {
+  app.mainViz.draw = function(data, selector, callback) {
     d3.select(selector)
       .transition()
       .style('opacity', 0)
@@ -12,7 +12,7 @@ var app = app || {};
         d3.select(selector)
           .html('');
           
-        app.mainViz.drawGSA(data, selector);
+        app.mainViz.drawGSA(data, selector, callback);
         d3.select(selector)
           .transition()
           .style('opacity', 1);
@@ -20,7 +20,7 @@ var app = app || {};
       });
   }
 
-  app.mainViz.drawGSA = function(data, selector) {
+  app.mainViz.drawGSA = function(data, selector, callback) {
     // Todo: when screen size changed, change this.
     var width = 800,
         height = 400,
@@ -152,6 +152,10 @@ var app = app || {};
           });
 
       });
+
+    if (typeof(callback) == 'function') {
+      callback();
+    }
   }
 
   app.vizHelpers = {};

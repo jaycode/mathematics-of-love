@@ -189,6 +189,8 @@ var app = app || {};
         app.vm.CurrentDetail.lifetime(165);
         app.vm.CurrentDetail.activeGoal().active(true);
 
+        app.tour = new Tour(app.getTourSettings());
+        app.setupTourFunctions();
         app.detail.view(function() {
           app.tour.init();
           app.tour.start(true);          

@@ -758,7 +758,7 @@
 
       this._debug("setting fromGoTo to true");
       this._fromGoTo = true;
-      debugger;
+      // debugger;
 
       return this._callOnPromiseDone(promise, this.showStep, i);
     };

@@ -11,6 +11,10 @@ var app = app || {};
   app.data.compatibilities = [];
 
   app.data.settings = {
+    min_age: 10,
+    max_age: 90,
+    min_lifetimes: 1,
+    max_lifetimes: 10000,
     colors: [
       {
         class: 'color1'
@@ -95,7 +99,7 @@ var app = app || {};
       {
         goal_id: 0,
         success_rate: .35,
-        active: true
+        active: false
       },
       {
         goal_id: 1,
@@ -110,7 +114,7 @@ var app = app || {};
       {
         goal_id: 3,
         success_rate: .37123,
-        active: false
+        active: true
       }
     ]
   };

@@ -5,10 +5,10 @@ var app = app || {};
   app.simulationAnalysis = {};
 
   // View SimulationAnalysis page
-  app.simulationAnalysis.view = function() {
+  app.simulationAnalysis.view = function(callback) {
     app.helpers.changePage('#main_viz-simulation_analysis', function() {
       app.helpers.showLoading('#simulation_analysis-plot_area');
-      app.mainViz.draw(app.data.experiment, '#simulation_analysis-plot_area');
+      app.mainViz.draw(app.data.experiment, '#simulation_analysis-plot_area', callback);
     });
   }
 
@@ -52,6 +52,7 @@ var app = app || {};
   app.simulationAnalysis.updateExperiment = function(data) {
     app.data.experiment.goals.forEach(function(goal, i) {
       app.data.experiment.goals[i]['data'] = data[goal['name']];
+      app.vm.CurrentDetail.goals()[i].success_rate(data[goal['name']][app.vm.CurrentDetail._rejection_phase()]);
     });
     app.vm.Experiment.processed(true);
   }

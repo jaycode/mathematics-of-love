@@ -121,7 +121,7 @@ P(5) = 4/10 * (1/4 + 1/5 + 1/6 + 1/7 + 1/8 + 1/9)
                     &nbsp;&nbsp;&nbsp;&nbsp;
                     <a class="toplinks" data-bind="click: $parent.viewGenerateDataset" href="#">Generate Different Dataset</a>
                     &nbsp;&nbsp;|&nbsp;&nbsp;
-                    <a class="toplinks" data-bind="click: $parent.viewGeneratedDataset" href="#">View Generated Data</a>
+                    <a id="sa-view_generated_dataset" class="toplinks" data-bind="click: $parent.viewGeneratedDataset" href="#">View Generated Dataset</a>
                   </div>
                 </div>
                 <div class="row">
@@ -143,6 +143,9 @@ P(5) = 4/10 * (1/4 + 1/5 + 1/6 + 1/7 + 1/8 + 1/9)
                   <div class="top_area text-right">
                     <a data-bind="click: closeDetailWindow" href="#">X</a>
                   </div>
+                  <ul>  
+                    <li><span class="sa-rejection_phase">Rejection Phase:</span><span data-bind="text: rejection_phase" class="goal-value"></li>
+                  </ul>
                   <ul data-bind="foreach: goals">
                     <li><div data-bind="css: getClass" class="goal_box"></div><span data-bind="text: name" class="goal-name"></span><span data-bind="text: success_rate_percent" class="goal-value"></span></li>
                   </ul>
@@ -224,8 +227,8 @@ P(5) = 4/10 * (1/4 + 1/5 + 1/6 + 1/7 + 1/8 + 1/9)
               <div class="small-12 columns">
                 <button data-bind="click: $parent.viewSimulationAnalysis, enable: processed" class="right tiny">Back to Data Analysis</button>
                 <p>Number of lifetimes: <span id="generated-lifetimes" data-bind="text: lifetimes">10,000</span></p>
-                <p>Dating period from age <span id="generated-agestart" data-bind="text: a1">18</span> to <span id="generated-ageend" data-bind="text: a2">24</span></p>
-                <p>Number of potential partners per year: <span data-bind="text: p1">0</span> to <span data-bind="text: p2">8</span></p>
+                <p id="generated-dating_period">Dating period from age <span id="generated-agestart" data-bind="text: a1">18</span> to <span id="generated-ageend" data-bind="text: a2">24</span></p>
+                <p id="generated-potential_partners">Number of potential partners per year: <span data-bind="text: p1">0</span> to <span id="generated-p2" data-bind="text: p2">8</span></p>
                 <div id="generated-plot_area"></div>
               </div>
             </div>

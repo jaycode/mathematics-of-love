@@ -119,7 +119,7 @@ var app = app || {};
   app.helpers.experimentUrl = function() {
     return app.helpers.dataUrl() +
       '&p=1' +
-      '&g=' + _.map(app.data.experiment.goals, function(v) {return v.name;}).join(',');
+      '&g=' + _.map(app.vm.Experiment.goals(), function(v) {return v.name();}).join(',');
   }
 
   // Picks one of 20 colors in cycle.
@@ -130,8 +130,8 @@ var app = app || {};
   app.ViewModel = function() {
     var self = this;
 
-    this.CurrentDetail = new app.CurrentDetail(app.data.currentDetail);
-    this.Experiment = new app.Experiment(app.data.experiment);
+    self.Experiment = new app.Experiment(app.data.experiment);
+    self.CurrentDetail = new app.CurrentDetail(self, app.data.currentDetail);
     
     this.viewSimulationAnalysis = function() {
       app.simulationAnalysis.view();

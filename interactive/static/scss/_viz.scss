@@ -1,60 +1,28 @@
-// Colors
-.color1 {
-  background-color: $primary-color;
-  stroke: $primary-color !important;
-  &.datum-circle {
-    fill: $primary-color !important;
+@mixin color($classname, $color) {
+  .#{$classname} {
+    background-color: $color;
+    stroke: $color !important;
+    &.datum-circle {
+      fill: $color !important;
+    }
   }
-}
-.color1_is_active {
-  background-color: $primary-color;
-  border: 4px solid $yellow !important;
-}
-.color2 {
-  background-color: $alert-color;
-  stroke: $alert-color !important;
-  &.datum-circle {
-    fill: $alert-color !important;
+  .#{$classname}_is_active {
+    background-color: $color;
+    border: 4px solid $yellow !important;
   }
-}
-.color2_is_active {
-  background-color: $alert-color;
-  border: 4px solid $yellow !important;
-}
-.color3 {
-  background-color: $success-color;
-  stroke: $success-color !important;
-  &.datum-circle {
-    fill: $success-color !important;
-  }
-}
-.color3_is_active {
-  background-color: $success-color;
-  border: 4px solid $yellow !important;
-}
-.color4 {
-  background-color: $warning-color;
-  stroke: $warning-color !important;
-  &.datum-circle {
-    fill: $warning-color !important;
-  }
-}
-.color4_is_active {
-  background-color: $warning-color;
-  border: 4px solid $yellow !important;
 }
 
-.color-theory {
-  background-color: #000000;
-  stroke: #000000 !important;
-  &.datum-circle {
-    fill: #000000 !important;
-  }
-}
-.color-theory_is_active {
-  background-color: #000000;
-  border: 4px solid $yellow !important;
-}
+@include color(color1, $primary-color);
+@include color(color2, $alert-color);
+@include color(color3, $success-color);
+@include color(color4, $warning-color);
+@include color(color5, $sea);
+@include color(color6, $maroon);
+@include color(color7, $orange);
+@include color(color8, $crimson);
+@include color(color9, $strawberry);
+@include color(color10, $purple);
+@include color(color-theory, #000000);
 
 
 // Other scss
@@ -150,10 +118,45 @@
     border-bottom: 1px solid $smoke;
     margin-bottom: 20px;
 
-    button {
+    button, input, select {
       margin-bottom: 10px;
-      line-height: 3px;
       margin-top: 8px !important;
+    }
+    button{
+      line-height: 3px;
+    }
+    input, select {
+      float: left;
+      height: 24px;
+    }
+    input {
+      width: 40px;
+      margin-right: 10px;
+    }
+    select {
+      width: 100px;
+      padding: 0;
+    }
+    .cancel {
+      width: 20px;
+      display: block;
+      float: left;
+      margin: 10px 0 0 10px;
+      &:link, &:visited, &:active {
+        color: $gainsboro;
+      }
+      &:hover {
+        color: $charcoal;
+      }
+    }
+    .hidden_inputs {
+      width: 0px;
+      float: left;
+      margin-right: 10px;
+      overflow: hidden;
+      > div {
+        width: 180px;
+      }
     }
 
     .goals {
@@ -165,8 +168,8 @@
         font-size: $small-font-size;
       }
     }  
-    .add_goal {
-      margin-top: 3px;
+    .add_goal_area {
+      float: left;
     }
 
   }

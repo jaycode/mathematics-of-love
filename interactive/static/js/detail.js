@@ -50,7 +50,7 @@ var app = app || {};
   }
 
 
-  app.DetailGoal = function(data) {
+  app.DetailGoal = function(vm, data) {
     var self = this;
 
     this.id = ko.observable(data['goal_id']);
@@ -58,14 +58,14 @@ var app = app || {};
       return "goal-"+self.id();
     });
     this.name = ko.computed(function() {
-      var goal = app.data.experiment.goals[data['goal_id']];
-      var matches = goal['name'].match(/[a-zA-Z0-9%]+/g);
+      var goal = vm.Experiment.goals()[data['goal_id']];
+      var matches = goal.name().match(/[a-zA-Z0-9%]+/g);
       return matches.join(' ');
     }, this);
     this.getClass = ko.computed(function() {
       var colors = app.data.settings['colors'];
-      var goal = app.data.experiment.goals[data['goal_id']];
-      return colors[goal['color_id']]['class'];
+      var goal = vm.Experiment.goals()[data['goal_id']];
+      return colors[goal.color_id()]['class'];
     });
     this.success_rate = ko.observable(data['success_rate']);
     this.success_rate_percent = ko.computed(function() {
@@ -94,7 +94,7 @@ var app = app || {};
     };
   }
 
-  app.CurrentDetail = function(data) {
+  app.CurrentDetail = function(vm, data) {
     var self = this;
     this.lifetime = ko.computed(function() {
       return app.helpers.formatThousandSeparators(data['lifetime']);
@@ -103,7 +103,7 @@ var app = app || {};
 
     this.goals = ko.observableArray([]);
     data.goals.forEach(function(goal) {
-      self.goals.push(new app.DetailGoal(goal));
+      self.goals.push(new app.DetailGoal(vm, goal));
     });
     this.activeGoal = function() {
       var active = _.find(self.goals(), function(g) {return g.active();});
@@ -155,7 +155,7 @@ var app = app || {};
         self._rejection_phase(value);
 
         // Find goal data from experiment dataset.
-        var goals = app.data.experiment.goals;
+        var goals = app.vm.Experiment.goals();
         goals.forEach(function(goal, i) {
           self.goals()[i].success_rate(goal.data[value]);
         });

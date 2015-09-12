@@ -11,7 +11,7 @@ var app = app || {};
         {
           orphan: true,
           title: 'Introduction to Optimal Stopping Theory',
-          content: 'This is a simulation of what is likely to happen when we ' +
+          content: 'This is a simulation of what may happen when we ' +
           'apply optimal stopping theory to choose from a set of candidates.<br />' +
           'Let\'s assume following simple dating rules: ' +
           '<ol>'+

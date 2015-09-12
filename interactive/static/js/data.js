@@ -15,7 +15,13 @@ var app = app || {};
     max_age: 90,
     min_lifetimes: 1,
     max_lifetimes: 10000,
+    min_rejection_phase: 0,
+    max_rejection_phase: 99,
+    max_goals: 11,
     colors: [
+      {
+        class: 'color-theory'
+      },
       {
         class: 'color1'
       },
@@ -32,8 +38,20 @@ var app = app || {};
         class: 'color5'
       },
       {
-        class: 'color-theory'
-      }   
+        class: 'color6'
+      },
+      {
+        class: 'color7',
+      },
+      {
+        class: 'color8'
+      },
+      {
+        class: 'color9'
+      },
+      {
+        class: 'color10'
+      }
     ]
   };
 
@@ -53,7 +71,7 @@ var app = app || {};
       {
         name: 'top-1',
         active: true,
-        color_id: 0,
+        color_id: 1,
         destructible: false,
         data: [
           // Keep the data here in format {success_rate: %f, rejection_phase: %i}
@@ -62,21 +80,21 @@ var app = app || {};
       {
         name: 'top-5%',
         active: true,
-        color_id: 1,
+        color_id: 2,
         destructible: true,
         data: []
       },
       {
         name: 'top-15%',
         active: true,
-        color_id: 2,
+        color_id: 3,
         destructible: true,
         data: []
       },
       {
         name: 'theory',
         active: true,
-        color_id: 5,
+        color_id: 0,
         destructible: false,
         data: []
       }

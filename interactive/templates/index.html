@@ -133,7 +133,19 @@ P(5) = 4/10 * (1/4 + 1/5 + 1/6 + 1/7 + 1/8 + 1/9)
                       <div data-bind="css: getClass" class="goal_box"></div>
                       <div data-bind="text: name" class="goal_text">Top 1</div>
                     </div>
-                    <button data-bind="click: addGoal" class="tiny add_goal">Add</button>
+                    <div class="add_goal_area">
+                      <div id="sa-hidden_inputs" class="hidden_inputs">
+                        <div>
+                          <input type="text" placeholder="10" />
+                          <select>
+                            <option value="%">percent</option>
+                            <option value="">candidates</option>
+                          </select>
+                          <a data-bind="click: cancelAddGoal" href="#" class="cancel">X</a>
+                        </div>
+                      </div>
+                      <button id="sa-add_goal" data-bind="click: addGoal" class="tiny add_goal">Add</button>
+                    </div>
                   </div>
                 </div>
               </div>

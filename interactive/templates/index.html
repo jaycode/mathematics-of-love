@@ -3,6 +3,7 @@
   <head>
     <meta charset="utf-8">
     <link rel="stylesheet" href="{{ url_for('static', filename='css/app.css') }}" />
+    <link rel="shortcut icon" href="{{ url_for('static', filename='images/favicon.ico') }}">
 
     <script src="{{ url_for('static', filename='bower_components/jquery/dist/jquery.min.js') }}"></script>
     <!--
@@ -19,6 +20,7 @@
   <body>
     <header class="row">
       <div class="small-12 columns">
+        <img class="main_image" src="{{ url_for('static', filename='images/screenshot.PNG') }}" title="When is The Right Time to Settle Down?" />
         <h5 class="subheader">The Mathematics of Love</h5>
         <h1>When is The Right Time to Settle Down?</h1>
         <h4 class="subheader">Proving 37% Rule + Visual Explanation of Optimal Stopping Theory</h4>

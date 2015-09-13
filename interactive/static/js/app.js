@@ -1,24 +1,36 @@
+// This is the main section of our application where we define our
+// ViewModels and helpers.
 var app = app || {};
 
 (function(){
   app.helpers = {};
+  // 10000 to 10,000.
   app.helpers.formatThousandSeparators = function(text) {
     return parseInt(text).toLocaleString();
   };
 
+  // 10,000 to 10000.
   app.helpers.parseNumberWithSeparators = function(text) {
     return parseInt(text.toString().replace(/(\d+),(?=\d{3}(\D|$))/g, "$1"));
   };
 
+  // Adding percentage for lazy people like me.
   app.helpers.formatPercent = function(text) {
     return parseFloat(text) + '%';
   };
 
+  // Remove percentage and get its number.
   app.helpers.parsePercent = function(text) {
     var regex = /\d+/g;
     var matches = text.match(regex);
+    if (typeof(matches) == 'undefined') {
+      var number = 0;
+    }
+    else {
+      var number = parseInt(matches);
+    }
 
-    return parseInt(matches);
+    return number;
   };
 
   // "top-10%" to 10 and "%",
@@ -38,6 +50,8 @@ var app = app || {};
     }
   };
 
+  // Using d3.nest to group compatibilities by lifetimes.
+  // This will later be used in DetailViz.
   app.helpers.groupCompatibilitiesByLifetime = function(compatibilities) {
     // Find number of total candidates within this lifetime from compatibilities dataset.
     var nested = d3.nest()
@@ -54,6 +68,7 @@ var app = app || {};
     return nested;
   };
 
+  // Getting url to our server.
   app.helpers.url = function(path) {
     return window.location.protocol + '//' + window.location.host + '/' + path;
   };
@@ -104,15 +119,15 @@ var app = app || {};
   app.helpers.dataUrl = function() {
     // return 'http://159.203.71.247/data?l=' + 
     return 'data?l=' + 
-      app.vm.Experiment._lifetimes() +
+      app.vm.Generator._lifetimes() +
       '&a1=' +
-      app.vm.Experiment.a1() +
+      app.vm.Generator.a1() +
       '&a2=' +
-      app.vm.Experiment.a2() +
+      app.vm.Generator.a2() +
       '&p1=' +
-      app.vm.Experiment.p1() +
+      app.vm.Generator.p1() +
       '&p2=' +
-      app.vm.Experiment.p2();
+      app.vm.Generator.p2();
   }
 
   // Get experiment url 
@@ -127,9 +142,11 @@ var app = app || {};
     return d3.scale.category20().domain(_.range(0,20))(i%20);
   }
 
+  // Our main ViewModel.
   app.ViewModel = function() {
     var self = this;
 
+    self.Generator = new app.Generator(app.data.generator);
     self.Experiment = new app.Experiment(app.data.experiment);
     self.CurrentDetail = new app.CurrentDetail(self, app.data.currentDetail);
     
@@ -144,10 +161,6 @@ var app = app || {};
     };
     this.viewDetail = function() {
       app.detail.view();
-    };
-
-    this.generateDataset = function() {
-      app.generate.generateDataset();
     };
 
     this.chooseGoal = function() {
@@ -173,17 +186,16 @@ var app = app || {};
       d3.select(this)
         .transition()
         .style('opacity', 0)
-        // .each('end', function() {
-        //   d3.select('#start_button_container')
-        //     .remove();
-        // });
+        .each('end', function() {
+          d3.select('#start_button_container')
+            .style('height', 0);
+        })
 
       // Apply bindings, then generate dataset based on values in data.
       app.vm = new app.ViewModel();
       ko.applyBindings(app.vm);
-      app.generate.generateDataset(function() {
-        // Display initial view (generated dataset).
-        // app.generated.view();
+      app.vm.Generator.generateDataset(function() {
+
       }, function(data) {
         // Set initial lifetime
         app.vm.CurrentDetail.lifetime(165);

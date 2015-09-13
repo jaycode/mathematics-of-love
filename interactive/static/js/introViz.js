@@ -5,61 +5,50 @@ var app = app || {};
   app.introViz = {};
   app.introViz.drawIntro = function(data) {
     data = data.partners;
-    var margin = 30,
-        width = 600,
-        height = 300,
-        right_offset = 20;
+    // Todo: when screen size changed, change this.
+    var width = 800,
+        height = 400,
+        marginLeft = 60,
+        marginTop = 50,
+        bottomOffset = 20,
+        right_offset = 20,
+        radius = 5,
+        selector = '#intro_viz',
+        chartSelectorId = 'g-i',
+        chartSelector = '#g-i';
 
     var radius = 3;
     var color = "blue";
 
-    var svg = d3.select('#intro_viz')
+    d3.select(selector)
       .append('svg')
-        .attr('width', width + margin + right_offset)
-        .attr('height', height + margin)
+        .attr('width', width + marginLeft + right_offset)
+        .attr('height', height + marginTop + bottomOffset)
       .append('g')
-        .attr('class','chart');
+        .attr('id', chartSelectorId)
+        .attr('class','chart i_plot');
 
-    // Find range of x column.
     var xExtent = d3.extent(data, function(d,i) {
       return i;
     });
-
-    // Find range of y column.
     var yExtent = d3.extent(data, function(d) {
       return d;
     });
 
-    // Create x-axis scale.
-    var xScale = d3.scale.linear()
-      .range([margin, width])
-      .domain(xExtent);
-
-    // Create y-axis scale.
-    var yScale = d3.scale.linear()
-      .range([height, margin])
-      .domain(yExtent);
-
-    // Create the actual x-axis.
-    var xAxis = d3.svg.axis()
-      .scale(xScale)
-
-    d3.select("svg > g.chart")
-      .append('g')
-      .attr('class', 'x axis')
-      .attr('transform', "translate(0," + height + ")")
-      .call(xAxis);
-
-    // Create the actual y-axis.
-    var yAxis = d3.svg.axis()
-      .scale(yScale)
-      .orient('left');
-
-    d3.select("svg > g.chart")
-      .append('g')
-      .attr('class', 'y axis')
-      .attr('transform', "translate(" + margin + ",0)")
-      .call(yAxis);
+    var scales = app.vizHelpers.drawAxes(chartSelector, {
+      xExtent: xExtent,
+      yExtent: yExtent,
+      width: width,
+      height: height,
+      marginLeft: marginLeft,
+      marginTop: marginTop,
+      bottomOffset: bottomOffset,
+      xLabel: "# Candidates Rejected / r",
+      yLabel: "Success Rate (%) / P(r)",
+      title: "Success Rates Throughout Different Rejection Periods And Goals"
+    });
+    var xScale = scales[0];
+    var yScale = scales[1];
 
     // Draw the line.
     var lineGen = d3.svg.line()
@@ -72,13 +61,24 @@ var app = app || {};
         // return yScale(d['y']);
       });
 
-    d3.select('svg > g.chart')
+    d3.select(chartSelector)
       .append('svg:path')
       .attr('class', 'path-intro')
       .attr('d', lineGen(data));
 
     // Draw the circles.
-    d3.select('svg > g.chart')
+
+    var tip = d3.tip()
+      .attr('class', 'd3-tip')
+      .offset([-10, 0])
+      .html(function(d, i) {
+        return "<strong>Success Rate:</strong> <span style='color:red'>" + d +
+          "</span><br /><strong>Candidates Rejected:</strong> <span>" + i + "</span>";
+      });
+
+    d3.select(selector + ' svg').call(tip);
+
+    d3.select(chartSelector)
       .selectAll('circle')
       .data(data)
       .enter()
@@ -93,6 +93,8 @@ var app = app || {};
         // return yScale(d['y']);
       })
       .attr('r', radius)
-      .attr('fill', color);
+      .attr('fill', color)
+      .on('mouseover', tip.show)
+      .on('mouseout', tip.hide);
   }
 })();

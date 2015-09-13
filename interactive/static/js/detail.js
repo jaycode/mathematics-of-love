@@ -90,7 +90,7 @@ var app = app || {};
       var parsedGoal = app.helpers.parseGoal(self.name());
       app.detailViz.topX = parsedGoal[0];
       app.detailViz.percent = parsedGoal[1];
-      app.detail.redrawExperiment();
+      app.detailViz.drawOptimals();
     };
   }
 

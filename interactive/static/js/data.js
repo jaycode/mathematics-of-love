@@ -11,13 +11,15 @@ var app = app || {};
   app.data.compatibilities = [];
 
   app.data.settings = {
-    min_age: 10,
-    max_age: 90,
+    min_age_diff: 1,
+    max_age_diff: 20,
     min_lifetimes: 1,
-    max_lifetimes: 10000,
+    max_lifetimes: 2000,
     min_rejection_phase: 0,
     max_rejection_phase: 99,
-    max_goals: 11,
+    max_goals: 7,
+    min_potential_partners: 0,
+    max_potential_partners: 50,
     colors: [
       {
         class: 'color-theory'
@@ -53,6 +55,14 @@ var app = app || {};
         class: 'color10'
       }
     ]
+  };
+
+  app.data.generator = {
+    lifetimes: 1000,
+    a1: 18,
+    a2: 24,
+    p1: 0,
+    p2: 8
   };
 
   app.data.experiment = {

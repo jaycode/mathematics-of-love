@@ -1206,7 +1206,13 @@
         return callback();
       }
       $window = $(window);
-      offsetTop = $element.offset().top;
+      var topOffset = this.getStep(this.getCurrentStep()).topOffset;
+      if (typeof(topOffset) != 'undefined') {
+        offsetTop = $element.offset().top + topOffset;
+      }
+      else {
+        offsetTop = $element.offset().top;
+      }
       windowHeight = $window.height();
       scrollTop = Math.max(0, offsetTop - (windowHeight / 2));
       this._debug("Scroll into view. ScrollTop: " + scrollTop + ". Element offset: " + offsetTop + ". Window height: " + windowHeight + ".");

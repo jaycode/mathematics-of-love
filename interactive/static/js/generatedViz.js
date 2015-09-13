@@ -1,9 +1,11 @@
+// Controlling the generated visualizations (i.e. histograms in "Generated" page).
 var app = app || {};
 
 (function() {
   "use strict";
   app.generatedViz = {};
 
+  // Draw the viz.
   app.generatedViz.draw = function(data, selector) {
     d3.select(selector)
       .transition()
@@ -20,6 +22,7 @@ var app = app || {};
       });
   }
 
+  // Draw histogram 1 at given selector location.
   app.generatedViz.drawG1 = function(data, selector) {
     var margin = 50,
         width = 400,
@@ -75,6 +78,7 @@ var app = app || {};
 
   }
 
+  // Draw histogram 2 at given selector location.
   app.generatedViz.drawG2 = function(data, selector) {
     var margin = 50,
         width = 400,

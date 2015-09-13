@@ -11,7 +11,8 @@
     -->
     <script src="{{ url_for('static', filename='bower_components/underscore/underscore-min.js') }}"></script>
     <script src="{{ url_for('static', filename='bower_components/knockout/dist/knockout.js') }}"></script>
-    <script src="{{ url_for('static', filename='bower_components/d3/d3.js') }}"></script>
+    <script src="{{ url_for('static', filename='bower_components/d3/d3.min.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/d3-tip/d3-tip.js') }}"></script>
     <script src="{{ url_for('static', filename='js/d3-slider/d3.slider.js') }}"></script>
     <script src="{{ url_for('static', filename='js/bootstrap-tour/my-bootstrap-tour-standalone.js') }}"></script>
   </head>
@@ -91,13 +92,7 @@ P(5) = 4/10 * (1/4 + 1/5 + 1/6 + 1/7 + 1/8 + 1/9)
     </article>
     <article class="row">
       <div class="small-12 columns">
-        <h2>Simulating over different goals</h2>
-        <p>
-          Now, this strategy may not always end you up with the most perfect candidates, but should you be too unhappy about it? What if you are happy enough with finding the top 5% or 15% of all possible candidates? Below we see how your success rate is affected by relaxing your requirements.
-        </p>
-        <p>
-          In this simulation, we are going to test our success probabilities of finding the right partner given that we can retry our life 1,000 times, each with different number of partners met each lifetime. You can view and compare each strategy by hovering over the curve. You can also examine generated dataset. Once you know how everything works, you can play around by generating your own simulation by entering your own plan i.e. from what age to what age are you going to search for partners and how many partners are you likely going to end up each year (I suggest that you compare it with your own history). Have fun!
-        </p>
+        <h2>Interactive Simulation of Our Dating Strategy</h2>
         <div class="main_viz" id="main_viz">
           <div id="start_button_container" class="text-center is_active">
             <button data-bind="btn-start">Start The Simulation</button>
@@ -105,13 +100,9 @@ P(5) = 4/10 * (1/4 + 1/5 + 1/6 + 1/7 + 1/8 + 1/9)
 
           <!-- Simulation Analysis -->
           <article id="main_viz-simulation_analysis" data-bind="with: Experiment" class="main_viz-simulation_analysis">
-            <div class="row">
-              <div class="small-12 column">
-                <h2>Simulation Analysis</h2>
-              </div>
-            </div>
             <div class="main_viz_panel">
               <div class="simulation_analysis-top">
+                <h4>Simulation Analysis</h4>
                 <div class="row">
                   <div class="small-6 medium-3 column">
                     <label class="right">Total Lifetimes:</label>
@@ -171,47 +162,47 @@ P(5) = 4/10 * (1/4 + 1/5 + 1/6 + 1/7 + 1/8 + 1/9)
           </article>
 
           <!-- Generate Dataset -->
-          <article id="main_viz-generate" class="main_viz_panel main_viz-generate">
-            <form>
-              <div class="row">
-                <div class="small-12 columns">
-                  <h2 class="small-only-text-center">Generate Dataset</h2>
-                </div>
-              </div>
+          <article id="main_viz-generate" data-bind="with: Generator" class="main_viz_panel main_viz-generate">
+            <form data-bind="submit: submitGenerateForm">
+              <h4 class="small-only-text-center">Generate Dataset</h4>
               <div class="row">
                 <div class="small-9 medium-4 columns">
                   <label for="a1" class="inline right">Start dating from age</label>
+                  <small data-bind="text: ageErrorText, style: {opacity: a1Error() ? 1: 0}" class="error"></small>
                 </div>
                 <div class="small-3 medium-1 columns">
-                  <input id="a1" type="text" class="text-center" placeholder="18" />
+                  <input id="a1" data-bind="value: a1, css: {has_error: a1Error()}" type="text" class="text-center" placeholder="18" />
                 </div>
                 <div class="mid_label small-9 medium-2 columns text-center">
                   <label for="a2" class="inline">until age</label>
                 </div>
                 <div class="small-3 medium-1 end columns">
-                  <input id="a2" type="text" class="text-center" placeholder="24" />
+                  <input id="a2" data-bind="value: a2, css: {has_error: a2Error()" type="text" class="text-center" placeholder="24" />
                 </div>
               </div>
               <div class="row">
                 <div class="small-9 medium-4 columns">
                   <label for="p1" class="inline right">Potential partners met per year</label>
+                  <small data-bind="text: ppErrorText, style: {opacity: p1Error() ? 1: 0}" class="error"></small>
                 </div>
                 <div class="small-3 medium-1 columns">
-                  <input id="p1" type="text" class="text-center" placeholder="0" />
+                  <input id="p1" data-bind="value: p1, css: {has_error: p1Error()" type="text" class="text-center" placeholder="0" />
                 </div>
                 <div class="mid_label small-9 medium-2 columns text-center">
                   <label for="p2" class="inline">to</label>
+                  <small data-bind="text: ppErrorText, style: {opacity: p2Error() ? 1: 0}" class="error"></small>
                 </div>
                 <div class="small-3 medium-1 end columns">
-                  <input id="p2" type="text" class="text-center" placeholder="8" />
+                  <input id="p2" data-bind="value: p2, css: {has_error: p2Error()" type="text" class="text-center" placeholder="8" />
                 </div>
               </div>
               <div class="row">
                 <div class="small-7 medium-4 columns">
                   <label for="l" class="inline right">Experiment on</label>
+                  <small data-bind="text: lifetimesErrorText, style: {opacity: lifetimesError() ? 1: 0}" class="error"></small>
                 </div>
                 <div class="small-3 medium-2 columns">
-                  <input id="l" type="text" class="text-center" placeholder="10000" />
+                  <input id="l" data-bind="value: lifetimes, css: {has_error: lifetimesError()" type="text" class="text-center" placeholder="10000" />
                 </div>
                 <div class="small-2 medium-1 end columns">
                   <label class="inline">lifetimes.</label>
@@ -219,22 +210,20 @@ P(5) = 4/10 * (1/4 + 1/5 + 1/6 + 1/7 + 1/8 + 1/9)
               </div>
               <div class="row">
                 <div class="small-only-right small-8 medium-3 medium-offset-7 columns">
-                  <button data-bind="click: generateDataset" class="expand">Generate</button>
+                  <button data-bind="enable: validated" class="expand">Generate</button>
                 </div>
                 <div class="small-4 medium-2 columns">
-                  <button data-bind="click: viewSimulationAnalysis" class="expand secondary">Back</button>
+                  <button data-bind="click: $root.viewSimulationAnalysis, enable: $root.Experiment.processed" class="expand secondary">Back</button>
                 </div>
               </div>
             </form>
+            <div id="generate-now_loading_bg" class="generate-now_loading_bg"></div>
+            <div id="generate-now_loading" class="generate-now_loading">Now Loading...</div>
           </article>
 
           <!-- Generated Dataset -->
           <article id="main_viz-generated" data-bind="with: Experiment" class="main_viz_panel main_viz-generated">
-            <div class="row">
-              <div class="small-12 columns">
-                <h2 class="small-only-text-center">View Generated Dataset</h2>
-              </div>
-            </div>
+            <h4 class="small-only-text-center">View Generated Dataset</h4>
             <div class="row">
               <div class="small-12 columns">
                 <button data-bind="click: $parent.viewSimulationAnalysis, enable: processed" class="right tiny">Back to Data Analysis</button>
@@ -256,12 +245,8 @@ P(5) = 4/10 * (1/4 + 1/5 + 1/6 + 1/7 + 1/8 + 1/9)
 
           <!-- Detail -->
           <article id="main_viz-detail" data-bind="with: CurrentDetail" class="main_viz-detail">
-            <div class="row">
-              <div class="small-12 column">
-                <h2>Simulating Single Lifetimes</h2>
-              </div>
-            </div>
             <div class="main_viz_panel">
+              <h4>Simulating Single Lifetimes</h4>
               <div class="row">
                 <div class="small-4 medium-3 column">
                   <label id="detail-lifetime_label" for="detail-l" class="inline right">Lifetime #:</label>
@@ -338,6 +323,13 @@ P(5) = 4/10 * (1/4 + 1/5 + 1/6 + 1/7 + 1/8 + 1/9)
         </p>
       </div>
     </article>
+    <div class="row footer text-center">
+      <p>This project was built for my final submission in <a href="http://udacity.com" rel="_nofollow">Udacity.com</a>.<br />If you are looking to build a project with similar complexities they have the best resources to learn from.</p>
+      <hr />
+      <div class="trademark">
+        <a href="http://teguhwijaya.com" target="_blank">Jay Teguh Wijaya</a> - 2015
+      </div>
+    </div>
     <script src="{{ url_for('static', filename='js/data.js') }}"></script>
     <script src="{{ url_for('static', filename='js/introViz.js') }}"></script>
     <script src="{{ url_for('static', filename='js/generatedViz.js') }}"></script>

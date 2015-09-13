@@ -78,3 +78,23 @@ body > .row {
     margin-top: 2px; // align them with input boxes.
   }
 }
+
+body > div.footer {
+  background: none;
+  border: none;
+  padding-top:15px;
+  color: #aaa;
+  p {
+    font-size: 90%;
+  }
+  .trademark {
+    font-size: 70%;
+  }
+  a:link, a:visited, a:active {
+    color: #4d4d4d;
+    font-weight: bold;
+  }
+  a:hover {
+    color: #aaa
+  }
+}

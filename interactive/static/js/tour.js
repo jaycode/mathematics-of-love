@@ -1,10 +1,10 @@
-// Tour object
+// Tour containing all our tour content.
 var app = app || {};
 
 (function() {
   app.getTourSettings = function() {
     return {
-      // debug: true,
+      debug: true,
       storage: false,
       orphan: true,
       steps: [
@@ -22,18 +22,20 @@ var app = app || {};
         {
           element: '#detail-rp',
           title: 'Rejection Phase',
-          content: 'In here, we use the magic number 37% as our Rejection Phase, which means...'
+          content: 'In here, we use the magic number 37% as our Rejection Phase, which means...',
         },
         {
           element: '#r_phase',
           title: 'Reject 37% candidates',
-          content: 'First we reject 37% of all candidates and take note of their compatibility scores.'
+          content: 'First we reject 37% of all candidates and take note of their compatibility scores.',
+          topOffset: 100,
         },
         {
           element: '.marker.chosen',
           title: 'Choose the next better candidate',
           content: 'Then at the end of that rejection period, pick the first candidate who is better than ' +
           'the rest we have rejected.',
+          topOffset: 130,
           onShown: function(tour) {
             tour.slightlyRight();
           },
@@ -50,6 +52,7 @@ var app = app || {};
           content: "Of course, it's well possible that we may meet the best candidate during our rejection phase. " +
           "And since the strategy requires us to reject them, we will then end up not finding anyone better, grow old and die alone, " +
           "probably nursing a deep hatred towards Mathematical equations.",
+          topOffset: 130,
           onShown: function(tour) {
             tour.slightlyRight();
           },
@@ -149,6 +152,7 @@ var app = app || {};
           content: "Below graphs show the distribution of number and scores of candidates throughout lifetimes, which means how many lifetimes have how many " +
           "candidates and how big the average scores of these candidates. To make it a little more realistic I set it up with normal distribution (" +
           "i.e. most of the values are in the middle), since we don't really meet psycopaths or A-class single rockstars (or cool scientists, if thats' your thing) everyday.",
+          topOffset: 50,
           onNext: function(tour) {
             app.simulationAnalysis.view(function() {
               tour.goTo(tour.getCurrentStep()+1);
@@ -159,6 +163,7 @@ var app = app || {};
           orphan: true,
           title: "Analyzing our simulation results",
           content: "By repeating the simulation we did previously over our dataset and taking notes on our results, we get the following graph.",
+          topOffset: 180,
           onShown: function(tour) {
             $('.popover').css('top', parseFloat($('.popover').css('top'))+80);
           },
@@ -172,6 +177,7 @@ var app = app || {};
           element: '.add_goal',
           title: "Busting the magic number 37%",
           content: "See that 37% is not all too magical when we relax our criteria to 15%. Instead the magic seems to happen at around 23% rejection phase.",
+          topOffset: 240,
           onShown: function(tour) {
             $('.popover').css('top', parseFloat($('.popover').css('top'))+180);
           },
@@ -182,7 +188,11 @@ var app = app || {};
           content: "To me, what is more interesting in this graph is how the Mathematical equation can quite closely predict the pattern of the " +
           "dataset. Imagine that, <b>a set of randomly generated numbers</b> can be guessed in close accuracy using a single equation.<br />" +
           "Imagine the usefulness of this in other fields, for example in predicting the right portfolio to pick in Finance, or finding out the rate of " +
-          "production failures in Aircraft jet engine factories."
+          "production failures in Aircraft jet engine factories.",
+          topOffset: 240,
+          onShown: function(tour) {
+            $('.popover').css('top', parseFloat($('.popover').css('top'))+180);
+          },
         },
         {
           orphan: true,
@@ -195,7 +205,7 @@ var app = app || {};
           " numbers here.</li>"+
           "<li>What's your dating strategy? How many people are you planning / likely to meet each year? You can adjust that to see how it affects " +
           "your success rate.</li>"+
-          "<li>Try out with a larger number of lifetimes, say 10,000. See how that will make the pattern more prominent.</li>" +
+          "<li>Try out with a larger number of lifetimes, say 2,000. See how that will make the pattern more prominent.</li>" +
           "</ul><br />Have Fun!"
         }
       ]

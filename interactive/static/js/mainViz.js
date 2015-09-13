@@ -111,16 +111,25 @@ var app = app || {};
               .attr('cy', function(d, i) {
                 return yScale(d);
               })
-              .attr('r', 0);
+              .attr('r', radius)
+              .style('opacity', 0);
     });
 
-    // Graph interaction
-    d3.select('#g-sa')
-      .on('mouseover', function() {
-        var coordinates = [0, 0];
-        coordinates = d3.mouse(this);
-        var closestId = parseInt(Math.round(xScale.invert(coordinates[0])+0.5));
+    var tip = d3.tip()
+      .attr('class', 'd3-tip')
+      .offset([-10, 0])
+      .html(function(d, i) {
+        return "<strong>Success Rate:</strong> <span style='color:red'>" + app.helpers.formatPercent(Math.round(d*10000)/100) +
+          "</span><br /><strong>Rejected:</strong> <span>" + app.helpers.formatPercent(i%100) + "</span>";
+      });
 
+    d3.select(selector + ' svg').call(tip);
+
+    // Graph interaction
+    d3.selectAll('#g-sa circle')
+      .on('mouseover', function(yValue, elementId) {
+        var closestId = elementId % 100;
+        tip.show(yValue, elementId);
         // Update CurrentDetail. Tooltip should automatically shows
         // thanks to KnockoutJs.
         app.vm.CurrentDetail.rejection_phase(closestId);
@@ -136,22 +145,27 @@ var app = app || {};
         app.vm.CurrentDetail.window_left((xScale(closestId)-18) + 'px');
 
         // Animate the circles.
+        // Initially I used radius animation, but animation lags so much
+        // so I disabled them. I kept the code for future reference.
         d3.selectAll('#g-sa .hidden_circles circle')
           .classed('active', false)
-          .attr('r', 0)
-          .transition();
-        d3.selectAll('#g-sa .hidden_circles circle:nth-of-type('+closestId+')')
+          // .attr('r', radius)
+          .style('opacity', 0);
+          // .transition();
+        d3.selectAll('#g-sa .hidden_circles circle:nth-of-type('+(closestId+1)+')')
           .classed('active', true)
-          .transition()
-          .attr('r', radius)
-          .each('end', function() {
-            d3.selectAll('#g-sa .hidden_circles circle')
-              .attr('r', 0);
-            d3.selectAll('#g-sa .hidden_circles circle:nth-of-type('+closestId+')')
-              .attr('r', radius);
-          });
+          .style('opacity', 1);
+          // .transition()
+          // .style('opacity', 1)
+          // .each('end', function() {
+          //   // d3.selectAll('#g-sa .hidden_circles circle')
+          //   //   .attr('r', 0);
+          //   // d3.selectAll('#g-sa .hidden_circles circle:nth-of-type('+closestId+')')
+          //   //   .attr('r', radius);
+          // });
 
-      });
+      })
+      .on('mouseout', tip.hide);
 
     if (typeof(callback) == 'function') {
       callback();

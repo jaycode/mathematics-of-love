@@ -189,6 +189,7 @@
     }
   }
   .tooltip {
+    background: rgba(0, 0, 0, 0.8);
     width: 215px;
     .goal_box {
       margin: 3px 5px 0 0;
@@ -266,4 +267,78 @@
 
 .small-margin-right {
   margin-right: 5px;
+}
+
+.main_viz-generate {
+  position: relative;
+
+  input, label, small {
+    margin-bottom: 0;
+    padding-bottom: 0;
+  }
+  small.error {
+    text-align: right;
+    color: $alert-color;
+    opacity: 0;
+  }
+  .generate-now_loading_bg {
+    display: none;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0,0,0,0.6);
+  }
+  .generate-now_loading {
+    display: none;
+    width: 300px;
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    margin-left: -150px;
+    line-height: 80px;
+    margin-top: -40px;
+    text-align: center;
+    background-color: white;
+    border: 1px solid $smoke;
+  }
+}
+
+// Inputs with has_error will have red border around them.
+.has_error {
+  border: 1px solid $crimson !important;
+}
+
+
+.d3-tip {
+  line-height: 1;
+  font-weight: bold;
+  padding: 12px;
+  background: rgba(0, 0, 0, 0.8);
+  color: #fff;
+  border-radius: 2px;
+  strong {
+    font-weight: normal;
+  }
+}
+
+/* Creates a small triangle extender for the tooltip */
+.d3-tip:after {
+  box-sizing: border-box;
+  display: inline;
+  font-size: 10px;
+  width: 100%;
+  line-height: 1;
+  color: rgba(0, 0, 0, 0.8);
+  content: "\25BC";
+  position: absolute;
+  text-align: center;
+}
+
+/* Style northward tooltips differently */
+.d3-tip.n:after {
+  margin: -1px 0 0 0;
+  top: 100%;
+  left: 0;
 }

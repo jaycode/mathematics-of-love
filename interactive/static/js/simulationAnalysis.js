@@ -69,6 +69,7 @@ var app = app || {};
           }));
 
           // Connect to server to update experiment data.
+          app.helpers.showLoading('#simulation_analysis-plot_area')
           d3.json(app.helpers.experimentUrl(), function(data1) {
             app.simulationAnalysis.updateExperiment(data1.processed);
             app.simulationAnalysis.redrawPlot();

@@ -2,6 +2,7 @@ var app = app || {};
 
 (function() {
   app.detailViz = {
+    selector: '',
     chartSelector: '#g-d',
     width: 800,
     height: 400,
@@ -30,6 +31,7 @@ var app = app || {};
   // }
   app.detailViz.draw = function(data, selector, params) {
     var self = this;
+    self.selector = selector;
     self.topX = typeof(params['topX']) == 'undefined' ? self.topX : params['topX'];
     self.percent = typeof(params['percent']) == 'undefined' ? self.percent : params['percent'];
     self.rejectionPhase = typeof(params['rejectionPhase']) == 'undefined' ? self.rejectionPhase : params['rejectionPhase'];
@@ -154,6 +156,7 @@ var app = app || {};
     });
   };
 
+  // Drawing the rejection phase, then run callback.
   app.detailViz.drawRejectionPhase = function(callback) {
     var self = this;
     var selector = '#r_phase';
@@ -166,7 +169,8 @@ var app = app || {};
     if (id > 0) {
       var x = self.marginLeft;
       var y = self.marginTop;
-      var width = self.xScale(id+1) - x;
+      var scaled = self.xScale(id+1);
+      var width = scaled - x;
       var height = self.height - self.marginTop;
       var area = d3.select(self.chartSelector)
         .insert('g', ':first-child')
@@ -238,10 +242,6 @@ var app = app || {};
            (self.xScale(xFunc(d))) + "," + self.yScale(yFunc(d)) + ")";
       });
 
-      // Todo: Add tooltips.
-      // .on('mouseover', tip.show)
-      // .on('mouseout', tip.hide);
-
     // Add rectangles of correct size at correct location.
     bar.append("rect")
       .attr('height', 0)
@@ -249,6 +249,23 @@ var app = app || {};
       .transition()
       .duration(1500)
       .attr("height", function(d) { return self.height - self.yScale(yFunc(d)); });
+
+    var tip = d3.tip()
+      .attr('class', 'd3-tip')
+      .offset([-10, 0])
+      .html(function(d, i) {
+        var extent = self.yExtent;
+
+        return "<strong>Candidate #</strong><span>" + d['id'] + "</span><br />" +
+        "<strong>Score:</strong> <span style='color:red'>" + Math.round(yFunc(d)*10000)/100 +
+          "</span> <span>("+Math.round( ((d['candidate_score']-extent[0]) / (extent[1]-extent[0]))*10000)/100+"%)</span>";
+      });
+
+    d3.select(self.selector + ' svg').call(tip);
+
+    bar
+      .on('mouseover', tip.show)
+      .on('mouseout', tip.hide);
   };
 
   app.detailViz.addHistTooltip = function(data, chartSelector, params) {
@@ -270,6 +287,9 @@ var app = app || {};
     // Used to decide when to call the callback.
     self._animatedMarkers = 0;
 
+    // Number of markers for time delay in animation.
+    var delayId = 0;
+
     data.forEach(function(d, id) {
       var x = self.xScale(d['id']);
       var y = self.yScale(d['candidate_score']);
@@ -285,20 +305,54 @@ var app = app || {};
       }
 
       if (d['is_top']) {
-        app.detailViz.drawMarker.call(self, bar, app.images.star, d, id, 'yellow', 'top', callback);
+        delayId++;
+        app.detailViz.drawMarker.call(self, bar, app.images.star, d, delayId, 'yellow', 'top', callback);
       }
       if (d['chosen_status'] == 1) {
-        app.detailViz.drawMarker.call(self, bar, app.images.ok, d, id, 'green', 'chosen', callback);
+        delayId++;
+        app.detailViz.drawMarker.call(self, bar, app.images.ok, d, delayId, 'green', 'chosen', callback);
       }
       else if (d['chosen_status'] == -1) {
-        app.detailViz.drawMarker.call(self, bar, app.images.remove, d, id, 'red', 'rejected', callback);
+        delayId++;
+        app.detailViz.drawMarker.call(self, bar, app.images.remove, d, delayId, 'red', 'rejected', callback);
       }
       else if (d['chosen_status'] == -2) {
-        app.detailViz.drawMarker.call(self, bar, app.images.remove2, d, id, 'red', 'unchosen', callback);
+        delayId++;
+        app.detailViz.drawMarker.call(self, bar, app.images.remove2, d, delayId, 'red', 'unchosen', callback);
       }
 
     });
     if (typeof(callback) == 'function' && self._animatedMarkers == 0) {
+      callback();
+    }
+  }
+
+  // Only coloring optimal bars.
+  app.detailViz.drawOptimals = function(data, callback) {
+    var self = this;
+    if (typeof(data) == 'undefined') {
+      var data = app.detailVizHelpers.prepareData(self.data, self.rejectionPhase, self.topX, self.percent);
+    }
+    var bars = d3.selectAll(self.chartSelector+' .bar')
+    bars.select('rect')
+      .classed('focus', false);
+
+    data.forEach(function(d, id) {
+      var x = self.xScale(d['id']);
+      var y = self.yScale(d['candidate_score']);
+
+      var bar = d3.select(bars[0][id])
+      if (d['is_optimal']) {
+        // nth-of-type cannot work with class i.e.:
+        // .bar:nth-of-type('+(d['id'])+') still chooses the first few non- .bar
+        // g's, so we have to do it the javascript way.
+
+        bar.select('rect')
+          .classed('focus', true);
+      }
+
+    });
+    if (typeof(callback) == 'function') {
       callback();
     }
   }

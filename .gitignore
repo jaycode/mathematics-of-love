@@ -5,4 +5,4 @@
 /interactive/static2/bower_components/*
 /interactive/static2/node_modules/*
 
-/interactive/cached_data
+/interactive/cached_data/*

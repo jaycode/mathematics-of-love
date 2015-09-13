@@ -29,7 +29,8 @@ def get_compatibilities(a1=18, a2=24, p1=0, p2=8, l=10000):
   p2 = int(p2)
   l = int(l)
   filename = "cached_data/a1%ia2%ip1%ip2%il%i.json" % (a1, a2, p1, p2, l)
-
+  if not os.path.exists('cached_data'):
+    os.makedirs('cached_data')
   if os.path.isfile(filename):
     with open(filename) as fhandler:    
       compatibilities = ujson.load(fhandler)
@@ -54,6 +55,9 @@ def get_processed(a1=18, a2=24, p1=0, p2=8, l=10000, g='top-1,top-10%25,top-15%2
   # processor is imported in functions to avoid deadlock when running
   # test_process in processor.py since that imports this module.
   import processor
+
+  if not os.path.exists('cached_data'):
+    os.makedirs('cached_data')
 
   processed = {}
   a1 = int(a1)

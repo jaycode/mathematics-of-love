@@ -1,13 +1,12 @@
 # The Mathematics of Love - When to Settle Down
 *Interactive version*
 
-## Use
-
-To start this app on a web server, run `python server.py`.
-
-Thi
+This project is available for viewing here: http://mathoflove.teguhwijaya.com/
 
 ## How to Run
+
+This section explains how to run this project in your local machine. Please do contact me
+at te g u h w purw an to [at] gmail [dot] com if you have any question with installation.
 
 This app needs following python modules:
 - Flask (`pip install flask`)
@@ -19,6 +18,9 @@ Once you got them installed, do the following to run the app on your server:
 
 - `bower install --allow-root` to install all the required javascript.
 - `python server.py`
+
+Then you should be able to access this app on `http://localhost` (make sure no other app
+is using your port 80).
 
 ## Development Notes
 
@@ -52,3 +54,6 @@ major graphs:
  - **Bar chart with a twist** to explain the Mathematical concept.
 
 More explanations on design decisions are available within the project itself.
+
+## Feedback
+

@@ -183,20 +183,25 @@ var app = app || {};
 
   var buttons = d3.select('button[data-bind=btn-start]')
     .on('click', function() {
-      d3.select(this)
-        .transition()
-        .style('opacity', 0)
-        .each('end', function() {
-          d3.select('#start_button_container')
-            .style('height', 0);
-        })
-
+      var button = this;
+      d3.select(button)
+        .attr('disabled', true)
+        .text('Loading the app, please wait...')
       // Apply bindings, then generate dataset based on values in data.
       app.vm = new app.ViewModel();
       ko.applyBindings(app.vm);
       app.vm.Generator.generateDataset(function() {
 
       }, function(data) {
+
+        d3.select(button)
+          .transition()
+          .style('opacity', 0)
+          .each('end', function() {
+            d3.select('#start_button_container')
+              .style('height', 0);
+          })
+
         // Set initial lifetime
         app.vm.CurrentDetail.lifetime(165);
         app.vm.CurrentDetail.activeGoal().active(true);

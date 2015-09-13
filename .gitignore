@@ -6,3 +6,4 @@
 /interactive/static2/node_modules/*
 
 /interactive/cached_data/*
+/interactive/data.pyc

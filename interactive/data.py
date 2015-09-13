@@ -37,7 +37,6 @@ def get_compatibilities(a1=18, a2=24, p1=0, p2=8, l=10000):
   else:
     for lt in range(1, l+1):
       # Number of candidates met per year should range between p1 and p2.
-      pdb.set_trace()
       yearly_num_candidates = []
       for a in range(0, (a2-a1)):
         yearly_num_candidates.append(random.choice(range(p1, p2)))

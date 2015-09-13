@@ -162,10 +162,33 @@
     .goals {
       margin-top: 10px;
       float: left;
-      .goal_text {
+      .goal_area {
+        position: relative;
         float: left;
-        padding: 2px 12px 2px 5px;
-        font-size: $small-font-size;
+        .goal_text {
+          float: left;
+          padding: 2px 12px 2px 5px;
+          font-size: $small-font-size;
+        }
+        .remove_goal_area {
+          opacity: 0;
+          position: absolute;
+          top: 0;
+          left: 0;
+          background-color: rgba(255,255,255,0.6);
+          width: 100%;
+          text-align: center;
+          a {
+            font-weight: bold;
+          }
+          a:link, a:visited, a:active {
+            color: #333333;
+          }
+          a:hover {
+            color: #666666;
+          }
+        }
+
       }
     }  
     .add_goal_area {

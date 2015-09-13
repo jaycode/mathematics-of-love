@@ -1,0 +1,431 @@
+<!DOCTYPE html>
+<!-- saved from url=(0017)http://localhost/ -->
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <title>When is The Right Time to Settle Down?</title>
+    <meta charset="utf-8">
+    <meta property="og:title" content="When is The Right Time to Settle Down?">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="http://mathoflove.teguhwijaya.com">
+    <meta property="og:image" content="http://localhost/static/images/screenshot.PNG">
+    <link rel="stylesheet" href="./v0_files/app.css">
+    <link rel="shortcut icon" href="http://localhost/static/images/favicon.ico">
+
+    <script src="./v0_files/jquery.min.js"></script>
+    <!--
+    No need to load what we don't use.
+    <script src="/static/bower_components/foundation/js/foundation.min.js"></script>
+    -->
+    <script src="./v0_files/underscore-min.js"></script>
+    <script src="./v0_files/knockout.js"></script>
+    <script src="./v0_files/d3.min.js"></script>
+    <script src="./v0_files/d3-tip.js"></script>
+    <script src="./v0_files/d3.slider.js"></script>
+    <script src="./v0_files/my-bootstrap-tour-standalone.js"></script>
+  </head>
+  <body class="">
+    <header class="row">
+      <div class="small-12 columns">
+        <img class="main_image" src="./v0_files/screenshot.PNG" title="When is The Right Time to Settle Down?">
+        <h5 class="subheader">The Mathematics of Love</h5>
+        <h1>When is The Right Time to Settle Down?</h1>
+        <h4 class="subheader">Proving 37% Rule + Visual Explanation of Optimal Stopping Theory</h4>
+        <div class="panel callout radius">
+          Hey there! This article is one of my final projects at <a href="http://udacity.com/" target="_blank" rel="nofollow">Udacity.com</a> and they need me to collect some feedbacks, so if you could <a href="http://goo.gl/forms/5X3hO6CGFl" target="_blank" rel="nofollow">answer some questions in this form</a>, that would help me a lot and it will <b>bring you good luck in your love life</b>. 
+        </div>
+        <p>
+          In finding the right partner for the rest of your life, you don't want to keep rejecting the next suitor and risk not finding anyone. On the other hand, "cashing in" to quick may end you up in a suboptimal relationship.
+        </p>
+        <p>
+          What is, then, the right strategy to reject / accept next potential partners with the highest probability to get us the right person with the less risk of failure? Turns out, there's a strategy called <b>the 37% rule</b> where if you reject all 37% of the candidates you met, then accept the next candidate who is better than everybody you rejected, you are most likely to end with the best candidate out of everyone (this problem is called the secretary problem and was well discussed back then).
+        </p>
+        <p>I got introduced into this idea from the book by <b>Hannah Fry</b> called <a target="_blank" href="https://www.ted.com/read/ted-books/ted-books-library/the-mathematics-of-love">The Mathematics of Love</a>. There are several other interesting insights there, where she framed the very abstract concept of love in the verbosity of Mathematics.
+        </p>
+        <p>
+          For me, what interest me the most is proving this theory using programming. I reproduced the experiment shown in that book where a number of lifetimes with different number of people met and with different compatibilities are simulated, then tried to follow <b>X% rejection strategy</b> to find out what the best <b>X</b> is. 
+        </p>
+      </div>
+    </header>
+    <article class="row">
+      <div class="small-12 columns">
+        <h2>Why 37% ?</h2>
+        <p>
+          As it turned out, this problem is similar to one of the problems learned in Mathematics called <a target="_blank" href="https://en.wikipedia.org/wiki/Secretary_problem">The secretary problem</a>. The secretary problem is one of many names for a famous problem of the <b>optimal stopping theory</b>. The problem has been studied extensively in the fields of applied probability, statistics, and decision theory.</p>
+        <p>The basic form of the problem is the following:</p>
+        <ul>
+          <li>Imagine an administrator willing to hire the best secretary out of n rankable applicants for a position.</li>
+          <li>The applicants are interviewed one by one in random order.</li>
+          <li>A decision about each particular applicant is to be made immediately after the interview.</li>
+          <li>Once rejected, an applicant cannot be recalled.</li>
+          <li>During the interview, the administrator can rank the applicant among all applicants interviewed so far, but is unaware of the quality of yet unseen applicants.</li>
+          <li>The decision must be made immediately.</li>
+        </ul>
+        <p>And to solve this problem, as quoted from <a target="_blank" href="https://en.wikipedia.org/wiki/Secretary_problem">Wikipedia</a>:</p>
+        <blockquote>
+          <p>The problem has an elegant solution. The optimal stopping rule prescribes always <strong>rejecting the first n/e applicants</strong> after the interview (where e is the base of the natural logarithm) and then <strong>stopping at the first applicant who is better than every applicant interviewed so far</strong> (or continuing to the last applicant if this never occurs). Sometimes this strategy is called the <strong>1/e stopping rule</strong>, because the probability of stopping at the best applicant with this strategy is about <strong>1/e</strong> already for moderate values of <strong>n</strong>.</p>
+        </blockquote>
+        <p><b>So where did 37% come from?</b> The answer lies in this sentence:</p>
+        <blockquote>
+        because the probability of stopping at the best applicant with this strategy is about 1/e already for moderate values of n.
+        </blockquote>
+        <p><i>e</i> is the transcendental number that is the base of Napierian or natural logarithms, approximately equal to <b>2.71828</b>. Thus:</p>
+        <pre>1/e = 1/2.71828
+    = 0.3679</pre>
+        <p>And <i>that's where <b>37%</b> comes from.</i></p>
+      </div>
+    </article>
+    <article class="row">
+      <div class="small-12 columns">
+        <h2>The mathematics behind 37% rule</h2>
+
+        <p>The formula for <b>Optimal Stopping</b> is relatively simple:</p>
+        <p><img src="./v0_files/formula.png" alt="Optimal Stopping formula"></p>
+        <p>Where:</p><p>
+        </p><ul>
+          <li>P(r) = Chance that we can find optimal candidate when we rejected r number of candidates.</li>
+          <li>n = Number of candidates</li>
+          <li>r = Rejected candidates</li>
+        </ul>
+        <p>For example: With 10 candidates and stopping time at 5th person,</p>
+        <div class="row">
+          <div class="small-12 medium-7 columns end">
+        <pre>P(5) = 4/10 * (1/4 + 1/5 + 1/6 + 1/7 + 1/8 + 1/9)
+     = 0.398</pre>
+          </div>
+        </div>
+
+        <p>or <b>39.8%</b> chance that we will find best candidate if we follow the strategy.</p>
+        <p>From that formula, the optimal value of r can be approximated as <b>1/e</b>. Being able to find That is actually a perk of being good at calculus, which I'm not. In my case, then, instead of proving it mathematically (which you can find in Wikipedia) the only way to prove it is to program it by plotting a scenario of, say, 100 candidates with several stopping times, to see where the largest <b>P(r)</b> is:</p>
+        <div id="intro_viz"><svg width="880" height="470"><g id="g-i" class="chart i_plot"><g class="x axis" transform="translate(0,400)"><g class="tick" transform="translate(60,0)" style="opacity: 1;"><line y2="6" x2="0"></line><text dy=".71em" y="9" x="0" style="text-anchor: middle;">0</text></g><g class="tick" transform="translate(140.8080808080808,0)" style="opacity: 1;"><line y2="6" x2="0"></line><text dy=".71em" y="9" x="0" style="text-anchor: middle;">10</text></g><g class="tick" transform="translate(221.6161616161616,0)" style="opacity: 1;"><line y2="6" x2="0"></line><text dy=".71em" y="9" x="0" style="text-anchor: middle;">20</text></g><g class="tick" transform="translate(302.42424242424244,0)" style="opacity: 1;"><line y2="6" x2="0"></line><text dy=".71em" y="9" x="0" style="text-anchor: middle;">30</text></g><g class="tick" transform="translate(383.2323232323232,0)" style="opacity: 1;"><line y2="6" x2="0"></line><text dy=".71em" y="9" x="0" style="text-anchor: middle;">40</text></g><g class="tick" transform="translate(464.04040404040404,0)" style="opacity: 1;"><line y2="6" x2="0"></line><text dy=".71em" y="9" x="0" style="text-anchor: middle;">50</text></g><g class="tick" transform="translate(544.8484848484849,0)" style="opacity: 1;"><line y2="6" x2="0"></line><text dy=".71em" y="9" x="0" style="text-anchor: middle;">60</text></g><g class="tick" transform="translate(625.6565656565657,0)" style="opacity: 1;"><line y2="6" x2="0"></line><text dy=".71em" y="9" x="0" style="text-anchor: middle;">70</text></g><g class="tick" transform="translate(706.4646464646464,0)" style="opacity: 1;"><line y2="6" x2="0"></line><text dy=".71em" y="9" x="0" style="text-anchor: middle;">80</text></g><g class="tick" transform="translate(787.2727272727273,0)" style="opacity: 1;"><line y2="6" x2="0"></line><text dy=".71em" y="9" x="0" style="text-anchor: middle;">90</text></g><path class="domain" d="M60,6V0H860V6"></path></g><text class="x_label axis_label" text-anchor="middle" transform="translate(460,455)"># Candidates Rejected / r</text><g class="y axis" transform="translate(57,0)"><g class="tick" transform="translate(0,400)" style="opacity: 1;"><line x2="-6" y2="0"></line><text dy=".32em" x="-9" y="0" style="text-anchor: end;">0.00</text></g><g class="tick" transform="translate(0,352.8301886792452)" style="opacity: 1;"><line x2="-6" y2="0"></line><text dy=".32em" x="-9" y="0" style="text-anchor: end;">0.05</text></g><g class="tick" transform="translate(0,305.66037735849056)" style="opacity: 1;"><line x2="-6" y2="0"></line><text dy=".32em" x="-9" y="0" style="text-anchor: end;">0.10</text></g><g class="tick" transform="translate(0,258.49056603773585)" style="opacity: 1;"><line x2="-6" y2="0"></line><text dy=".32em" x="-9" y="0" style="text-anchor: end;">0.15</text></g><g class="tick" transform="translate(0,211.32075471698113)" style="opacity: 1;"><line x2="-6" y2="0"></line><text dy=".32em" x="-9" y="0" style="text-anchor: end;">0.20</text></g><g class="tick" transform="translate(0,164.1509433962264)" style="opacity: 1;"><line x2="-6" y2="0"></line><text dy=".32em" x="-9" y="0" style="text-anchor: end;">0.25</text></g><g class="tick" transform="translate(0,116.98113207547169)" style="opacity: 1;"><line x2="-6" y2="0"></line><text dy=".32em" x="-9" y="0" style="text-anchor: end;">0.30</text></g><g class="tick" transform="translate(0,69.81132075471702)" style="opacity: 1;"><line x2="-6" y2="0"></line><text dy=".32em" x="-9" y="0" style="text-anchor: end;">0.35</text></g><path class="domain" d="M-6,50H0V400H-6"></path></g><text class="y_label axis_label" text-anchor="middle" transform="rotate(270), translate(-225,20)">Success Rate (%) / P(r)</text><text class="plot_title" text-anchor="middle" transform="translate(460,20)">Success Rates Throughout Different Rejection Periods And Goals</text><path class="path-intro" d="M60,400L68.08080808080808,350.94339622641513L76.16161616161617,320.7547169811321L84.24242424242425,296.2264150943396L92.32323232323232,273.58490566037733L100.4040404040404,253.77358490566036L108.4848484848485,235.84905660377362L116.56565656565655,219.81132075471697L124.64646464646465,204.7169811320755L132.72727272727275,191.50943396226415L140.8080808080808,178.30188679245285L148.88888888888889,166.98113207547172L156.96969696969697,155.66037735849054L165.05050505050508,145.2830188679245L173.1313131313131,135.84905660377356L181.21212121212122,127.35849056603777L189.29292929292927,119.811320754717L197.37373737373736,112.26415094339622L205.45454545454547,104.71698113207546L213.53535353535352,98.1132075471698L221.6161616161616,92.45283018867924L229.69696969696972,86.79245283018867L237.77777777777777,82.07547169811318L245.85858585858585,77.3584905660377L253.93939393939394,73.58490566037739L262.020202020202,69.81132075471702L270.1010101010101,66.03773584905662L278.1818181818182,63.20754716981132L286.2626262626262,60.37735849056606L294.34343434343435,57.54716981132077L302.42424242424244,55.660377358490585L310.5050505050505,53.77358490566037L318.5858585858586,52.830188679245296L326.66666666666663,51.88679245283018L334.7474747474747,50.94339622641511L342.8282828282828,50L350.90909090909093,50L358.989898989899,50L367.07070707070704,50L375.1515151515151,50.94339622641511L383.2323232323232,50.94339622641511L391.3131313131313,51.88679245283018L399.39393939393943,53.77358490566037L407.4747474747475,54.716981132075475L415.55555555555554,56.60377358490565L423.6363636363636,58.490566037735846L431.7171717171717,60.37735849056606L439.7979797979798,62.264150943396245L447.8787878787879,65.09433962264154L455.959595959596,67.9245283018868L464.04040404040404,70.75471698113208L472.1212121212121,73.58490566037739L480.20202020202026,77.3584905660377L488.2828282828283,80.188679245283L496.3636363636363,83.96226415094337L504.44444444444446,87.73584905660377L512.5252525252524,91.50943396226413L520.6060606060606,95.28301886792451L528.6868686868687,99.99999999999997L536.7676767676768,104.71698113207546L544.8484848484849,108.49056603773586L552.9292929292928,114.15094339622641L561.010101010101,118.86792452830188L569.0909090909091,123.58490566037736L577.1717171717172,129.24528301886795L585.2525252525253,133.9622641509434L593.3333333333333,139.62264150943395L601.4141414141415,145.2830188679245L609.4949494949494,150.94339622641508L617.5757575757576,156.60377358490564L625.6565656565657,163.20754716981133L633.7373737373737,168.8679245283019L641.8181818181819,175.47169811320757L649.8989898989898,182.07547169811318L657.979797979798,188.67924528301887L666.060606060606,195.28301886792454L674.1414141414142,201.88679245283018L682.2222222222223,209.43396226415092L690.3030303030303,216.0377358490566L698.3838383838385,223.58490566037736L706.4646464646464,230.188679245283L714.5454545454545,237.7358490566038L722.6262626262626,245.2830188679245L730.7070707070707,252.83018867924528L738.7878787878789,261.3207547169812L746.8686868686868,268.8679245283019L754.949494949495,277.35849056603774L763.030303030303,284.9056603773585L771.1111111111111,293.39622641509436L779.1919191919192,301.8867924528302L787.2727272727273,310.37735849056605L795.3535353535354,318.86792452830184L803.4343434343434,327.35849056603774L811.5151515151515,335.8490566037736L819.5959595959596,345.2830188679245L827.6767676767676,353.77358490566036L835.7575757575759,363.20754716981133L843.8383838383838,371.6981132075472L851.919191919192,381.1320754716981L860,390.566037735849"></path><circle cx="60" cy="400" r="3" fill="blue"></circle><circle cx="68.08080808080808" cy="350.94339622641513" r="3" fill="blue"></circle><circle cx="76.16161616161617" cy="320.7547169811321" r="3" fill="blue"></circle><circle cx="84.24242424242425" cy="296.2264150943396" r="3" fill="blue"></circle><circle cx="92.32323232323232" cy="273.58490566037733" r="3" fill="blue"></circle><circle cx="100.4040404040404" cy="253.77358490566036" r="3" fill="blue"></circle><circle cx="108.4848484848485" cy="235.84905660377362" r="3" fill="blue"></circle><circle cx="116.56565656565655" cy="219.81132075471697" r="3" fill="blue"></circle><circle cx="124.64646464646465" cy="204.7169811320755" r="3" fill="blue"></circle><circle cx="132.72727272727275" cy="191.50943396226415" r="3" fill="blue"></circle><circle cx="140.8080808080808" cy="178.30188679245285" r="3" fill="blue"></circle><circle cx="148.88888888888889" cy="166.98113207547172" r="3" fill="blue"></circle><circle cx="156.96969696969697" cy="155.66037735849054" r="3" fill="blue"></circle><circle cx="165.05050505050508" cy="145.2830188679245" r="3" fill="blue"></circle><circle cx="173.1313131313131" cy="135.84905660377356" r="3" fill="blue"></circle><circle cx="181.21212121212122" cy="127.35849056603777" r="3" fill="blue"></circle><circle cx="189.29292929292927" cy="119.811320754717" r="3" fill="blue"></circle><circle cx="197.37373737373736" cy="112.26415094339622" r="3" fill="blue"></circle><circle cx="205.45454545454547" cy="104.71698113207546" r="3" fill="blue"></circle><circle cx="213.53535353535352" cy="98.1132075471698" r="3" fill="blue"></circle><circle cx="221.6161616161616" cy="92.45283018867924" r="3" fill="blue"></circle><circle cx="229.69696969696972" cy="86.79245283018867" r="3" fill="blue"></circle><circle cx="237.77777777777777" cy="82.07547169811318" r="3" fill="blue"></circle><circle cx="245.85858585858585" cy="77.3584905660377" r="3" fill="blue"></circle><circle cx="253.93939393939394" cy="73.58490566037739" r="3" fill="blue"></circle><circle cx="262.020202020202" cy="69.81132075471702" r="3" fill="blue"></circle><circle cx="270.1010101010101" cy="66.03773584905662" r="3" fill="blue"></circle><circle cx="278.1818181818182" cy="63.20754716981132" r="3" fill="blue"></circle><circle cx="286.2626262626262" cy="60.37735849056606" r="3" fill="blue"></circle><circle cx="294.34343434343435" cy="57.54716981132077" r="3" fill="blue"></circle><circle cx="302.42424242424244" cy="55.660377358490585" r="3" fill="blue"></circle><circle cx="310.5050505050505" cy="53.77358490566037" r="3" fill="blue"></circle><circle cx="318.5858585858586" cy="52.830188679245296" r="3" fill="blue"></circle><circle cx="326.66666666666663" cy="51.88679245283018" r="3" fill="blue"></circle><circle cx="334.7474747474747" cy="50.94339622641511" r="3" fill="blue"></circle><circle cx="342.8282828282828" cy="50" r="3" fill="blue"></circle><circle cx="350.90909090909093" cy="50" r="3" fill="blue"></circle><circle cx="358.989898989899" cy="50" r="3" fill="blue"></circle><circle cx="367.07070707070704" cy="50" r="3" fill="blue"></circle><circle cx="375.1515151515151" cy="50.94339622641511" r="3" fill="blue"></circle><circle cx="383.2323232323232" cy="50.94339622641511" r="3" fill="blue"></circle><circle cx="391.3131313131313" cy="51.88679245283018" r="3" fill="blue"></circle><circle cx="399.39393939393943" cy="53.77358490566037" r="3" fill="blue"></circle><circle cx="407.4747474747475" cy="54.716981132075475" r="3" fill="blue"></circle><circle cx="415.55555555555554" cy="56.60377358490565" r="3" fill="blue"></circle><circle cx="423.6363636363636" cy="58.490566037735846" r="3" fill="blue"></circle><circle cx="431.7171717171717" cy="60.37735849056606" r="3" fill="blue"></circle><circle cx="439.7979797979798" cy="62.264150943396245" r="3" fill="blue"></circle><circle cx="447.8787878787879" cy="65.09433962264154" r="3" fill="blue"></circle><circle cx="455.959595959596" cy="67.9245283018868" r="3" fill="blue"></circle><circle cx="464.04040404040404" cy="70.75471698113208" r="3" fill="blue"></circle><circle cx="472.1212121212121" cy="73.58490566037739" r="3" fill="blue"></circle><circle cx="480.20202020202026" cy="77.3584905660377" r="3" fill="blue"></circle><circle cx="488.2828282828283" cy="80.188679245283" r="3" fill="blue"></circle><circle cx="496.3636363636363" cy="83.96226415094337" r="3" fill="blue"></circle><circle cx="504.44444444444446" cy="87.73584905660377" r="3" fill="blue"></circle><circle cx="512.5252525252524" cy="91.50943396226413" r="3" fill="blue"></circle><circle cx="520.6060606060606" cy="95.28301886792451" r="3" fill="blue"></circle><circle cx="528.6868686868687" cy="99.99999999999997" r="3" fill="blue"></circle><circle cx="536.7676767676768" cy="104.71698113207546" r="3" fill="blue"></circle><circle cx="544.8484848484849" cy="108.49056603773586" r="3" fill="blue"></circle><circle cx="552.9292929292928" cy="114.15094339622641" r="3" fill="blue"></circle><circle cx="561.010101010101" cy="118.86792452830188" r="3" fill="blue"></circle><circle cx="569.0909090909091" cy="123.58490566037736" r="3" fill="blue"></circle><circle cx="577.1717171717172" cy="129.24528301886795" r="3" fill="blue"></circle><circle cx="585.2525252525253" cy="133.9622641509434" r="3" fill="blue"></circle><circle cx="593.3333333333333" cy="139.62264150943395" r="3" fill="blue"></circle><circle cx="601.4141414141415" cy="145.2830188679245" r="3" fill="blue"></circle><circle cx="609.4949494949494" cy="150.94339622641508" r="3" fill="blue"></circle><circle cx="617.5757575757576" cy="156.60377358490564" r="3" fill="blue"></circle><circle cx="625.6565656565657" cy="163.20754716981133" r="3" fill="blue"></circle><circle cx="633.7373737373737" cy="168.8679245283019" r="3" fill="blue"></circle><circle cx="641.8181818181819" cy="175.47169811320757" r="3" fill="blue"></circle><circle cx="649.8989898989898" cy="182.07547169811318" r="3" fill="blue"></circle><circle cx="657.979797979798" cy="188.67924528301887" r="3" fill="blue"></circle><circle cx="666.060606060606" cy="195.28301886792454" r="3" fill="blue"></circle><circle cx="674.1414141414142" cy="201.88679245283018" r="3" fill="blue"></circle><circle cx="682.2222222222223" cy="209.43396226415092" r="3" fill="blue"></circle><circle cx="690.3030303030303" cy="216.0377358490566" r="3" fill="blue"></circle><circle cx="698.3838383838385" cy="223.58490566037736" r="3" fill="blue"></circle><circle cx="706.4646464646464" cy="230.188679245283" r="3" fill="blue"></circle><circle cx="714.5454545454545" cy="237.7358490566038" r="3" fill="blue"></circle><circle cx="722.6262626262626" cy="245.2830188679245" r="3" fill="blue"></circle><circle cx="730.7070707070707" cy="252.83018867924528" r="3" fill="blue"></circle><circle cx="738.7878787878789" cy="261.3207547169812" r="3" fill="blue"></circle><circle cx="746.8686868686868" cy="268.8679245283019" r="3" fill="blue"></circle><circle cx="754.949494949495" cy="277.35849056603774" r="3" fill="blue"></circle><circle cx="763.030303030303" cy="284.9056603773585" r="3" fill="blue"></circle><circle cx="771.1111111111111" cy="293.39622641509436" r="3" fill="blue"></circle><circle cx="779.1919191919192" cy="301.8867924528302" r="3" fill="blue"></circle><circle cx="787.2727272727273" cy="310.37735849056605" r="3" fill="blue"></circle><circle cx="795.3535353535354" cy="318.86792452830184" r="3" fill="blue"></circle><circle cx="803.4343434343434" cy="327.35849056603774" r="3" fill="blue"></circle><circle cx="811.5151515151515" cy="335.8490566037736" r="3" fill="blue"></circle><circle cx="819.5959595959596" cy="345.2830188679245" r="3" fill="blue"></circle><circle cx="827.6767676767676" cy="353.77358490566036" r="3" fill="blue"></circle><circle cx="835.7575757575759" cy="363.20754716981133" r="3" fill="blue"></circle><circle cx="843.8383838383838" cy="371.6981132075472" r="3" fill="blue"></circle><circle cx="851.919191919192" cy="381.1320754716981" r="3" fill="blue"></circle><circle cx="860" cy="390.566037735849" r="3" fill="blue"></circle></g></svg></div>
+        <p>From the above plot it's clear that the optimal value is located around the 37%-ish.</p>
+      </div>
+    </article>
+    <article class="row">
+      <div class="small-12 columns">
+        <h2>Interactive Simulation of Our Dating Strategy</h2>
+        <div class="main_viz" id="main_viz">
+          <div id="start_button_container" class="text-center" style="opacity: 0; height: 0px;">
+            <button data-bind="btn-start" disabled="true" style="opacity: 0;">Loading the app, please wait...</button>
+          </div>
+
+          <!-- Simulation Analysis -->
+          <article id="main_viz-simulation_analysis" data-bind="with: Experiment" class="main_viz-simulation_analysis">
+            <div class="main_viz_panel">
+              <div class="simulation_analysis-top">
+                <h4>Simulation Analysis</h4>
+                <div class="row">
+                  <div class="small-6 medium-3 column">
+                    <label class="right">Total Lifetimes:</label>
+                  </div>
+                  <div class="small-6 medium-9 column">
+                    <span data-bind="text: lifetimes" class="">1,000</span>
+                    &nbsp;&nbsp;&nbsp;&nbsp;
+                    <a class="toplinks" data-bind="click: $parent.viewGenerateDataset" href="http://localhost/#">Generate Different Dataset</a>
+                    &nbsp;&nbsp;|&nbsp;&nbsp;
+                    <a id="sa-view_generated_dataset" class="toplinks" data-bind="click: $parent.viewGeneratedDataset" href="http://localhost/#">View Generated Dataset</a>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="small-12 medium-3 column">
+                    <label class="inline right">Goals:</label>
+                  </div>
+                  <div class="small-12 medium-9 class=" "="" olumn"="">
+                    <div class="goals" data-bind="foreach: goals">
+                      <div data-bind="event: { mouseenter: showMenu, mouseleave: hideMenu }" class="goal_area">
+                        <div data-bind="css: getClass" class="goal_box color1"></div>
+                        <div data-bind="text: name" class="goal_text">top 1</div>
+                        <div data-bind="if: destructible" class="remove_goal_area">
+                          <a data-bind="click: remove" href="http://localhost/#">x</a>
+                        </div>
+                      </div>
+                    
+                      <div data-bind="event: { mouseenter: showMenu, mouseleave: hideMenu }" class="goal_area">
+                        <div data-bind="css: getClass" class="goal_box color2"></div>
+                        <div data-bind="text: name" class="goal_text">top 5%</div>
+                        <div data-bind="if: destructible" class="remove_goal_area">
+                          <a data-bind="click: remove" href="http://localhost/#">x</a>
+                        </div>
+                      </div>
+                    
+                      <div data-bind="event: { mouseenter: showMenu, mouseleave: hideMenu }" class="goal_area">
+                        <div data-bind="css: getClass" class="goal_box color3"></div>
+                        <div data-bind="text: name" class="goal_text">top 15%</div>
+                        <div data-bind="if: destructible" class="remove_goal_area">
+                          <a data-bind="click: remove" href="http://localhost/#">x</a>
+                        </div>
+                      </div>
+                    
+                      <div data-bind="event: { mouseenter: showMenu, mouseleave: hideMenu }" class="goal_area">
+                        <div data-bind="css: getClass" class="goal_box color-theory"></div>
+                        <div data-bind="text: name" class="goal_text">theory</div>
+                        <div data-bind="if: destructible" class="remove_goal_area"></div>
+                      </div>
+                    </div>
+                    <div class="add_goal_area">
+                      <div id="sa-hidden_inputs" class="hidden_inputs">
+                        <div>
+                          <input type="text" placeholder="10">
+                          <select>
+                            <option value="%">percent</option>
+                            <option value="">candidates</option>
+                          </select>
+                          <a data-bind="click: cancelAddGoal" href="http://localhost/#" class="cancel">x</a>
+                        </div>
+                      </div>
+                      <button id="sa-add_goal" data-bind="click: addGoal" class="tiny add_goal">Add</button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="simulation_analysis-content">
+                <div id="simulation_analysis-plot_area"></div>
+                <div data-bind="with: $parent.CurrentDetail, style: {top: $parent.CurrentDetail.window_top, left: $parent.CurrentDetail.window_left}" class="tooltip" id="detail_window" style="top: 100px; left: 100px;">
+                  <div class="top_area text-right">
+                    <a data-bind="click: closeDetailWindow" href="http://localhost/#">x</a>
+                  </div>
+                  <ul>  
+                    <li><span class="sa-rejection_phase">Rejection Phase:</span><span data-bind="text: rejection_phase" class="goal-value">37%</span></li>
+                  </ul>
+                  <ul data-bind="foreach: goals">
+                    <li><div data-bind="css: getClass" class="goal_box color1"></div><span data-bind="text: name" class="goal-name">top 1</span><span data-bind="text: success_rate_percent" class="goal-value">39.8%</span></li>
+                  
+                    <li><div data-bind="css: getClass" class="goal_box color2"></div><span data-bind="text: name" class="goal-name">top 5%</span><span data-bind="text: success_rate_percent" class="goal-value">39.8%</span></li>
+                  
+                    <li><div data-bind="css: getClass" class="goal_box color3"></div><span data-bind="text: name" class="goal-name">top 15%</span><span data-bind="text: success_rate_percent" class="goal-value">55.8%</span></li>
+                  
+                    <li><div data-bind="css: getClass" class="goal_box color-theory"></div><span data-bind="text: name" class="goal-name">theory</span><span data-bind="text: success_rate_percent" class="goal-value">37.1%</span></li>
+                  </ul>
+                  <div class="bottom_area">
+                    <button data-bind="click: $root.viewDetail" class="tiny">More Detail</button>
+                  </div>
+                  <div class="nub"></div>
+                </div>
+              </div>
+            </div>
+          </article>
+
+          <!-- Generate Dataset -->
+          <article id="main_viz-generate" data-bind="with: Generator" class="main_viz_panel main_viz-generate">
+            <form data-bind="submit: submitGenerateForm">
+              <h4 class="small-only-text-center">Generate Dataset</h4>
+              <div class="row">
+                <div class="small-9 medium-4 columns">
+                  <label for="a1" class="inline right">Start dating from age</label>
+                  <small data-bind="text: ageErrorText, style: {opacity: a1Error() ? 1: 0}" class="error" style="opacity: 0;">Age difference must be between 1 and 20</small>
+                </div>
+                <div class="small-3 medium-1 columns">
+                  <input id="a1" data-bind="value: a1, css: {has_error: a1Error()}" type="text" class="text-center" placeholder="18">
+                </div>
+                <div class="mid_label small-9 medium-2 columns text-center">
+                  <label for="a2" class="inline">until age</label>
+                </div>
+                <div class="small-3 medium-1 end columns">
+                  <input id="a2" data-bind="value: a2, css: {has_error: a2Error()" type="text" class="text-center" placeholder="24">
+                </div>
+              </div>
+              <div class="row">
+                <div class="small-9 medium-4 columns">
+                  <label for="p1" class="inline right">Potential partners met per year</label>
+                  <small data-bind="text: ppErrorText, style: {opacity: p1Error() ? 1: 0}" class="error" style="opacity: 0;">Number of potential partners must be between 0 and 50</small>
+                </div>
+                <div class="small-3 medium-1 columns">
+                  <input id="p1" data-bind="value: p1, css: {has_error: p1Error()" type="text" class="text-center" placeholder="0">
+                </div>
+                <div class="mid_label small-9 medium-2 columns text-center">
+                  <label for="p2" class="inline">to</label>
+                  <small data-bind="text: ppErrorText, style: {opacity: p2Error() ? 1: 0}" class="error" style="opacity: 0;">Number of potential partners must be between 0 and 50</small>
+                </div>
+                <div class="small-3 medium-1 end columns">
+                  <input id="p2" data-bind="value: p2, css: {has_error: p2Error()" type="text" class="text-center" placeholder="8">
+                </div>
+              </div>
+              <div class="row">
+                <div class="small-7 medium-4 columns">
+                  <label for="l" class="inline right">Experiment on</label>
+                  <small data-bind="text: lifetimesErrorText, style: {opacity: lifetimesError() ? 1: 0}" class="error" style="opacity: 0;">Lifetimes must be between 1 and 2,000 (sorry, my server's just not strong enough).</small>
+                </div>
+                <div class="small-3 medium-2 columns">
+                  <input id="l" data-bind="value: lifetimes, css: {has_error: lifetimesError()" type="text" class="text-center" placeholder="10000">
+                </div>
+                <div class="small-2 medium-1 end columns">
+                  <label class="inline">lifetimes.</label>
+                </div>
+              </div>
+              <div class="row">
+                <div class="small-only-right small-8 medium-3 medium-offset-7 columns">
+                  <button data-bind="enable: validated" class="expand">Generate</button>
+                </div>
+                <div class="small-4 medium-2 columns">
+                  <button data-bind="click: $root.viewSimulationAnalysis, enable: $root.Experiment.processed" class="expand secondary">Back</button>
+                </div>
+              </div>
+            </form>
+            <div id="generate-now_loading_bg" class="generate-now_loading_bg"></div>
+            <div id="generate-now_loading" class="generate-now_loading">Now Loading...</div>
+          </article>
+
+          <!-- Generated Dataset -->
+          <article id="main_viz-generated" data-bind="with: Experiment" class="main_viz_panel main_viz-generated">
+            <h4 class="small-only-text-center">View Generated Dataset</h4>
+            <div class="row">
+              <div class="small-12 columns">
+                <button data-bind="click: $parent.viewSimulationAnalysis, enable: processed" class="right tiny">Back to Data Analysis</button>
+                <p>Number of lifetimes: <span id="generated-lifetimes" data-bind="text: lifetimes">1,000</span></p>
+                <p id="generated-dating_period">Dating period from age <span id="generated-agestart" data-bind="text: a1">18</span> to <span id="generated-ageend" data-bind="text: a2">24</span></p>
+                <p id="generated-potential_partners">Number of potential partners per year: <span data-bind="text: p1">0</span> to <span id="generated-p2" data-bind="text: p2">8</span></p>
+                <div id="generated-plot_area"></div>
+              </div>
+            </div>
+            <div class="row">
+              <div class="right small-12 medium-3 columns">
+                <button data-bind="click: $parent.viewSimulationAnalysis, enable: processed" class="expand">Data Analysis</button>
+              </div>
+              <div class="left small-12 medium-4 columns">
+                <button data-bind="click: $parent.viewGenerateDataset" class="expand secondary">Generate Another Dataset</button>
+              </div>
+            </div>
+          </article>
+
+          <!-- Detail -->
+          <article id="main_viz-detail" data-bind="with: CurrentDetail" class="main_viz-detail is_active">
+            <div class="main_viz_panel">
+              <h4>Simulating Single Lifetimes</h4>
+              <div class="row">
+                <div class="small-4 medium-3 column">
+                  <label id="detail-lifetime_label" for="detail-l" class="inline right">Lifetime #:</label>
+                </div>
+                <div class="small-4 medium-2 column">
+                  <input data-bind="value: displayedLifetime" id="detail-l" type="text" value="8754">
+                  <div data-bind="click: showLifetimeSlider" class="arrows_button">
+                    <div class="arrow_up"></div>
+                    <div class="arrow_down"></div>
+                  </div>
+                </div>
+                <div class="small-4 end column">
+                  <a data-bind="click: $root.viewSimulationAnalysis" href="http://localhost/#" class="right">Back to Analysis</a>
+                  <button data-bind="click: nextRandomLifetime" class="tiny">next random</button>
+                </div>
+              </div>
+              <div class="row">
+                <div class="small-4 medium-3 column">
+                  <label for="detail-rp" class="inline right">Rejection Phase:</label>
+                </div>
+                <div class="small-4 medium-2 column">
+                  <input data-bind="value: rejection_phase" id="detail-rp" type="text" value="">
+                  <div data-bind="click: showPhaseSlider" class="arrows_button">
+                    <div class="arrow_up"></div>
+                    <div class="arrow_down"></div>
+                  </div>
+                </div>
+                <div class="small-4 end column">
+                </div>
+              </div>
+              <div class="row">
+                <div class="small-4 medium-3 column">
+                  <label class="inline right">Total Candidates:</label>
+                </div>
+                <div class="small-4 medium-2 end column">
+                  <label data-bind="text: total_candidates" class="inline">24</label>
+                </div>
+              </div>
+              <div class="row">
+                <div class="small-4 medium-3 column">
+                  <div class="goal_section goal_labels">
+                    <label for="" class="inline right small-only-text-left">Goals:</label>
+                    <div class="goal_success_rate">Success Rates:</div>
+                  </div>
+                </div>
+                <div id="goals" class="small-12 medium-9 column" data-bind="foreach: goals">
+                  <div class="goal_section goal-0" data-bind="css: idClass">
+                    <button data-bind="text: name, css: getClassAndActiveStatus, click: setActive" class="tiny color1">top 1</button>
+                    <div data-bind="text: success_rate_percent" class="goal_success_rate">39.8%</div>
+                  </div>
+                
+                  <div class="goal_section goal-1" data-bind="css: idClass">
+                    <button data-bind="text: name, css: getClassAndActiveStatus, click: setActive" class="tiny color2">top 5%</button>
+                    <div data-bind="text: success_rate_percent" class="goal_success_rate">39.8%</div>
+                  </div>
+                
+                  <div class="goal_section goal-2" data-bind="css: idClass">
+                    <button data-bind="text: name, css: getClassAndActiveStatus, click: setActive" class="tiny color3">top 15%</button>
+                    <div data-bind="text: success_rate_percent" class="goal_success_rate">55.8%</div>
+                  </div>
+                
+                  <div class="goal_section goal-3" data-bind="css: idClass">
+                    <button data-bind="text: name, css: getClassAndActiveStatus, click: setActive" class="tiny color-theory_is_active">theory</button>
+                    <div data-bind="text: success_rate_percent" class="goal_success_rate">37.1%</div>
+                  </div>
+                </div>
+              </div>
+              <div class="row">
+                <div class="small-12 column">
+                  <div id="detail-plot_area"><svg width="880" height="560"><g id="g-d" class="chart d_plot"><g class="r_phase" id="r_phase" transform="translate(60, 80)" width="300" height="320"><rect transform="translate(0,0)" width="300" height="320"></rect><text class="x2-label" text-anchor="middle" transform="translate(150,30)" style="opacity: 1;">Rejection</text><text class="x2-label" text-anchor="middle" transform="translate(150,60)" style="opacity: 1;">Phase</text></g><g class="x2Area" transform="translate(0, 400)"><rect transform="translate(60, 0)" height="60" width="165.2777777777778" class="x2 x2-0" style="fill: rgb(31, 119, 180);"></rect><rect transform="translate(226.66666666666669, 0)" height="60" width="231.94444444444446" class="x2 x2-1" style="fill: rgb(174, 199, 232);"></rect><rect transform="translate(460, 0)" height="60" width="198.6111111111112" class="x2 x2-2" style="fill: rgb(255, 127, 14);"></rect><rect transform="translate(660, 0)" height="60" width="65.27777777777783" class="x2 x2-3" style="fill: rgb(255, 187, 120);"></rect><rect transform="translate(726.6666666666667, 0)" height="60" width="131.94444444444446" class="x2 x2-4" style="fill: rgb(44, 160, 44);"></rect></g><g class="x axis" transform="translate(0,400)"><g class="tick" transform="translate(76.66666666666667,0)" style="opacity: 1;"><line y2="6" x2="0"></line><text dy=".71em" y="9" x="0" style="text-anchor: middle;">1</text></g><g class="tick" transform="translate(110.00000000000001,0)" style="opacity: 1;"><line y2="6" x2="0"></line><text dy=".71em" y="9" x="0" style="text-anchor: middle;">2</text></g><g class="tick" transform="translate(143.33333333333334,0)" style="opacity: 1;"><line y2="6" x2="0"></line><text dy=".71em" y="9" x="0" style="text-anchor: middle;">3</text></g><g class="tick" transform="translate(176.66666666666666,0)" style="opacity: 1;"><line y2="6" x2="0"></line><text dy=".71em" y="9" x="0" style="text-anchor: middle;">4</text></g><g class="tick" transform="translate(210,0)" style="opacity: 1;"><line y2="6" x2="0"></line><text dy=".71em" y="9" x="0" style="text-anchor: middle;">5</text></g><g class="tick" transform="translate(243.33333333333334,0)" style="opacity: 1;"><line y2="6" x2="0"></line><text dy=".71em" y="9" x="0" style="text-anchor: middle;">6</text></g><g class="tick" transform="translate(276.6666666666667,0)" style="opacity: 1;"><line y2="6" x2="0"></line><text dy=".71em" y="9" x="0" style="text-anchor: middle;">7</text></g><g class="tick" transform="translate(310.00000000000006,0)" style="opacity: 1;"><line y2="6" x2="0"></line><text dy=".71em" y="9" x="0" style="text-anchor: middle;">8</text></g><g class="tick" transform="translate(343.33333333333337,0)" style="opacity: 1;"><line y2="6" x2="0"></line><text dy=".71em" y="9" x="0" style="text-anchor: middle;">9</text></g><g class="tick" transform="translate(376.6666666666667,0)" style="opacity: 1;"><line y2="6" x2="0"></line><text dy=".71em" y="9" x="0" style="text-anchor: middle;">10</text></g><g class="tick" transform="translate(410.00000000000006,0)" style="opacity: 1;"><line y2="6" x2="0"></line><text dy=".71em" y="9" x="0" style="text-anchor: middle;">11</text></g><g class="tick" transform="translate(443.33333333333337,0)" style="opacity: 1;"><line y2="6" x2="0"></line><text dy=".71em" y="9" x="0" style="text-anchor: middle;">12</text></g><g class="tick" transform="translate(476.6666666666667,0)" style="opacity: 1;"><line y2="6" x2="0"></line><text dy=".71em" y="9" x="0" style="text-anchor: middle;">13</text></g><g class="tick" transform="translate(510.00000000000006,0)" style="opacity: 1;"><line y2="6" x2="0"></line><text dy=".71em" y="9" x="0" style="text-anchor: middle;">14</text></g><g class="tick" transform="translate(543.3333333333334,0)" style="opacity: 1;"><line y2="6" x2="0"></line><text dy=".71em" y="9" x="0" style="text-anchor: middle;">15</text></g><g class="tick" transform="translate(576.6666666666666,0)" style="opacity: 1;"><line y2="6" x2="0"></line><text dy=".71em" y="9" x="0" style="text-anchor: middle;">16</text></g><g class="tick" transform="translate(610,0)" style="opacity: 1;"><line y2="6" x2="0"></line><text dy=".71em" y="9" x="0" style="text-anchor: middle;">17</text></g><g class="tick" transform="translate(643.3333333333334,0)" style="opacity: 1;"><line y2="6" x2="0"></line><text dy=".71em" y="9" x="0" style="text-anchor: middle;">18</text></g><g class="tick" transform="translate(676.6666666666666,0)" style="opacity: 1;"><line y2="6" x2="0"></line><text dy=".71em" y="9" x="0" style="text-anchor: middle;">19</text></g><g class="tick" transform="translate(710,0)" style="opacity: 1;"><line y2="6" x2="0"></line><text dy=".71em" y="9" x="0" style="text-anchor: middle;">20</text></g><g class="tick" transform="translate(743.3333333333334,0)" style="opacity: 1;"><line y2="6" x2="0"></line><text dy=".71em" y="9" x="0" style="text-anchor: middle;">21</text></g><g class="tick" transform="translate(776.6666666666666,0)" style="opacity: 1;"><line y2="6" x2="0"></line><text dy=".71em" y="9" x="0" style="text-anchor: middle;">22</text></g><g class="tick" transform="translate(810,0)" style="opacity: 1;"><line y2="6" x2="0"></line><text dy=".71em" y="9" x="0" style="text-anchor: middle;">23</text></g><g class="tick" transform="translate(843.3333333333334,0)" style="opacity: 1;"><line y2="6" x2="0"></line><text dy=".71em" y="9" x="0" style="text-anchor: middle;">24</text></g><path class="domain" d="M60,6V0H860V6"></path></g><text class="x_label axis_label" text-anchor="middle" transform="translate(443.33333333333337,485)">Candidates</text><g class="y axis" transform="translate(57,0)"><g class="tick" transform="translate(0,372.44480128462465)" style="opacity: 1;"><line x2="-6" y2="0"></line><text dy=".32em" x="-9" y="0" style="text-anchor: end;">-2.5</text></g><g class="tick" transform="translate(0,340.32918506623844)" style="opacity: 1;"><line x2="-6" y2="0"></line><text dy=".32em" x="-9" y="0" style="text-anchor: end;">-2.0</text></g><g class="tick" transform="translate(0,308.21356884785223)" style="opacity: 1;"><line x2="-6" y2="0"></line><text dy=".32em" x="-9" y="0" style="text-anchor: end;">-1.5</text></g><g class="tick" transform="translate(0,276.097952629466)" style="opacity: 1;"><line x2="-6" y2="0"></line><text dy=".32em" x="-9" y="0" style="text-anchor: end;">-1.0</text></g><g class="tick" transform="translate(0,243.98233641107987)" style="opacity: 1;"><line x2="-6" y2="0"></line><text dy=".32em" x="-9" y="0" style="text-anchor: end;">-0.5</text></g><g class="tick" transform="translate(0,211.8667201926937)" style="opacity: 1;"><line x2="-6" y2="0"></line><text dy=".32em" x="-9" y="0" style="text-anchor: end;">0.0</text></g><g class="tick" transform="translate(0,179.7511039743075)" style="opacity: 1;"><line x2="-6" y2="0"></line><text dy=".32em" x="-9" y="0" style="text-anchor: end;">0.5</text></g><g class="tick" transform="translate(0,147.6354877559213)" style="opacity: 1;"><line x2="-6" y2="0"></line><text dy=".32em" x="-9" y="0" style="text-anchor: end;">1.0</text></g><g class="tick" transform="translate(0,115.51987153753512)" style="opacity: 1;"><line x2="-6" y2="0"></line><text dy=".32em" x="-9" y="0" style="text-anchor: end;">1.5</text></g><g class="tick" transform="translate(0,83.40425531914892)" style="opacity: 1;"><line x2="-6" y2="0"></line><text dy=".32em" x="-9" y="0" style="text-anchor: end;">2.0</text></g><path class="domain" d="M-6,80H0V400H-6"></path></g><text class="y_label axis_label" text-anchor="middle" transform="rotate(270), translate(-240,20)">Compatibility Score</text><text class="plot_title" text-anchor="middle" transform="translate(460,20)">Lifetime Simulation</text><text class="x2-label" text-anchor="middle" transform="translate(142.6388888888889,442)">18</text><text class="x2-label" text-anchor="middle" transform="translate(342.6388888888889,442)">19</text><text class="x2-label" text-anchor="middle" transform="translate(559.3055555555557,442)">20</text><text class="x2-label" text-anchor="middle" transform="translate(692.6388888888889,442)">21</text><text class="x2-label" text-anchor="middle" transform="translate(792.6388888888889,442)">22</text><text class="x-label" text-anchor="end" transform="translate(50,416)"># :</text><text class="x2-label" text-anchor="end" transform="translate(43,435)">Age</text><text class="x2-label" text-anchor="end" transform="translate(43,452)">Met</text><text class="x2-label" text-anchor="end" transform="translate(50,442)">:</text><g class="bar" transform="translate(60,285.1545715332031)"><g class="marker unchosen" transform="translate(-7,-49)" fill="red" style="opacity: 1;">
+		<path xmlns="http://www.w3.org/2000/svg" d="M24,11.75c-6.755,0-12.25,5.495-12.25,12.25S17.245,36.25,24,36.25c6.755,0,12.25-5.495,12.25-12.25    S30.755,11.75,24,11.75z M24,33c-4.963,0-9-4.037-9-9s4.037-9,9-9c4.963,0,9,4.037,9,9S28.963,33,24,33z M29.646,21.16    l-2.843,2.843l2.839,2.839c0.195,0.195,0.195,0.514,0,0.707l-2.094,2.094c-0.193,0.195-0.512,0.195-0.707,0l-2.839-2.839    l-2.843,2.843c-0.193,0.193-0.512,0.193-0.707,0l-2.094-2.094c-0.193-0.195-0.193-0.514,0-0.707l2.843-2.843l-2.845-2.845    c-0.195-0.195-0.195-0.514,0-0.707l2.094-2.094c0.193-0.195,0.512-0.195,0.707,0l2.845,2.845l2.843-2.843    c0.193-0.193,0.512-0.193,0.707,0l2.094,2.094C29.84,20.648,29.84,20.967,29.646,21.16z"></path>
+	</g><rect height="114.845443596949" width="31.944444444444446"></rect></g><g class="bar" transform="translate(93.33333587646484,219.0606231689453)"><g class="marker unchosen" transform="translate(-7,-49)" fill="red" style="opacity: 1;">
+		<path xmlns="http://www.w3.org/2000/svg" d="M24,11.75c-6.755,0-12.25,5.495-12.25,12.25S17.245,36.25,24,36.25c6.755,0,12.25-5.495,12.25-12.25    S30.755,11.75,24,11.75z M24,33c-4.963,0-9-4.037-9-9s4.037-9,9-9c4.963,0,9,4.037,9,9S28.963,33,24,33z M29.646,21.16    l-2.843,2.843l2.839,2.839c0.195,0.195,0.195,0.514,0,0.707l-2.094,2.094c-0.193,0.195-0.512,0.195-0.707,0l-2.839-2.839    l-2.843,2.843c-0.193,0.193-0.512,0.193-0.707,0l-2.094-2.094c-0.193-0.195-0.193-0.514,0-0.707l2.843-2.843l-2.845-2.845    c-0.195-0.195-0.195-0.514,0-0.707l2.094-2.094c0.193-0.195,0.512-0.195,0.707,0l2.845,2.845l2.843-2.843    c0.193-0.193,0.512-0.193,0.707,0l2.094,2.094C29.84,20.648,29.84,20.967,29.646,21.16z"></path>
+	</g><rect height="180.93938177438778" width="31.944444444444446"></rect></g><g class="bar" transform="translate(126.66666412353516,263.5728759765625)"><g class="marker unchosen" transform="translate(-7,-49)" fill="red" style="opacity: 1;">
+		<path xmlns="http://www.w3.org/2000/svg" d="M24,11.75c-6.755,0-12.25,5.495-12.25,12.25S17.245,36.25,24,36.25c6.755,0,12.25-5.495,12.25-12.25    S30.755,11.75,24,11.75z M24,33c-4.963,0-9-4.037-9-9s4.037-9,9-9c4.963,0,9,4.037,9,9S28.963,33,24,33z M29.646,21.16    l-2.843,2.843l2.839,2.839c0.195,0.195,0.195,0.514,0,0.707l-2.094,2.094c-0.193,0.195-0.512,0.195-0.707,0l-2.839-2.839    l-2.843,2.843c-0.193,0.193-0.512,0.193-0.707,0l-2.094-2.094c-0.193-0.195-0.193-0.514,0-0.707l2.843-2.843l-2.845-2.845    c-0.195-0.195-0.195-0.514,0-0.707l2.094-2.094c0.193-0.195,0.512-0.195,0.707,0l2.845,2.845l2.843-2.843    c0.193-0.193,0.512-0.193,0.707,0l2.094,2.094C29.84,20.648,29.84,20.967,29.646,21.16z"></path>
+	</g><rect height="136.42713769570457" width="31.944444444444446"></rect></g><g class="bar" transform="translate(160,236.78843688964844)"><g class="marker unchosen" transform="translate(-7,-49)" fill="red" style="opacity: 1;">
+		<path xmlns="http://www.w3.org/2000/svg" d="M24,11.75c-6.755,0-12.25,5.495-12.25,12.25S17.245,36.25,24,36.25c6.755,0,12.25-5.495,12.25-12.25    S30.755,11.75,24,11.75z M24,33c-4.963,0-9-4.037-9-9s4.037-9,9-9c4.963,0,9,4.037,9,9S28.963,33,24,33z M29.646,21.16    l-2.843,2.843l2.839,2.839c0.195,0.195,0.195,0.514,0,0.707l-2.094,2.094c-0.193,0.195-0.512,0.195-0.707,0l-2.839-2.839    l-2.843,2.843c-0.193,0.193-0.512,0.193-0.707,0l-2.094-2.094c-0.193-0.195-0.193-0.514,0-0.707l2.843-2.843l-2.845-2.845    c-0.195-0.195-0.195-0.514,0-0.707l2.094-2.094c0.193-0.195,0.512-0.195,0.707,0l2.845,2.845l2.843-2.843    c0.193-0.193,0.512-0.193,0.707,0l2.094,2.094C29.84,20.648,29.84,20.967,29.646,21.16z"></path>
+	</g><rect height="163.21156162183865" width="31.944444444444446"></rect></g><g class="bar" transform="translate(193.3333282470703,238.4584503173828)"><g class="marker unchosen" transform="translate(-7,-49)" fill="red" style="opacity: 1;">
+		<path xmlns="http://www.w3.org/2000/svg" d="M24,11.75c-6.755,0-12.25,5.495-12.25,12.25S17.245,36.25,24,36.25c6.755,0,12.25-5.495,12.25-12.25    S30.755,11.75,24,11.75z M24,33c-4.963,0-9-4.037-9-9s4.037-9,9-9c4.963,0,9,4.037,9,9S28.963,33,24,33z M29.646,21.16    l-2.843,2.843l2.839,2.839c0.195,0.195,0.195,0.514,0,0.707l-2.094,2.094c-0.193,0.195-0.512,0.195-0.707,0l-2.839-2.839    l-2.843,2.843c-0.193,0.193-0.512,0.193-0.707,0l-2.094-2.094c-0.193-0.195-0.193-0.514,0-0.707l2.843-2.843l-2.845-2.845    c-0.195-0.195-0.195-0.514,0-0.707l2.094-2.094c0.193-0.195,0.512-0.195,0.707,0l2.845,2.845l2.843-2.843    c0.193-0.193,0.512-0.193,0.707,0l2.094,2.094C29.84,20.648,29.84,20.967,29.646,21.16z"></path>
+	</g><rect height="161.54154957848252" width="31.944444444444446"></rect></g><g class="bar" transform="translate(226.6666717529297,242.56924438476562)"><g class="marker unchosen" transform="translate(-7,-49)" fill="red" style="opacity: 1;">
+		<path xmlns="http://www.w3.org/2000/svg" d="M24,11.75c-6.755,0-12.25,5.495-12.25,12.25S17.245,36.25,24,36.25c6.755,0,12.25-5.495,12.25-12.25    S30.755,11.75,24,11.75z M24,33c-4.963,0-9-4.037-9-9s4.037-9,9-9c4.963,0,9,4.037,9,9S28.963,33,24,33z M29.646,21.16    l-2.843,2.843l2.839,2.839c0.195,0.195,0.195,0.514,0,0.707l-2.094,2.094c-0.193,0.195-0.512,0.195-0.707,0l-2.839-2.839    l-2.843,2.843c-0.193,0.193-0.512,0.193-0.707,0l-2.094-2.094c-0.193-0.195-0.193-0.514,0-0.707l2.843-2.843l-2.845-2.845    c-0.195-0.195-0.195-0.514,0-0.707l2.094-2.094c0.193-0.195,0.512-0.195,0.707,0l2.845,2.845l2.843-2.843    c0.193-0.193,0.512-0.193,0.707,0l2.094,2.094C29.84,20.648,29.84,20.967,29.646,21.16z"></path>
+	</g><rect height="157.4307507025291" width="31.944444444444446"></rect></g><g class="bar" transform="translate(260,292.4769287109375)"><g class="marker unchosen" transform="translate(-7,-49)" fill="red" style="opacity: 1;">
+		<path xmlns="http://www.w3.org/2000/svg" d="M24,11.75c-6.755,0-12.25,5.495-12.25,12.25S17.245,36.25,24,36.25c6.755,0,12.25-5.495,12.25-12.25    S30.755,11.75,24,11.75z M24,33c-4.963,0-9-4.037-9-9s4.037-9,9-9c4.963,0,9,4.037,9,9S28.963,33,24,33z M29.646,21.16    l-2.843,2.843l2.839,2.839c0.195,0.195,0.195,0.514,0,0.707l-2.094,2.094c-0.193,0.195-0.512,0.195-0.707,0l-2.839-2.839    l-2.843,2.843c-0.193,0.193-0.512,0.193-0.707,0l-2.094-2.094c-0.193-0.195-0.193-0.514,0-0.707l2.843-2.843l-2.845-2.845    c-0.195-0.195-0.195-0.514,0-0.707l2.094-2.094c0.193-0.195,0.512-0.195,0.707,0l2.845,2.845l2.843-2.843    c0.193-0.193,0.512-0.193,0.707,0l2.094,2.094C29.84,20.648,29.84,20.967,29.646,21.16z"></path>
+	</g><rect height="107.52308309915696" width="31.944444444444446"></rect></g><g class="bar" transform="translate(293.3333435058594,220.08831787109375)"><g class="marker unchosen" transform="translate(-7,-49)" fill="red" style="opacity: 1;">
+		<path xmlns="http://www.w3.org/2000/svg" d="M24,11.75c-6.755,0-12.25,5.495-12.25,12.25S17.245,36.25,24,36.25c6.755,0,12.25-5.495,12.25-12.25    S30.755,11.75,24,11.75z M24,33c-4.963,0-9-4.037-9-9s4.037-9,9-9c4.963,0,9,4.037,9,9S28.963,33,24,33z M29.646,21.16    l-2.843,2.843l2.839,2.839c0.195,0.195,0.195,0.514,0,0.707l-2.094,2.094c-0.193,0.195-0.512,0.195-0.707,0l-2.839-2.839    l-2.843,2.843c-0.193,0.193-0.512,0.193-0.707,0l-2.094-2.094c-0.193-0.195-0.193-0.514,0-0.707l2.843-2.843l-2.845-2.845    c-0.195-0.195-0.195-0.514,0-0.707l2.094-2.094c0.193-0.195,0.512-0.195,0.707,0l2.845,2.845l2.843-2.843    c0.193-0.193,0.512-0.193,0.707,0l2.094,2.094C29.84,20.648,29.84,20.967,29.646,21.16z"></path>
+	</g><rect height="179.91168205539944" width="31.944444444444446"></rect></g><g class="bar" transform="translate(326.6666564941406,247.9004364013672)"><g class="marker unchosen" transform="translate(-7,-49)" fill="red" style="opacity: 1;">
+		<path xmlns="http://www.w3.org/2000/svg" d="M24,11.75c-6.755,0-12.25,5.495-12.25,12.25S17.245,36.25,24,36.25c6.755,0,12.25-5.495,12.25-12.25    S30.755,11.75,24,11.75z M24,33c-4.963,0-9-4.037-9-9s4.037-9,9-9c4.963,0,9,4.037,9,9S28.963,33,24,33z M29.646,21.16    l-2.843,2.843l2.839,2.839c0.195,0.195,0.195,0.514,0,0.707l-2.094,2.094c-0.193,0.195-0.512,0.195-0.707,0l-2.839-2.839    l-2.843,2.843c-0.193,0.193-0.512,0.193-0.707,0l-2.094-2.094c-0.193-0.195-0.193-0.514,0-0.707l2.843-2.843l-2.845-2.845    c-0.195-0.195-0.195-0.514,0-0.707l2.094-2.094c0.193-0.195,0.512-0.195,0.707,0l2.845,2.845l2.843-2.843    c0.193-0.193,0.512-0.193,0.707,0l2.094,2.094C29.84,20.648,29.84,20.967,29.646,21.16z"></path>
+	</g><rect height="152.09955841027698" width="31.944444444444446"></rect></g><g class="bar" transform="translate(360,400)"><g class="marker rejected" transform="translate(-7,-36.2420654296875)" fill="red" style="opacity: 1;">
+		<path xmlns="http://www.w3.org/2000/svg" d="M27.195,23.996l5.648-5.648c0.221-0.222,0.221-0.585,0-0.806l-2.383-2.383c-0.221-0.221-0.583-0.221-0.805,0l-5.649,5.649    l-5.653-5.652c-0.222-0.221-0.584-0.221-0.805,0l-2.383,2.384c-0.222,0.22-0.222,0.582,0,0.806l5.652,5.651l-5.65,5.65    c-0.22,0.22-0.22,0.583,0,0.805l2.383,2.383c0.222,0.22,0.586,0.22,0.806,0l5.649-5.649l5.646,5.647    c0.221,0.221,0.585,0.221,0.806,0l2.384-2.384c0.22-0.22,0.22-0.583,0-0.806L27.195,23.996z"></path>
+	</g><rect height="0" width="31.944444444444446"></rect></g><g class="bar" transform="translate(393.3333435058594,80)"><g class="marker chosen" transform="translate(-7,-46.85791015625)" fill="green" style="opacity: 1;">
+		<path xmlns="http://www.w3.org/2000/svg" d="M35.008,18.27c0.196,0.193,0.197,0.51,0.003,0.705L20.536,33.448c-0.194,0.194-0.513,0.194-0.707,0l-3.245-3.246    c-0.195-0.194-0.514-0.513-0.707-0.707l-3.906-3.907c-0.195-0.193-0.195-0.512,0-0.707l3.246-3.246    c0.194-0.194,0.513-0.194,0.707,0l3.906,3.906c0.195,0.194,0.514,0.194,0.707,0L31.03,15.049c0.194-0.194,0.514-0.195,0.71-0.002    L35.008,18.27z"></path>
+	</g><g class="marker top" transform="translate(-7,-49.81201171875)" fill="yellow" style="opacity: 1;">
+		<path xmlns="http://www.w3.org/2000/svg" d="M36.906,21h-9.438l-2.922-9l-2.971,9H12l7.757,5.455l-2.913,8.862l7.648-5.564l7.679,5.508l-2.909-8.85L36.906,21z"></path>
+	</g><rect height="320" width="31.944444444444446" class="focus"></rect></g><g class="bar" transform="translate(426.6666564941406,141.91891479492188)"><rect height="258.08109193095146" width="31.944444444444446"></rect></g><g class="bar" transform="translate(460,236.01766967773438)"><rect height="163.98233641107987" width="31.944444444444446"></rect></g><g class="bar" transform="translate(493.3333435058594,210.64633178710938)"><rect height="189.35367322360497" width="31.944444444444446"></rect></g><g class="bar" transform="translate(526.6666870117188,287.1457214355469)"><rect height="112.85427539140909" width="31.944444444444446"></rect></g><g class="bar" transform="translate(560,102.93054962158203)"><rect height="297.0694500200722" width="31.944444444444446"></rect></g><g class="bar" transform="translate(593.3333129882812,90.02007293701172)"><rect height="309.97992773986357" width="31.944444444444446"></rect></g><g class="bar" transform="translate(626.6666870117188,201.78240966796875)"><rect height="198.21758329987958" width="31.944444444444446"></rect></g><g class="bar" transform="translate(660,146.09393310546875)"><rect height="253.9060618225612" width="31.944444444444446"></rect></g><g class="bar" transform="translate(693.3333129882812,200.62625122070312)"><rect height="199.3737454837415" width="31.944444444444446"></rect></g><g class="bar" transform="translate(726.6666870117188,297.7438659667969)"><rect height="102.25612203934162" width="31.944444444444446"></rect></g><g class="bar" transform="translate(760,238.32998657226562)"><rect height="161.67001204335608" width="31.944444444444446"></rect></g><g class="bar" transform="translate(793.3333129882812,203.38819885253906)"><rect height="196.61180248896028" width="31.944444444444446"></rect></g><g class="bar" transform="translate(826.6666870117188,241.09193420410156)"><rect height="158.90806904857487" width="31.944444444444446"></rect></g></g></svg></div>
+                </div>
+              </div>
+            </div>
+          </article>
+        </div>
+      </div>
+    </article>
+    <article class="row">
+      <div class="small-12 columns">
+        <h2>Final Note</h2>
+        <p>
+          Apart from the Mathematics, I hope nobody takes too seriously the idea proposed in this project. While the numbers made sense, this strategy made much assumptions about how love works. For one, the fact that compatibility score does actually gets higher the longer you are together, thus ending up with even a suboptimal person early might be better than waiting too long for the prince/ss charming.
+        </p>
+        <p>
+          Note also that the simulation method here can be used in other fields with similar problems. Also known as <b>Monte Carlo Analysis</b>, this kind of simulation combined with other strategies such as genetic algorithm is often used in decision making in finance related sector.
+        </p>
+        <p>
+          With this project I hope I have demonstrated how the principles in Mathematics can be used, not necessarily in a too abstract fashion, in building a workable model of the real world and derive a strategy from it.
+        </p>
+        <div class="panel callout radius">
+          Did you enjoy (or despise) this article? Please do share your thoughts by <a href="http://goo.gl/forms/5X3hO6CGFl" target="_blank" rel="nofollow">answering some questions in this form</a> and I will be forever thankful. 
+        </div>
+      </div>
+    </article>
+    <div class="row footer text-center">
+      <p>This project was built for my final submission in <a href="http://udacity.com/" target="_blank" rel="nofollow">Udacity.com</a>.<br>If you are looking to build a project with similar complexities they have the best resources to learn from.</p>
+      <hr>
+      <div class="trademark">
+        <a href="http://teguhwijaya.com/" target="_blank">Jay Teguh Wijaya</a> - 2015
+      </div>
+    </div>
+    <script src="./v0_files/data.js"></script>
+    <script src="./v0_files/introViz.js"></script>
+    <script src="./v0_files/generatedViz.js"></script>
+    <script src="./v0_files/mainViz.js"></script>
+    <script src="./v0_files/detailVizHelpers.js"></script>
+    <script src="./v0_files/detailViz.js"></script>
+    <script src="./v0_files/simulationAnalysis.js"></script>
+    <script src="./v0_files/detail.js"></script>
+    <script src="./v0_files/generate.js"></script>
+    <script src="./v0_files/generated.js"></script>
+    <script src="./v0_files/app.js"></script>
+    <script src="./v0_files/tour.js"></script>
+    <script src="./v0_files/images.js"></script>
+  
+<div class="d3-tip" style="position: absolute; opacity: 0;"></div><div class="d3-tip n" style="position: absolute; opacity: 0; pointer-events: none; top: 2961.58px; left: 728.306px;"><strong>Candidate #</strong><span>17</span><br><strong>Score:</strong> <span style="color:red">189.7</span> <span>(96.87%)</span></div></body></html>

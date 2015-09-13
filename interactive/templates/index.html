@@ -130,10 +130,15 @@ P(5) = 4/10 * (1/4 + 1/5 + 1/6 + 1/7 + 1/8 + 1/9)
                   <div class="small-12 medium-3 column">
                     <label class="inline right">Goals:</label>
                   </div>
-                  <div class="small-12 medium-9 column">
+                  <div class="small-12 medium-9 class="" olumn">
                     <div class="goals" data-bind="foreach: goals">
-                      <div data-bind="css: getClass" class="goal_box"></div>
-                      <div data-bind="text: name" class="goal_text">Top 1</div>
+                      <div data-bind="event: { mouseenter: showMenu, mouseleave: hideMenu }" class="goal_area">
+                        <div data-bind="css: getClass" class="goal_box"></div>
+                        <div data-bind="text: name" class="goal_text">Top 1</div>
+                        <div data-bind="if: destructible" class="remove_goal_area">
+                          <a data-bind="click: remove" href="#">x</a>
+                        </div>
+                      </div>
                     </div>
                     <div class="add_goal_area">
                       <div id="sa-hidden_inputs" class="hidden_inputs">
@@ -143,7 +148,7 @@ P(5) = 4/10 * (1/4 + 1/5 + 1/6 + 1/7 + 1/8 + 1/9)
                             <option value="%">percent</option>
                             <option value="">candidates</option>
                           </select>
-                          <a data-bind="click: cancelAddGoal" href="#" class="cancel">X</a>
+                          <a data-bind="click: cancelAddGoal" href="#" class="cancel">x</a>
                         </div>
                       </div>
                       <button id="sa-add_goal" data-bind="click: addGoal" class="tiny add_goal">Add</button>
@@ -155,7 +160,7 @@ P(5) = 4/10 * (1/4 + 1/5 + 1/6 + 1/7 + 1/8 + 1/9)
                 <div id="simulation_analysis-plot_area"></div>
                 <div data-bind="with: $parent.CurrentDetail, style: {top: $parent.CurrentDetail.window_top, left: $parent.CurrentDetail.window_left}" class="tooltip" id="detail_window">
                   <div class="top_area text-right">
-                    <a data-bind="click: closeDetailWindow" href="#">X</a>
+                    <a data-bind="click: closeDetailWindow" href="#">x</a>
                   </div>
                   <ul>  
                     <li><span class="sa-rejection_phase">Rejection Phase:</span><span data-bind="text: rejection_phase" class="goal-value"></li>

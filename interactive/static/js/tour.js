@@ -4,7 +4,7 @@ var app = app || {};
 (function() {
   app.getTourSettings = function() {
     return {
-      debug: true,
+      // debug: true,
       storage: false,
       orphan: true,
       steps: [

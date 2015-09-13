@@ -177,8 +177,7 @@ var app = app || {};
         });
       d3.selectAll('#g-sa .hidden_circles circle')
         .classed('active', false)
-        .transition()
-        .attr('r', 0);
+        .style('opacity', 0);
     };
 
     this.showPhaseSlider = function(vm, e) {

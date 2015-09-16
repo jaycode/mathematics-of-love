@@ -48,7 +48,19 @@ var app = app || {};
       if (goal.destructible()) {
         var detailGoal = _.find(app.vm.CurrentDetail.goals(), function(g) {return g.name() == goal.name();});
         app.vm.CurrentDetail.goals.remove(detailGoal);
+        var changeActive = false;
+        if (goal.active()) {
+          changeActive = true;
+        }
         app.vm.Experiment.goals.remove(goal);
+        if (changeActive) {
+          app.vm.Experiment.goals()[0].active(true);
+        }
+        app.helpers.showLoading('#simulation_analysis-plot_area')
+          d3.json(app.helpers.experimentUrl(), function(data1) {
+            app.simulationAnalysis.updateExperiment(data1.processed);
+            app.simulationAnalysis.redrawPlot();
+          });
       }
     }
   }
@@ -77,16 +89,19 @@ var app = app || {};
       if (d3.select('#sa-hidden_inputs').classed('active')) {
         var value = parseInt(d3.select('#sa-hidden_inputs input').property('value'));
         var type = d3.select('#sa-hidden_inputs select').property('value');
-        if (app.simulationAnalysis.validateGoal(value, type)) { 
+        if (app.simulationAnalysis.validateGoal(value, type)) {
+
+          var newId = _.max(self.goals(), function(goal) {return goal.id();}).id() + 1;
           data = {
             name: 'top-'+value+type,
             active: true,
-            color_id: self.goals().length,
+            color_id: newId,
             destructible: true,
+            id: newId
           }
-          self.goals.push(new app.Goal(data));
-          app.vm.CurrentDetail.goals.push(new app.DetailGoal(app.vm, {
-            goal_id: self.goals().length - 1,
+          self.goals.unshift(new app.Goal(data));
+          app.vm.CurrentDetail.goals.unshift(new app.DetailGoal(app.vm, {
+            goal_id: newId,
             active: false,
             success_rate: 0,
             data: []
@@ -144,7 +159,7 @@ var app = app || {};
       else {
         goalval[1] = '';
       }
-      if ( goalval[0] == value && goalval[1] == type) {
+      if ( goalval[0] == value && goalval[1] == type && goal.name() != 'theory') {
         errors.push("Value " + goal.name() + " already exists. Try another one.");
       }
     });

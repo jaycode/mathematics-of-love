@@ -101,7 +101,7 @@ var app = app || {};
           .attr('height', self.x2Height)
           .attr('width', 0)
           .attr('class', 'x2 x2-'+i)
-          .style('fill', app.helpers.pickColor(i))
+          // .style('fill', app.helpers.pickColor(i))
           .transition()
             .attr('width', areaWidth);
 
@@ -169,8 +169,13 @@ var app = app || {};
     if (id > 0) {
       var x = self.marginLeft;
       var y = self.marginTop;
-      var scaled = self.xScale(id+1);
-      var width = scaled - x;
+      if (id == self.data.length) {
+        var width = self.width;
+      }
+      else {
+        var scaled = self.xScale(id+1);
+        var width = scaled - x;
+      }
       var height = self.height - self.marginTop;
       var area = d3.select(self.chartSelector)
         .insert('g', ':first-child')

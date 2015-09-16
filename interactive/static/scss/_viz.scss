@@ -210,6 +210,11 @@
     .color-theory {
       stroke-width: 3px !important;
     }
+    .hidden_rects {
+      rect {
+        opacity: 0;
+      }
+    }
   }
   .tooltip {
     background: rgba(0, 0, 0, 0.8);
@@ -276,7 +281,7 @@
       font-size: $h4-font-size;
     }
     rect {
-      fill: $orange;
+      fill: #AAA;
     }
   }
 }

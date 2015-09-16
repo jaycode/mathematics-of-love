@@ -219,8 +219,8 @@ var app = app || {};
             app.vm.CurrentDetail._rejection_phase()
           )
           .orientation("vertical")
-          .min(1)
-          .max(100)
+          .min(0)
+          .max(99)
           .on('slide', function(evt, value) {
             app.vm.CurrentDetail.rejection_phase(parseInt(value));
           })

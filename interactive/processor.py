@@ -6,16 +6,20 @@ from itertools import groupby
 def compute_ost_theory(n):
   rows = np.zeros(n)
   for i in range(0,n):
-    # Python's base 0 made it much complicated.
-    index = i+1
+    # i = 0 is special case where we would expect 1/n.
+    if (i == 0):
+      val = 1.0/float(n)
+    else:
+      # Python's base 0 made it much complicated.
+      index = float(i+1)
 
-    e_r = np.arange((n+1)-index).astype(float)
-    e_r = 1 / (e_r + index - 1)
-    e_r[np.isinf(e_r)] = 0
-    e = np.sum(e_r)
-    val = ((float(index) - 1) / float(n)) * e
-    if val < 0:
-      val = 0
+      e_r = np.arange((n+1)-index).astype(float)
+      e_r = 1 / (e_r + index - 1)
+      e_r[np.isinf(e_r)] = 0
+      e = np.sum(e_r)
+      val = ((float(index) - 1) / float(n)) * e
+      if val < 0:
+        val = 0
     rows[i] = val
   return(np.round(rows, 3))
 

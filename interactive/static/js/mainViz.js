@@ -79,7 +79,8 @@ var app = app || {};
         return yScale(d);
       });
 
-    data.goals.forEach(function(goal) {
+
+    data.goals.forEach(function(goal, lineId) {
       var path = d3.select('#g-sa')
         .append('svg:path')
           .attr('class', 'path-main ' + app.data.settings.colors[goal.color_id]['class'])
@@ -95,6 +96,20 @@ var app = app || {};
           .duration(1000)
           .ease("linear")
           .attr("stroke-dashoffset", 0);
+
+      // Create invisible rects for graph interaction (only need 1).
+      if (lineId == 0) {
+        d3.select('#g-sa')
+          .append('g')
+            .attr('class', 'hidden_rects')      
+              .selectAll('rect')
+              .data(goal['data'])
+              .enter()
+              .append('rect')
+              .attr('transform', function(d, i) { return 'translate('+xScale(i)+', '+0+')';})
+              .attr('width', (xScale(1) - xScale(0)))
+              .attr('height', height)
+      }
 
       // Create invisible circles for graph interaction.
       d3.select('#g-sa')
@@ -126,14 +141,21 @@ var app = app || {};
     d3.select(selector + ' svg').call(tip);
 
     // Graph interaction
-    d3.selectAll('#g-sa circle')
+    d3.selectAll('#g-sa .hidden_circles circle')
+      .on('mouseover', tip.show)
+      .on('mouseout', tip.hide);
+
+    d3.selectAll('#g-sa .hidden_rects rect')
       .on('mouseover', function(yValue, elementId) {
+        var self = this;
         var closestId = elementId % 100;
-        tip.show(yValue, elementId);
+
+        // tip.show(yValue, elementId);
         // Update CurrentDetail. Tooltip should automatically shows
         // thanks to KnockoutJs.
         app.vm.CurrentDetail.rejection_phase(closestId);
-        d3.select('#detail_window').classed('show-block', true);
+        d3.select('#detail_window')
+          .classed('show-block', true);
 
         // Get the bottom-most y position and draw tooltip underneath it.
         var allY = [];
@@ -141,8 +163,12 @@ var app = app || {};
           allY[allY.length] = g.data[closestId];
         });
         var ymin = d3.min(allY);
-        app.vm.CurrentDetail.window_top((yScale(ymin)+15) + 'px');
-        app.vm.CurrentDetail.window_left((xScale(closestId)-18) + 'px');
+        app.vm.CurrentDetail.window_left((xScale(closestId)-10) + 'px');
+
+        // Following the mouse (not cool).
+        // var coordinates = d3.mouse(self);
+        // app.vm.CurrentDetail.window_top((coordinates[1]+30) + 'px');
+        app.vm.CurrentDetail.window_top((yScale(ymin) + 40) + 'px');
 
         // Animate the circles.
         // Initially I used radius animation, but animation lags so much
@@ -164,8 +190,7 @@ var app = app || {};
           //   //   .attr('r', radius);
           // });
 
-      })
-      .on('mouseout', tip.hide);
+      });
 
     if (typeof(callback) == 'function') {
       callback();

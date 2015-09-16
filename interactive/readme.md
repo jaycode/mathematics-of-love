@@ -132,6 +132,7 @@ Improved the app based on feedback from the wonderful Udacity community:
 - Less colors.
 - Updated mouse hover behavior in main visualization.
 - Fixed edge case of rejecting 0 candidate.
+- Corrected grammatical and spelling errors, and typos.
 
 ## Feedback
 

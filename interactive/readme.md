@@ -125,6 +125,14 @@ An even bigger problem came up. Another one complained the app was non-existent.
 
 Luckily I only have distributed the link to my Facebook friends. So I browsed around, and found out [a couple of alternatives for the web server](http://stackoverflow.com/questions/14814201/can-i-serve-multiple-clients-using-just-flask-app-run-as-standalone). I ended up using [Tornado in tandem with Flask](http://stackoverflow.com/questions/8143141/using-flask-and-tornado-together/8247457#8247457), since it was super fast to set up.
 
+**17 Sept 2015**
+Improved the app based on feedback from the wonderful Udacity community:
+
+- Fixed add and remove goals feature. Used to have many small glitches.
+- Less colors.
+- Updated mouse hover behavior in main visualization.
+- Fixed edge case of rejecting 0 candidate.
+
 ## Feedback
 
 Some of the discussions were done verbally, but I have also gathered some feedback from other sources for this project.

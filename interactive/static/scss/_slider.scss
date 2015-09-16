@@ -6,7 +6,7 @@
     font-size: 1.1em;
     border: 1px solid #aaaaaa;
     z-index: 2;
-    background: white;
+    background: #EEE;
 }
 
 .d3-slider-vertical {
@@ -21,15 +21,12 @@
     position: absolute;
     width: 1.2em;
     height: 1.2em;
-    border: 1px solid #d3d3d3;
-    border-radius: 4px;
-    background: #eee;
-    background: linear-gradient(to bottom, #eee 0%, #ddd 100%);
+    background: $sky;
     z-index: 3;
 }
 
 .d3-slider-handle:hover {
-    border: 1px solid #999999;
+    background: $sea;
 }
 
 .d3-slider-axis {

@@ -31,4 +31,19 @@
     margin-left: -10px;
     top: -8px;
   }
+  &:hover .arrow_up:before {
+    border-color: rgba(136, 183, 213, 0);
+    border-bottom-color: $sea;
+    border-width: 10px;
+    margin-left: -10px;
+    top: -30px;
+  }
+
+  &:hover .arrow_down:before {
+    border-color: rgba(136, 183, 213, 0);
+    border-top-color: $sea;
+    border-width: 10px;
+    margin-left: -10px;
+    top: -8px;
+  }
 }

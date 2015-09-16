@@ -14,6 +14,16 @@ This app needs following python modules:
 
 and Bower ([see installation here](http://bower.io/#install-bower)).
 
+and Grunt for styling:
+
+```
+npm install -g grunt-cli
+npm install load-grunt-tasks
+```
+
+`cd static` then `grunt` to compile css file.
+
+
 Once you got them installed, do the following to run the app on your server:
 
 - `bower install --allow-root` to install all the required javascript.

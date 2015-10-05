@@ -19,6 +19,7 @@ def compute_ost_theory(n):
     rows[i] = val
   return(np.round(rows, 3))
 
+# Processes the compatibilities, calculating their success rates.
 def process(compatibilities, lifetimes=10000, goal='top-1'):
   import re
   if goal == 'theory':
@@ -43,6 +44,7 @@ def process(compatibilities, lifetimes=10000, goal='top-1'):
     success_rates = successes.sum(1) / lifetimes
   return success_rates
 
+# Tests process method.
 def test_process():
   import data
   process(data.get_compatibilities(), 10000, 'top-1')
@@ -59,6 +61,7 @@ def is_acceptable(compatibility_score, all_compatibility_scores, top_x = 1, perc
     min_accepted = sorted(all_compatibility_scores)[-int(top_x)]
   return (compatibility_score >= min_accepted)
 
+# Tests is_acceptable method.
 def test_is_acceptable():
   compats = sorted(range(1, 101,1))
   result1 = is_acceptable(100, compats)
@@ -88,12 +91,12 @@ def test_is_acceptable():
     result9 == True
   ), "Assertion Failed"
 
+# If I rejected n% of people, then find the next person who is better than the rejected ones,
+# do I end up with person with max compatibility?
+# Then make that into a True/False table.
 # top_x: Float, showing the top x percent or #, depending on percent.
 def rejection_test(compatibility_scores, top_x = 1, percent = False):
   s = []
-  # If I rejected n% of people, then find the next person who is better than the rejected ones,
-  # do I end up with person with max compatibility?
-  # Then make that into a True/False table.
   for x in range(0, 100):
     pos = (int(round(len(compatibility_scores) * float(x) / 100)) + 1)
     if (pos > len(compatibility_scores)):
@@ -109,7 +112,7 @@ def rejection_test(compatibility_scores, top_x = 1, percent = False):
 
   return(s)
 
-# Testing if function rejection_test works as expected.
+# Tests rejection_test method.
 def test_rejection_test():
   compatibility_scores = [3, 5, 4, 8, 9, 5, 10, 1, 10, 3]
   results = rejection_test(compatibility_scores)

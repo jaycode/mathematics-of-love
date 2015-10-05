@@ -1,3 +1,6 @@
+from tornado.wsgi import WSGIContainer
+from tornado.ioloop import IOLoop
+from tornado.web import FallbackHandler, RequestHandler, Application
 from flask import Flask, render_template, jsonify, request
 app = Flask(__name__)
 
@@ -31,65 +34,12 @@ def read_data():
     g=request.args.get('g', 'top-1,top-10%25,top-15%25,theory')
   ))
 
-if __name__ == '__main__':
-  app.debug = True
-  app.run(host = '0.0.0.0', port = 80)
+tr = WSGIContainer(app)
 
+application = Application([
+(r".*", FallbackHandler, dict(fallback=tr)),
+])
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-# An attempt to create our own webserver (Flask was much better).
-# 
-# from BaseHTTPServer import BaseHTTPRequestHandler, HTTPServer
-# HOST_NAME = ''
-# PORT_NUMBER = 8080
-
-# class webserverHandler(BaseHTTPRequestHandler):
-#   def do_GET(self):
-#     try:
-#       print "opening path %s" % self.path
-#       if self.path.endswith("/data"):
-#         self.send_response(200)
-#         self.send_header('Content-type', 'text/json')
-#         self.end_headers()
-
-#         import data
-
-#         output = "test"
-#         self.wfile.write(output)
-#         return
-#       if self.path.endswith("/") or self.path.endswith("/index.html"):
-#         f = open('index.html', 'r')
-#         self.wfile.write(f.read())
-#         f.close()
-#         return
-#     except IOError:
-#       self.send_error(404, "File Not Found %s", self.path)
-
-# def main():
-#   try:
-#     server = HTTPServer((HOST_NAME, PORT_NUMBER), webserverHandler)
-#     print "Web server running on port %s" % PORT_NUMBER
-#     server.serve_forever()
-
-#   except KeyboardInterrupt:
-#     print "Stopping web server..."
-#     server.socket.close()
-
-# if __name__ == '__main__':
-#   main()
+if __name__ == "__main__":
+  application.listen(80)
+  IOLoop.instance().start()

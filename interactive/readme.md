@@ -39,8 +39,7 @@ is using your port 80).
   You may then update the scss files and they will be compiled into app.css used in this app.
 - Documentation is made with jsdoc with baseline plugin. To export documentation, run `jsdoc -t node_modules/jsdoc-baseline static/js/ readme.md` from /interactive directory.
 
-## Design
-
+## Initial Design Decisions
 To put it simply, in this project I generate a large number of random numbers and apply a Mathematical
 concept to explain it. Regarding the eligibility of this project, it has been discussed [here in the Udacity forum](https://discussions.udacity.com/t/project-6-is-data-visualization-to-prove-a-mathematical-concept-eligible/29823/6).
 
@@ -51,6 +50,12 @@ major graphs:
  - **Line charts** to read the pattern produced by applying some strategies / Mathematical equations into our dataset.
  - **Bar chart with a twist** to explain the Mathematical concept.
 
+### Reasoning behind the use of multiple line charts in Simulation Analysis page.
+
+
+### Reasoning behind interactive bar chart in Detail page.
+
+## Summary of updates
 Due to its size, it is inevitable that this project has experienced many design changes. They can be reviewed in detail from the [github page of this project](https://github.com/jaycode/mathematics-of-love/commits/master), here are the overview of the changes:
 
 **3rd of July, 2015**
@@ -144,3 +149,4 @@ I have created [a post in Udacity Google group forum](https://plus.google.com/10
 
 The comments are recorded [in this publicly available spreadsheet document](https://docs.google.com/spreadsheets/d/1i14GTZp2z4G1HT2K1AtUlcOKGxhMZCOue6WZ96z1D8U/edit?usp=sharing). I enjoyed reading them, most of them had fun reading the article (at the time of writing, at least) and had some really constructive feedback to improve this project further. I will work on this project a bit further after submitting this into the review system, you can always see the latest update at its [Github page](https://github.com/jaycode/mathematics-of-love/tree/master/interactive).
 
+### Changes from Feedback

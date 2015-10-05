@@ -10,6 +10,7 @@ import urllib
 np.random.seed(42)
 random.seed(42)
 
+# Get data for intro visualization.
 def get_intro():
   # processor is imported in functions to avoid deadlock when running
   # test_process in processor.py since that imports this module.
@@ -53,6 +54,8 @@ def get_compatibilities(a1=18, a2=24, p1=0, p2=8, l=10000):
       ujson.dump(compatibilities, fhandler)
   return compatibilities
 
+# Get processed data based on given ages (a1 and a2), potential partners (p1 and p2),
+# lifetimes (l), and goals (g).
 def get_processed(a1=18, a2=24, p1=0, p2=8, l=10000, g='top-1,top-10%25,top-15%25,theory'):
   # processor is imported in functions to avoid deadlock when running
   # test_process in processor.py since that imports this module.
@@ -84,6 +87,7 @@ def get_processed(a1=18, a2=24, p1=0, p2=8, l=10000, g='top-1,top-10%25,top-15%2
     processed[goal] = processed_goal
   return processed
 
+# Getting the data. If p == 1 then get processed data, otherwise get experiments.
 def get(a1=18, a2=24, p1=0, p2=8, l=10000, p=0, g='top-1,top-10%25,top-15%25,theory'):
   p = int(p)
   if p==1:

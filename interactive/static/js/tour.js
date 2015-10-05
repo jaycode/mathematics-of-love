@@ -206,9 +206,7 @@ var app = app || {};
           content: "Hopefully this brief introduction helped you to understand how Optimal Stopping Theory works for this particular problem.<br />" +
           "Now that you know where things are, you can tailor this experiment to your personal scenario and planning.<br />" +
           'Click on "Generate Different Dataset" link and create your own experiment. Here are some ideas:' +
-          '<ul><li>You may notice that our "Top 1" and "Top 5%" results are exactly the same.' +
-          " That was caused by the lacking number of people met per year, that made 5% of all candidates less than 1 person. You can try higher " +
-          " numbers here.</li>"+
+          '<ul>'+
           "<li>What's your dating strategy? How many people are you planning / likely to meet each year? You can adjust that to see how it affects " +
           "your success rate.</li>"+
           "<li>Try out with a larger number of lifetimes, say 2,000. See how that will make the pattern more prominent.</li>" +

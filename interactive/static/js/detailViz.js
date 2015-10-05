@@ -16,7 +16,7 @@ var app = app || {};
     width: 800,
     height: 400,
     marginLeft: 60,
-    marginTop: 80,
+    marginTop: 30,
     x2Height: 60,
     bottomOffset: 20,
     rightOffset: 20,
@@ -64,6 +64,7 @@ var app = app || {};
 
     self.xExtent = [1, self.data.length];
     self.yExtent = d3.extent(self.data, function(d) {return d['candidate_score'];});
+    self.yExtent[1] = self.yExtent[1]+0.6;
 
     var scales = app.vizHelpers.drawAxes(self.chartSelector, {
       xExtent: self.xExtent,

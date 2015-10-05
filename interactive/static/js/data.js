@@ -225,14 +225,6 @@ var app = app || {};
         ]
       },
       {
-        id: 1,
-        name: 'top-5%',
-        active: true,
-        color_id: 2,
-        destructible: true,
-        data: []
-      },
-      {
         id: 2,
         name: 'top-15%',
         active: true,
@@ -315,11 +307,6 @@ var app = app || {};
          * @type {boolean}
          * @memberOf app.data.currentDetail.goals.goal
          */
-        active: false
-      },
-      {
-        goal_id: 1,
-        success_rate: .40,
         active: false
       },
       {

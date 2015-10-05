@@ -302,8 +302,12 @@ var app = app || {};
       app.vm = new app.ViewModel();
       ko.applyBindings(app.vm);
       app.vm.Generator.generateDataset(function() {
-
       }, function(data) {
+        d3.select('#links_area')
+          .style('opacity', 0)
+          .classed('hide', false)
+          .transition()
+          .style('opacity', 1);
 
         d3.select(button)
           .transition()

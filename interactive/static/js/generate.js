@@ -214,7 +214,7 @@ var app = app || {};
     }
 
     self.ageErrorText = "Age difference must be between " + app.data.settings.min_age_diff + " and " + app.data.settings.max_age_diff;
-    self.ppErrorText = "Number of potential partners must be between " + app.data.settings.min_potential_partners + " and " + app.data.settings.max_potential_partners;
+    self.ppErrorText = "keep partners between " + app.data.settings.min_potential_partners + " - " + app.data.settings.max_potential_partners;
     self.lifetimesErrorText = "Lifetimes must be between " + app.helpers.formatThousandSeparators(app.data.settings.min_lifetimes) +
      " and " + app.helpers.formatThousandSeparators(app.data.settings.max_lifetimes) + " (sorry, my server's just not strong enough).";
 

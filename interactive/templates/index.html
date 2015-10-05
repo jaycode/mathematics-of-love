@@ -105,6 +105,15 @@ P(5) = 4/10 * (1/4 + 1/5 + 1/6 + 1/7 + 1/8 + 1/9)
       <div class="small-12 columns">
         <h2>Interactive Simulation of Our Dating Strategy</h2>
         <div class="main_viz" id="main_viz">
+          <div id="links_area" class="links hide">
+            <ul>
+              <li><a data-bind="click: viewGenerateDataset" href="#">Generate Different Dataset</a></li>
+              <li><a data-bind="click: viewGeneratedDataset" href="#">View Generated Dataset</a></li>
+              <li><a data-bind="click: viewSimulationAnalysis" href="#">Simulation Analysis</a></li>
+              <li><a data-bind="click: viewDetail" href="#">Single Life Simulation</a></li>
+            </ul>
+          </div>
+          <div class="clear_both"></div>
           <div id="start_button_container" class="text-center is_active">
             <button data-bind="btn-start">Start The Simulation</button>
           </div>
@@ -189,7 +198,7 @@ P(5) = 4/10 * (1/4 + 1/5 + 1/6 + 1/7 + 1/8 + 1/9)
                 <div class="small-3 medium-1 columns">
                   <input id="a1" data-bind="value: a1, css: {has_error: a1Error()}" type="text" class="text-center" placeholder="18" />
                 </div>
-                <div class="mid_label small-9 medium-2 columns text-center">
+                <div class="mid_label small-9 medium-3 columns text-center">
                   <label for="a2" class="inline">until age</label>
                 </div>
                 <div class="small-3 medium-1 end columns">
@@ -204,7 +213,7 @@ P(5) = 4/10 * (1/4 + 1/5 + 1/6 + 1/7 + 1/8 + 1/9)
                 <div class="small-3 medium-1 columns">
                   <input id="p1" data-bind="value: p1, css: {has_error: p1Error()" type="text" class="text-center" placeholder="0" />
                 </div>
-                <div class="mid_label small-9 medium-2 columns text-center">
+                <div class="mid_label small-9 medium-3 columns text-center">
                   <label for="p2" class="inline">to</label>
                   <small data-bind="text: ppErrorText, style: {opacity: p2Error() ? 1: 0}" class="error"></small>
                 </div>

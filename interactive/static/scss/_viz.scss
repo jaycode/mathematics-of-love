@@ -34,6 +34,21 @@
   .is_active {
     display: block;
   }
+  .links {
+    ul {
+      list-style: none;
+      float: right;
+      margin-bottom: 0;
+      li {
+        float: left;
+        margin-left: 10px;
+        font-size: 80%;
+        a:visited {
+          color: #000;
+        }
+      }
+    }
+  }
 }
 .main_viz_panel {
   border: 1px solid $smoke;

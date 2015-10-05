@@ -6,6 +6,10 @@ app = Flask(__name__)
 def run_index():
   return render_template('index.html')
 
+@app.route('/docs')
+def documentation():
+  return app.send_static_file('docs/index.html')
+  
 @app.route('/data/intro')
 def read_data_intro():
   import data

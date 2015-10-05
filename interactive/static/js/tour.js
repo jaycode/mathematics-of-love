@@ -2,6 +2,12 @@
 var app = app || {};
 
 (function() {
+  /**
+   * Setup all tour related settings here, including messages to display at each step.<br />
+   * See {@link http://bootstraptour.com/api/ BootstrapTour API} for documentation.<br />
+   * In addition to API docs, we can also add `topOffset` setting to adjust top position of displayed
+   * tour window.
+   */
   app.getTourSettings = function() {
     return {
       // debug: true,

@@ -1,0 +1,127 @@
+<!doctype html>
+<html>
+
+<head>
+  <meta name="generator" content="JSDoc 3.3.3">
+  <meta charset="utf-8">
+  <title>Namespace: goal</title>
+  <link rel="stylesheet" href="https://brick.a.ssl.fastly.net/Karla:400,400i,700,700i" type="text/css">
+  <link rel="stylesheet" href="https://brick.a.ssl.fastly.net/Noto+Serif:400,400i,700,700i" type="text/css">
+  <link rel="stylesheet" href="https://brick.a.ssl.fastly.net/Inconsolata:500" type="text/css">
+  <link href="css/baseline.css" rel="stylesheet">
+</head>
+
+<body onload="prettyPrint()">
+  <nav id="jsdoc-navbar" role="navigation" class="jsdoc-navbar">
+    <div id="jsdoc-navbar-container">
+      <div id="jsdoc-navbar-content">
+        <a href="index.html" class="jsdoc-navbar-package-name">Home</a>
+      </div>
+    </div>
+  </nav>
+  <div id="jsdoc-body-container">
+    <div id="jsdoc-content">
+      <div id="jsdoc-content-container">
+        <div id="jsdoc-main" role="main">
+          <header class="page-header">
+            <h1><div class="symbol-detail-labels"><span class="label label-kind">namespace</span>&nbsp;<span class="label label-static">static</span></div><small><a href="app.html">app</a>.<wbr><a href="app.data.html">data</a>.<wbr><a href="app.data.experiment.html">experiment</a>.<wbr><a href="app.data.experiment.goals.html">goals</a>.<wbr></small><span class="symbol-name">goal</span></h1>
+            <p class="source-link">Source: <a href="data.js.html#source-line-181">data.<wbr>js:181</a></p>
+            <div class="symbol-description">
+              <p>Goal object. The values here are used to initialize parameters used in
+                <a href="app.Goal.html">Goal ViewModel</a> that's actually used in the app.</p>
+            </div>
+            <dl class="dl-compact">
+            </dl>
+          </header>
+          <section id="summary">
+            <div class="summary-callout">
+              <h2 class="summary-callout-heading">Properties</h2>
+              <div class="summary-content">
+                <div class="summary-column">
+                  <dl class="dl-summary-callout">
+                    <dt><a href="app.data.experiment.goals.goal.html#.active">active</a></dt>
+                    <dd>
+                    </dd>
+                    <dt><a href="app.data.experiment.goals.goal.html#.color_id">color_id</a></dt>
+                    <dd>
+                    </dd>
+                  </dl>
+                </div>
+                <div class="summary-column">
+                  <dl class="dl-summary-callout">
+                    <dt><a href="app.data.experiment.goals.goal.html#.data">data</a></dt>
+                    <dd>
+                    </dd>
+                    <dt><a href="app.data.experiment.goals.goal.html#.destructible">destructible</a></dt>
+                    <dd>
+                    </dd>
+                  </dl>
+                </div>
+                <div class="summary-column">
+                  <dl class="dl-summary-callout">
+                    <dt><a href="app.data.experiment.goals.goal.html#.id">id</a></dt>
+                    <dd>
+                    </dd>
+                    <dt><a href="app.data.experiment.goals.goal.html#.name">name</a></dt>
+                    <dd>
+                    </dd>
+                  </dl>
+                </div>
+              </div>
+            </div>
+          </section>
+          <section>
+            <h2>Properties</h2>
+            <section>
+              <h3 id=".active"><div class="symbol-detail-labels"><span class="label label-static">static</span></div><span class="symbol-name">active</span><small class="property-type">
+            &nbsp;boolean</small></h3>
+              <p>If active is true, display the goal in Simulation Analysis graph.</p>
+              <dl class="dl-compact">
+              </dl>
+              <h3 id=".color_id"><div class="symbol-detail-labels"><span class="label label-static">static</span></div><span class="symbol-name">color_id</span></h3>
+              <p>id / Ordering position of <a href="app.data.settings.html#.colors">app.data.settings.colors</a>.</p>
+              <dl class="dl-compact">
+              </dl>
+              <h3 id=".data"><div class="symbol-detail-labels"><span class="label label-static">static</span></div><span class="symbol-name">data</span><small class="property-type">
+            &nbsp;Array of {success_rate: float, rejection_phase: integer}</small></h3>
+              <p>Data stored for a goal (list of success rate and rejection phase)</p>
+              <dl class="dl-compact">
+              </dl>
+              <h3 id=".destructible"><div class="symbol-detail-labels"><span class="label label-static">static</span></div><span class="symbol-name">destructible</span><small class="property-type">
+            &nbsp;boolean</small></h3>
+              <p>If true then this goal can be removed.</p>
+              <dl class="dl-compact">
+              </dl>
+              <h3 id=".id"><div class="symbol-detail-labels"><span class="label label-static">static</span></div><span class="symbol-name">id</span></h3>
+              <p>id is needed, we cannot just use goal order since that way when deleted it changes.</p>
+              <dl class="dl-compact">
+              </dl>
+              <h3 id=".name"><div class="symbol-detail-labels"><span class="label label-static">static</span></div><span class="symbol-name">name</span><small class="property-type">
+            &nbsp;string</small></h3>
+              <p>Name of a goal. Pass this to <a href="app.helpers.html#.parseGoal">app.helpers.parseGoal</a> to get its values.</p>
+              <dl class="dl-compact">
+              </dl>
+            </section>
+          </section>
+        </div>
+      </div>
+      <nav id="jsdoc-toc-nav" role="navigation"></nav>
+    </div>
+  </div>
+  <footer id="jsdoc-footer" class="jsdoc-footer">
+    <div id="jsdoc-footer-container">
+      <p>
+        Generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc</a> 3.3.3 on October 5, 2015.
+      </p>
+    </div>
+  </footer>
+  <script src="scripts/jquery.min.js"></script>
+  <script src="scripts/jquery.cookie.js"></script>
+  <script src="scripts/tree.jquery.js"></script>
+  <script src="scripts/prettify.js"></script>
+  <script src="scripts/jsdoc-toc.js"></script>
+  <script src="scripts/linenumber.js"></script>
+  <script src="scripts/scrollanchor.js"></script>
+</body>
+
+</html>

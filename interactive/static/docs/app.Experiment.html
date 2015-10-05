@@ -1,0 +1,244 @@
+<!doctype html>
+<html>
+
+<head>
+  <meta name="generator" content="JSDoc 3.3.3">
+  <meta charset="utf-8">
+  <title>Class: Experiment</title>
+  <link rel="stylesheet" href="https://brick.a.ssl.fastly.net/Karla:400,400i,700,700i" type="text/css">
+  <link rel="stylesheet" href="https://brick.a.ssl.fastly.net/Noto+Serif:400,400i,700,700i" type="text/css">
+  <link rel="stylesheet" href="https://brick.a.ssl.fastly.net/Inconsolata:500" type="text/css">
+  <link href="css/baseline.css" rel="stylesheet">
+</head>
+
+<body onload="prettyPrint()">
+  <nav id="jsdoc-navbar" role="navigation" class="jsdoc-navbar">
+    <div id="jsdoc-navbar-container">
+      <div id="jsdoc-navbar-content">
+        <a href="index.html" class="jsdoc-navbar-package-name">Home</a>
+      </div>
+    </div>
+  </nav>
+  <div id="jsdoc-body-container">
+    <div id="jsdoc-content">
+      <div id="jsdoc-content-container">
+        <div id="jsdoc-main" role="main">
+          <header class="page-header">
+            <h1><div class="symbol-detail-labels"><span class="label label-kind">class</span>&nbsp;<span class="label label-static">static</span></div><small><a href="app.html">app</a>.<wbr></small><span class="symbol-name">Experiment</span></h1>
+            <p class="source-link">Source: <a href="simulationAnalysis.js.html#source-line-93">simulationAnalysis.<wbr>js:93</a></p>
+            <dl class="dl-compact">
+            </dl>
+          </header>
+          <section id="summary">
+            <div class="summary-callout">
+              <h2 class="summary-callout-heading">Namespace</h2>
+              <div class="summary-content">
+                <div class="summary-column">
+                  <dl class="dl-summary-callout">
+                    <dt><a href="app.Experiment_lifetime.html">lifetime</a></dt>
+                    <dd>
+                    </dd>
+                  </dl>
+                </div>
+                <div class="summary-column">
+                </div>
+                <div class="summary-column">
+                </div>
+              </div>
+            </div>
+            <div class="summary-callout">
+              <h2 class="summary-callout-heading">Properties</h2>
+              <div class="summary-content">
+                <div class="summary-column">
+                  <dl class="dl-summary-callout">
+                    <dt><a href="app.Experiment.html#_lifetimes">_lifetimes</a></dt>
+                    <dd>
+                    </dd>
+                    <dt><a href="app.Experiment.html#a1">a1</a></dt>
+                    <dd>
+                    </dd>
+                    <dt><a href="app.Experiment.html#a2">a2</a></dt>
+                    <dd>
+                    </dd>
+                  </dl>
+                </div>
+                <div class="summary-column">
+                  <dl class="dl-summary-callout">
+                    <dt><a href="app.Experiment.html#goals">goals</a></dt>
+                    <dd>
+                    </dd>
+                    <dt><a href="app.Experiment.html#p1">p1</a></dt>
+                    <dd>
+                    </dd>
+                    <dt><a href="app.Experiment.html#p2">p2</a></dt>
+                    <dd>
+                    </dd>
+                  </dl>
+                </div>
+                <div class="summary-column">
+                  <dl class="dl-summary-callout">
+                    <dt><a href="app.Experiment.html#processed">processed</a></dt>
+                    <dd>
+                    </dd>
+                  </dl>
+                </div>
+              </div>
+            </div>
+            <div class="summary-callout">
+              <h2 class="summary-callout-heading">Methods</h2>
+              <div class="summary-content">
+                <div class="summary-column">
+                  <dl class="dl-summary-callout">
+                    <dt><a href="app.Experiment.html#addGoal">addGoal()</a></dt>
+                    <dd>
+                    </dd>
+                  </dl>
+                </div>
+                <div class="summary-column">
+                  <dl class="dl-summary-callout">
+                    <dt><a href="app.Experiment.html#cancelAddGoal">cancelAddGoal()</a></dt>
+                    <dd>
+                    </dd>
+                  </dl>
+                </div>
+                <div class="summary-column">
+                </div>
+              </div>
+            </div>
+          </section>
+          <section>
+            <h2 id="Experiment">new&nbsp;<span class="symbol-name">Experiment</span><span class="signature"><span class="signature-params">(data)</span></span></h2>
+            <p>ViewModel related to an experiment, displayed in SimulationAnalysis page.
+              <br /> Singleton instance is available as <code>app.vm.Experiment</code>.</p>
+            <section>
+              <h3>Parameter</h3>
+              <table class="jsdoc-details-table">
+                <thead>
+                  <tr>
+                    <th>Name</th>
+                    <th>Type</th>
+                    <th>Optional</th>
+                    <th>Description</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>
+                      <p>data</p>
+                    </td>
+                    <td>
+                      <p><a href="app.data.experiment.html">app.data.experiment</a></p>
+                    </td>
+                    <td>
+                      <p>&nbsp;</p>
+                    </td>
+                    <td>
+                      <p>Settings data of an experiment.</p>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </section>
+            <dl class="dl-compact">
+            </dl>
+          </section>
+          <section>
+            <h2>Namespace</h2>
+            <section id='members-links'>
+              <h3><a href="app.Experiment_lifetime.html">lifetime</a></h3>
+            </section>
+            <h2>Properties</h2>
+            <section>
+              <h3 id="_lifetimes"><span class="symbol-name">_lifetimes</span><small class="property-type">
+            &nbsp;ko.observable</small></h3>
+              <p>Observed app.data.experiment.lifetime.
+                <br /> Use <code>_lifetime</code> (or other <code>_varname</code>) method to access the numeric values directly, but for other needs e.g. updating or display, use <code>lifetime</code> (or <code>varname</code>) method.</p>
+              <dl class="dl-compact">
+                <dt>Returns</dt>
+                <dd>
+                  <p><code>number</code>&nbsp;</p>
+                </dd>
+              </dl>
+              <h3 id="a1"><span class="symbol-name">a1</span><small class="property-type">
+            &nbsp;ko.observable</small></h3>
+              <p>Observed <a href="app.data.experiment.html#.a1">age start</a>.</p>
+              <dl class="dl-compact">
+                <dt>Returns</dt>
+                <dd>
+                  <p><code>number</code>&nbsp;</p>
+                </dd>
+              </dl>
+              <h3 id="a2"><span class="symbol-name">a2</span><small class="property-type">
+            &nbsp;ko.observable</small></h3>
+              <p>Observed <a href="app.data.experiment.html#.a2">age end</a>.</p>
+              <dl class="dl-compact">
+                <dt>Returns</dt>
+                <dd>
+                  <p><code>number</code>&nbsp;</p>
+                </dd>
+              </dl>
+              <h3 id="goals"><span class="symbol-name">goals</span><small class="property-type">
+            &nbsp;ko.observableArray</small></h3>
+              <p>Observed <a href="app.data.experiment.goals.html">array of goals</a> containing multiple <a href="app.Goal.html">Goal</a> ViewModels.</p>
+              <dl class="dl-compact">
+              </dl>
+              <h3 id="p1"><span class="symbol-name">p1</span><small class="property-type">
+            &nbsp;ko.observable</small></h3>
+              <p>Observed <a href="app.data.experiment.html#.p1">minimum potential partners per year</a>.</p>
+              <dl class="dl-compact">
+                <dt>Returns</dt>
+                <dd>
+                  <p><code>number</code>&nbsp;</p>
+                </dd>
+              </dl>
+              <h3 id="p2"><span class="symbol-name">p2</span><small class="property-type">
+            &nbsp;ko.observable</small></h3>
+              <p>Observed <a href="app.data.experiment.html#.p2">maximum potential partners per year</a>.</p>
+              <dl class="dl-compact">
+                <dt>Returns</dt>
+                <dd>
+                  <p><code>number</code>&nbsp;</p>
+                </dd>
+              </dl>
+              <h3 id="processed"><span class="symbol-name">processed</span></h3>
+              <p>Observed <a href="app.data.experiment.html#.processed">processed</a> status.
+                <br /> If processed is true, do not process again.
+                <br /> Set processed to false when generating new compatibilities i.e. app.generate.generateDataset.</p>
+              <dl class="dl-compact">
+              </dl>
+            </section>
+            <h2>Methods</h2>
+            <section>
+              <h3 id="addGoal"><span class="symbol-name">addGoal</span><span class="signature"><span class="signature-params">()</span></span></h3>
+              <p>A function to be bound to &quot;Add Goal&quot; button in the HTML. The first call to this function will show input text for user to enter the setting of this new goal, while the second call will confirm its creation.
+                <br /> Validates goal adding with function <a href="app.simulationAnalysis.html#.validateGoal">app.simulationAnalysis.validateGoal</a>.</p>
+              <dl class="dl-compact">
+              </dl>
+              <h3 id="cancelAddGoal"><span class="symbol-name">cancelAddGoal</span><span class="signature"><span class="signature-params">()</span></span></h3>
+              <p>A function to be bound to &quot;Cancel Add Goal&quot; button in HTML. Pressing this will cancel the current goal adding process.</p>
+              <dl class="dl-compact">
+              </dl>
+            </section>
+          </section>
+        </div>
+      </div>
+      <nav id="jsdoc-toc-nav" role="navigation"></nav>
+    </div>
+  </div>
+  <footer id="jsdoc-footer" class="jsdoc-footer">
+    <div id="jsdoc-footer-container">
+      <p>
+        Generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc</a> 3.3.3 on October 5, 2015.
+      </p>
+    </div>
+  </footer>
+  <script src="scripts/jquery.min.js"></script>
+  <script src="scripts/jquery.cookie.js"></script>
+  <script src="scripts/tree.jquery.js"></script>
+  <script src="scripts/prettify.js"></script>
+  <script src="scripts/jsdoc-toc.js"></script>
+  <script src="scripts/linenumber.js"></script>
+  <script src="scripts/scrollanchor.js"></script>
+</body>
+
+</html>

@@ -1,0 +1,209 @@
+<!doctype html>
+<html>
+
+<head>
+  <meta name="generator" content="JSDoc 3.3.3">
+  <meta charset="utf-8">
+  <title>Class: DetailGoal</title>
+  <link rel="stylesheet" href="https://brick.a.ssl.fastly.net/Karla:400,400i,700,700i" type="text/css">
+  <link rel="stylesheet" href="https://brick.a.ssl.fastly.net/Noto+Serif:400,400i,700,700i" type="text/css">
+  <link rel="stylesheet" href="https://brick.a.ssl.fastly.net/Inconsolata:500" type="text/css">
+  <link href="css/baseline.css" rel="stylesheet">
+</head>
+
+<body onload="prettyPrint()">
+  <nav id="jsdoc-navbar" role="navigation" class="jsdoc-navbar">
+    <div id="jsdoc-navbar-container">
+      <div id="jsdoc-navbar-content">
+        <a href="index.html" class="jsdoc-navbar-package-name">Home</a>
+      </div>
+    </div>
+  </nav>
+  <div id="jsdoc-body-container">
+    <div id="jsdoc-content">
+      <div id="jsdoc-content-container">
+        <div id="jsdoc-main" role="main">
+          <header class="page-header">
+            <h1><div class="symbol-detail-labels"><span class="label label-kind">class</span>&nbsp;<span class="label label-static">static</span></div><small><a href="app.html">app</a>.<wbr></small><span class="symbol-name">DetailGoal</span></h1>
+            <p class="source-link">Source: <a href="detail.js.html#source-line-82">detail.<wbr>js:82</a></p>
+            <dl class="dl-compact">
+            </dl>
+          </header>
+          <section id="summary">
+            <div class="summary-callout">
+              <h2 class="summary-callout-heading">Properties</h2>
+              <div class="summary-content">
+                <div class="summary-column">
+                  <dl class="dl-summary-callout">
+                    <dt><a href="app.DetailGoal.html#active">active</a></dt>
+                    <dd>
+                    </dd>
+                    <dt><a href="app.DetailGoal.html#getClass">getClass</a></dt>
+                    <dd>
+                    </dd>
+                    <dt><a href="app.DetailGoal.html#getClassAndActiveStatus">getClassAndActiveStatus</a></dt>
+                    <dd>
+                    </dd>
+                  </dl>
+                </div>
+                <div class="summary-column">
+                  <dl class="dl-summary-callout">
+                    <dt><a href="app.DetailGoal.html#id">id</a></dt>
+                    <dd>
+                    </dd>
+                    <dt><a href="app.DetailGoal.html#idClass">idClass</a></dt>
+                    <dd>
+                    </dd>
+                    <dt><a href="app.DetailGoal.html#name">name</a></dt>
+                    <dd>
+                    </dd>
+                  </dl>
+                </div>
+                <div class="summary-column">
+                  <dl class="dl-summary-callout">
+                    <dt><a href="app.DetailGoal.html#success_rate">success_rate</a></dt>
+                    <dd>
+                    </dd>
+                    <dt><a href="app.DetailGoal.html#success_rate_percent">success_rate_percent</a></dt>
+                    <dd>
+                    </dd>
+                  </dl>
+                </div>
+              </div>
+            </div>
+            <div class="summary-callout">
+              <h2 class="summary-callout-heading">Method</h2>
+              <div class="summary-content">
+                <div class="summary-column">
+                  <dl class="dl-summary-callout">
+                    <dt><a href="app.DetailGoal.html#setActive">setActive()</a></dt>
+                    <dd>
+                    </dd>
+                  </dl>
+                </div>
+                <div class="summary-column">
+                </div>
+                <div class="summary-column">
+                </div>
+              </div>
+            </div>
+          </section>
+          <section>
+            <h2 id="DetailGoal">new&nbsp;<span class="symbol-name">DetailGoal</span><span class="signature"><span class="signature-params">()</span></span></h2>
+            <p>ViewModel for goals displayed in current detail page. Instances are stored in array app.vm.CurrentDetail.goals.</p>
+            <h2>Related Links</h2>
+            <ul>
+              <li><a href="app.CurrentDetail.html">app.CurrentDetail</a></li>
+              <li><a href="app.data.currentDetail.html">app.data.currentDetail</a></li>
+              <li><a href="app.detail.html">app.detail</a></li>
+            </ul>
+            <dl class="dl-compact">
+            </dl>
+          </section>
+          <section>
+            <h2>Properties</h2>
+            <section>
+              <h3 id="active"><span class="symbol-name">active</span><small class="property-type">
+            &nbsp;ko.observable</small></h3>
+              <p>Observed <a href="app.data.currentDetail.goals.goal.html#.active">active status</a>.</p>
+              <dl class="dl-compact">
+                <dt>Returns</dt>
+                <dd>
+                  <p><code>boolean</code>&nbsp;</p>
+                </dd>
+              </dl>
+              <h3 id="getClass"><span class="symbol-name">getClass</span><small class="property-type">
+            &nbsp;ko.computed</small></h3>
+              <p>Returns class name used for goal related elements (box and lines).</p>
+              <dl class="dl-compact">
+                <dt>Returns</dt>
+                <dd>
+                  <p><code>(string or null)</code>&nbsp;</p>
+                </dd>
+              </dl>
+              <h3 id="getClassAndActiveStatus"><span class="symbol-name">getClassAndActiveStatus</span><small class="property-type">
+            &nbsp;ko.computed</small></h3>
+              <p>Returns class to be displayed in goal boxes.
+                <br /> Returned values for examples are &quot;goal-1&quot;, &quot;goal-2_is_active&quot;.</p>
+              <dl class="dl-compact">
+                <dt>Returns</dt>
+                <dd>
+                  <p><code>string</code>&nbsp;</p>
+                </dd>
+              </dl>
+              <h3 id="id"><span class="symbol-name">id</span><small class="property-type">
+            &nbsp;ko.observable</small></h3>
+              <p>Observed <a href="app.data.currentDetail.goals.goal.html#.goal_id">goal id</a>.</p>
+              <dl class="dl-compact">
+                <dt>Returns</dt>
+                <dd>
+                  <p><code>integer</code>&nbsp;</p>
+                </dd>
+              </dl>
+              <h3 id="idClass"><span class="symbol-name">idClass</span><small class="property-type">
+            &nbsp;ko.computed</small></h3>
+              <p>Used to return class name used in HTML. Class name follows this naming convention: &quot;goal-[id]&quot;.</p>
+              <dl class="dl-compact">
+                <dt>Returns</dt>
+                <dd>
+                  <p><code>string</code>&nbsp;</p>
+                </dd>
+              </dl>
+              <h3 id="name"><span class="symbol-name">name</span><small class="property-type">
+            &nbsp;ko.computed</small></h3>
+              <p>Returns pretty name of a goal e.g. &quot;Top 10%&quot; instead of &quot;top-10%&quot;</p>
+              <dl class="dl-compact">
+                <dt>Returns</dt>
+                <dd>
+                  <p><code>(string or null)</code>&nbsp;</p>
+                </dd>
+              </dl>
+              <h3 id="success_rate"><span class="symbol-name">success_rate</span><small class="property-type">
+            &nbsp;ko.observable</small></h3>
+              <p>Observed <a href="app.data.currentDetail.goals.goal.html#.success_rate">success rate</a>.</p>
+              <dl class="dl-compact">
+                <dt>Returns</dt>
+                <dd>
+                  <p><code>float</code>&nbsp;</p>
+                </dd>
+              </dl>
+              <h3 id="success_rate_percent"><span class="symbol-name">success_rate_percent</span><small class="property-type">
+            &nbsp;ko.computed</small></h3>
+              <p>Returns success rate + percent symbol formatted using <a href="app.helpers.html#.formatPercent">app.helpers.formatPercent</a> method.</p>
+              <dl class="dl-compact">
+                <dt>Returns</dt>
+                <dd>
+                  <p><code>string</code>&nbsp;</p>
+                </dd>
+              </dl>
+            </section>
+            <h2>Method</h2>
+            <section>
+              <h3 id="setActive"><span class="symbol-name">setActive</span><span class="signature"><span class="signature-params">()</span></span></h3>
+              <p>Activate a DetailGoal, then <a href="app.detailViz.html#.drawOptimals">recolor the bars in detail visualization</a>.</p>
+              <dl class="dl-compact">
+              </dl>
+            </section>
+          </section>
+        </div>
+      </div>
+      <nav id="jsdoc-toc-nav" role="navigation"></nav>
+    </div>
+  </div>
+  <footer id="jsdoc-footer" class="jsdoc-footer">
+    <div id="jsdoc-footer-container">
+      <p>
+        Generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc</a> 3.3.3 on October 5, 2015.
+      </p>
+    </div>
+  </footer>
+  <script src="scripts/jquery.min.js"></script>
+  <script src="scripts/jquery.cookie.js"></script>
+  <script src="scripts/tree.jquery.js"></script>
+  <script src="scripts/prettify.js"></script>
+  <script src="scripts/jsdoc-toc.js"></script>
+  <script src="scripts/linenumber.js"></script>
+  <script src="scripts/scrollanchor.js"></script>
+</body>
+
+</html>

@@ -2,8 +2,18 @@
 var app = app || {};
 
 (function(){
+  /**
+   * Generated Dataset page
+   * ## Related Links
+   * - {@link app.generatedViz}
+   * @namespace app.generated
+   */
   app.generated = {};
 
+  /**
+   * Changes currently displayed page to generated dataset page, then runs a callback.
+   * @params {function} callback
+   */
   app.generated.view = function(callback) {
     app.helpers.changePage('#main_viz-generated', function() {
       app.helpers.showLoading('#generated-plot_area');

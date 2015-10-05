@@ -1,0 +1,524 @@
+<!doctype html>
+<html>
+
+<head>
+  <meta name="generator" content="JSDoc 3.3.3">
+  <meta charset="utf-8">
+  <title>Namespace: helpers</title>
+  <link rel="stylesheet" href="https://brick.a.ssl.fastly.net/Karla:400,400i,700,700i" type="text/css">
+  <link rel="stylesheet" href="https://brick.a.ssl.fastly.net/Noto+Serif:400,400i,700,700i" type="text/css">
+  <link rel="stylesheet" href="https://brick.a.ssl.fastly.net/Inconsolata:500" type="text/css">
+  <link href="css/baseline.css" rel="stylesheet">
+</head>
+
+<body onload="prettyPrint()">
+  <nav id="jsdoc-navbar" role="navigation" class="jsdoc-navbar">
+    <div id="jsdoc-navbar-container">
+      <div id="jsdoc-navbar-content">
+        <a href="index.html" class="jsdoc-navbar-package-name">Home</a>
+      </div>
+    </div>
+  </nav>
+  <div id="jsdoc-body-container">
+    <div id="jsdoc-content">
+      <div id="jsdoc-content-container">
+        <div id="jsdoc-main" role="main">
+          <header class="page-header">
+            <h1><div class="symbol-detail-labels"><span class="label label-kind">namespace</span>&nbsp;<span class="label label-static">static</span></div><small><a href="app.html">app</a>.<wbr></small><span class="symbol-name">helpers</span></h1>
+            <p class="source-link">Source: <a href="app.js.html#source-line-20">app.<wbr>js:20</a></p>
+            <div class="symbol-description">
+              <p>Helpers used throughout the app.</p>
+            </div>
+            <dl class="dl-compact">
+            </dl>
+          </header>
+          <section id="summary">
+            <div class="summary-callout">
+              <h2 class="summary-callout-heading">Methods</h2>
+              <div class="summary-content">
+                <div class="summary-column">
+                  <dl class="dl-summary-callout">
+                    <dt><a href="app.helpers.html#.changePage">changePage(selector, callback)</a></dt>
+                    <dd>
+                    </dd>
+                    <dt><a href="app.helpers.html#.dataUrl">dataUrl()</a></dt>
+                    <dd>
+                    </dd>
+                    <dt><a href="app.helpers.html#.experimentUrl">experimentUrl()</a></dt>
+                    <dd>
+                    </dd>
+                    <dt><a href="app.helpers.html#.formatPercent">formatPercent(text)</a></dt>
+                    <dd>
+                    </dd>
+                    <dt><a href="app.helpers.html#.formatThousandSeparators">formatThousandSeparators(text)</a></dt>
+                    <dd>
+                    </dd>
+                  </dl>
+                </div>
+                <div class="summary-column">
+                  <dl class="dl-summary-callout">
+                    <dt><a href="app.helpers.html#.groupCompatibilitiesByLifetime">groupCompatibilitiesByLifetime(compatibilities)</a></dt>
+                    <dd>
+                    </dd>
+                    <dt><a href="app.helpers.html#.parseGoal">parseGoal(text)</a></dt>
+                    <dd>
+                    </dd>
+                    <dt><a href="app.helpers.html#.parseNumberWithSeparators">parseNumberWithSeparators(text)</a></dt>
+                    <dd>
+                    </dd>
+                    <dt><a href="app.helpers.html#.parsePercent">parsePercent(text)</a></dt>
+                    <dd>
+                    </dd>
+                    <dt><a href="app.helpers.html#.pickColor">pickColor()</a></dt>
+                    <dd>
+                    </dd>
+                  </dl>
+                </div>
+                <div class="summary-column">
+                  <dl class="dl-summary-callout">
+                    <dt><a href="app.helpers.html#.showLoading">showLoading(selector)</a></dt>
+                    <dd>
+                    </dd>
+                    <dt><a href="app.helpers.html#.stopifnot">stopifnot(condition, message)</a></dt>
+                    <dd>
+                    </dd>
+                    <dt><a href="app.helpers.html#.url">url(path)</a></dt>
+                    <dd>
+                    </dd>
+                  </dl>
+                </div>
+              </div>
+            </div>
+          </section>
+          <section>
+            <h2>Methods</h2>
+            <section>
+              <h3 id=".changePage"><div class="symbol-detail-labels"><span class="label label-static">static</span></div><span class="symbol-name">changePage</span><span class="signature"><span class="signature-params">(selector, callback)</span></span></h3>
+              <p>Change page into selector's element. Run callback after all animations completed.</p>
+              <section>
+                <h4>Parameters</h4>
+                <table class="jsdoc-details-table">
+                  <thead>
+                    <tr>
+                      <th>Name</th>
+                      <th>Type</th>
+                      <th>Optional</th>
+                      <th>Description</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td>
+                        <p>selector</p>
+                      </td>
+                      <td>
+                        <p>string</p>
+                      </td>
+                      <td>
+                        <p>&nbsp;</p>
+                      </td>
+                      <td>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td>
+                        <p>callback</p>
+                      </td>
+                      <td>
+                        <p>(function() or null)</p>
+                      </td>
+                      <td>
+                        <p>&nbsp;</p>
+                      </td>
+                      <td>
+                        <p>Function to run after page changed.</p>
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </section>
+              <dl class="dl-compact">
+              </dl>
+              <h3 id=".dataUrl"><div class="symbol-detail-labels"><span class="label label-static">static</span></div><span class="symbol-name">dataUrl</span><span class="signature"><span class="signature-params">()</span>&nbsp;&rarr; <span class="signature-returns"> string</span></span></h3>
+              <p>Get raw data url based on current parameters.</p>
+              <dl class="dl-compact">
+                <dt>Returns</dt>
+                <dd>
+                  <p><code>string</code>&nbsp;Data url e.g. 'http://159.203.71.247/data?l=100&amp;a1=20&amp;a2=30&amp;p1=0&amp;p2=8'</p>
+                </dd>
+              </dl>
+              <h3 id=".experimentUrl"><div class="symbol-detail-labels"><span class="label label-static">static</span></div><span class="symbol-name">experimentUrl</span><span class="signature"><span class="signature-params">()</span>&nbsp;&rarr; <span class="signature-returns"> string</span></span></h3>
+              <p>Get experiment url. Experiment dataset is used in details page where we show each simulated experiment.</p>
+              <dl class="dl-compact">
+                <dt>Returns</dt>
+                <dd>
+                  <p><code>string</code>&nbsp;Experiment url.</p>
+                </dd>
+              </dl>
+              <h3 id=".formatPercent"><div class="symbol-detail-labels"><span class="label label-static">static</span></div><span class="symbol-name">formatPercent</span><span class="signature"><span class="signature-params">(text)</span>&nbsp;&rarr; <span class="signature-returns"> string</span></span></h3>
+              <p>Simply add percentage symbol to a text. Parse that text into float before conversion, just to make sure that given text is a number, and it converts NaN to 0.0.</p>
+              <section>
+                <h4>Parameter</h4>
+                <table class="jsdoc-details-table">
+                  <thead>
+                    <tr>
+                      <th>Name</th>
+                      <th>Type</th>
+                      <th>Optional</th>
+                      <th>Description</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td>
+                        <p>text</p>
+                      </td>
+                      <td>
+                        <p>(string or number)</p>
+                      </td>
+                      <td>
+                        <p>&nbsp;</p>
+                      </td>
+                      <td>
+                        <p>String of number.</p>
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </section>
+              <dl class="dl-compact">
+                <dt>Returns</dt>
+                <dd>
+                  <p><code>string</code>&nbsp;String + percent symbol (%).</p>
+                </dd>
+              </dl>
+              <h3 id=".formatThousandSeparators"><div class="symbol-detail-labels"><span class="label label-static">static</span></div><span class="symbol-name">formatThousandSeparators</span><span class="signature"><span class="signature-params">(text)</span>&nbsp;&rarr; <span class="signature-returns"> string</span></span></h3>
+              <p>Adds commas to number string, for example &quot;10000&quot; to &quot;10,000&quot;.</p>
+              <section>
+                <h4>Parameter</h4>
+                <table class="jsdoc-details-table">
+                  <thead>
+                    <tr>
+                      <th>Name</th>
+                      <th>Type</th>
+                      <th>Optional</th>
+                      <th>Description</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td>
+                        <p>text</p>
+                      </td>
+                      <td>
+                        <p>(string or number)</p>
+                      </td>
+                      <td>
+                        <p>&nbsp;</p>
+                      </td>
+                      <td>
+                        <p>String of number to we will add commas for. Due to how javascript works, you can pass in numbers as well.</p>
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </section>
+              <dl class="dl-compact">
+                <dt>Returns</dt>
+                <dd>
+                  <p><code>string</code>&nbsp;String of number with commas added.</p>
+                </dd>
+              </dl>
+              <h3 id=".groupCompatibilitiesByLifetime"><div class="symbol-detail-labels"><span class="label label-static">static</span></div><span class="symbol-name">groupCompatibilitiesByLifetime</span><span class="signature"><span class="signature-params">(compatibilities)</span>&nbsp;&rarr; <span class="signature-returns"> array</span></span></h3>
+              <p>Grouping compatibilities by lifetimes with d3.nest. This will later be used in DetailViz.</p>
+              <section>
+                <h4>Parameter</h4>
+                <table class="jsdoc-details-table">
+                  <thead>
+                    <tr>
+                      <th>Name</th>
+                      <th>Type</th>
+                      <th>Optional</th>
+                      <th>Description</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td>
+                        <p>compatibilities</p>
+                      </td>
+                      <td>
+                        <p>array</p>
+                      </td>
+                      <td>
+                        <p>&nbsp;</p>
+                      </td>
+                      <td>
+                        <p>Array of compatibilities stored in the dataset.</p>
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </section>
+              <dl class="dl-compact">
+                <dt>Returns</dt>
+                <dd>
+                  <p><code>array</code>&nbsp;An array of nested data returned by d3.nest.</p>
+                </dd>
+              </dl>
+              <h3 id=".parseGoal"><div class="symbol-detail-labels"><span class="label label-static">static</span></div><span class="symbol-name">parseGoal</span><span class="signature"><span class="signature-params">(text)</span>&nbsp;&rarr; <span class="signature-returns"> array</span></span></h3>
+              <p>Parse goal text into an Array of number and symbol. For example, &quot;top-10%&quot; to 10 and &quot;%&quot;, &quot;top-5&quot; to 5 and false.</p>
+              <section>
+                <h4>Parameter</h4>
+                <table class="jsdoc-details-table">
+                  <thead>
+                    <tr>
+                      <th>Name</th>
+                      <th>Type</th>
+                      <th>Optional</th>
+                      <th>Description</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td>
+                        <p>text</p>
+                      </td>
+                      <td>
+                        <p>string</p>
+                      </td>
+                      <td>
+                        <p>&nbsp;</p>
+                      </td>
+                      <td>
+                        <p>Goal string.</p>
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </section>
+              <dl class="dl-compact">
+                <dt>Returns</dt>
+                <dd>
+                  <p><code>array</code>&nbsp;[number, symbol] Symbol could either be '%' or false.</p>
+                </dd>
+              </dl>
+              <h3 id=".parseNumberWithSeparators"><div class="symbol-detail-labels"><span class="label label-static">static</span></div><span class="symbol-name">parseNumberWithSeparators</span><span class="signature"><span class="signature-params">(text)</span>&nbsp;&rarr; <span class="signature-returns"> number</span></span></h3>
+              <p>Removes commas from given number string. For example it converts &quot;10,000&quot; to 10000. This is useful for preprocessing number prior to entering it to models.</p>
+              <section>
+                <h4>Parameter</h4>
+                <table class="jsdoc-details-table">
+                  <thead>
+                    <tr>
+                      <th>Name</th>
+                      <th>Type</th>
+                      <th>Optional</th>
+                      <th>Description</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td>
+                        <p>text</p>
+                      </td>
+                      <td>
+                        <p>string</p>
+                      </td>
+                      <td>
+                        <p>&nbsp;</p>
+                      </td>
+                      <td>
+                        <p>String of number with comma separators.</p>
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </section>
+              <dl class="dl-compact">
+                <dt>Returns</dt>
+                <dd>
+                  <p><code>number</code>&nbsp;Numeric representation of given string.</p>
+                </dd>
+              </dl>
+              <h3 id=".parsePercent"><div class="symbol-detail-labels"><span class="label label-static">static</span></div><span class="symbol-name">parsePercent</span><span class="signature"><span class="signature-params">(text)</span>&nbsp;&rarr; <span class="signature-returns"> number</span></span></h3>
+              <p>Remove percent symbol (%) from a given string and return its numeric representation. Useful for preprocessing prior to entering to models.</p>
+              <section>
+                <h4>Parameter</h4>
+                <table class="jsdoc-details-table">
+                  <thead>
+                    <tr>
+                      <th>Name</th>
+                      <th>Type</th>
+                      <th>Optional</th>
+                      <th>Description</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td>
+                        <p>text</p>
+                      </td>
+                      <td>
+                        <p>string</p>
+                      </td>
+                      <td>
+                        <p>&nbsp;</p>
+                      </td>
+                      <td>
+                        <p>String of number + percent symbol.</p>
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </section>
+              <dl class="dl-compact">
+                <dt>Returns</dt>
+                <dd>
+                  <p><code>number</code>&nbsp;Numeric representation of the text percentage.</p>
+                </dd>
+              </dl>
+              <h3 id=".pickColor"><div class="symbol-detail-labels"><span class="label label-static">static</span></div><span class="symbol-name">pickColor</span><span class="signature"><span class="signature-params">()</span></span></h3>
+              <p>Picks one of 20 colors in cycle. This is used to color goal related items (boxes and lines).</p>
+              <dl class="dl-compact">
+              </dl>
+              <h3 id=".showLoading"><div class="symbol-detail-labels"><span class="label label-static">static</span></div><span class="symbol-name">showLoading</span><span class="signature"><span class="signature-params">(selector)</span></span></h3>
+              <p>Show &quot;now loading&quot; area at given selector.</p>
+              <section>
+                <h4>Parameter</h4>
+                <table class="jsdoc-details-table">
+                  <thead>
+                    <tr>
+                      <th>Name</th>
+                      <th>Type</th>
+                      <th>Optional</th>
+                      <th>Description</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td>
+                        <p>selector</p>
+                      </td>
+                      <td>
+                        <p>string</p>
+                      </td>
+                      <td>
+                        <p>&nbsp;</p>
+                      </td>
+                      <td>
+                        <p>CSS selector where loading element will be added into.</p>
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </section>
+              <dl class="dl-compact">
+              </dl>
+              <h3 id=".stopifnot"><div class="symbol-detail-labels"><span class="label label-static">static</span></div><span class="symbol-name">stopifnot</span><span class="signature"><span class="signature-params">(condition, message)</span></span></h3>
+              <p>A function similar to assert. Stop app execution when given condition not met + show message.</p>
+              <section>
+                <h4>Parameters</h4>
+                <table class="jsdoc-details-table">
+                  <thead>
+                    <tr>
+                      <th>Name</th>
+                      <th>Type</th>
+                      <th>Optional</th>
+                      <th>Description</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td>
+                        <p>condition</p>
+                      </td>
+                      <td>
+                        <p>boolean</p>
+                      </td>
+                      <td>
+                        <p>&nbsp;</p>
+                      </td>
+                      <td>
+                        <p>Boolean to test.</p>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td>
+                        <p>message</p>
+                      </td>
+                      <td>
+                        <p>string</p>
+                      </td>
+                      <td>
+                        <p>&nbsp;</p>
+                      </td>
+                      <td>
+                        <p>Message to display on error.</p>
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </section>
+              <dl class="dl-compact">
+              </dl>
+              <h3 id=".url"><div class="symbol-detail-labels"><span class="label label-static">static</span></div><span class="symbol-name">url</span><span class="signature"><span class="signature-params">(path)</span>&nbsp;&rarr; <span class="signature-returns"> string</span></span></h3>
+              <p>Getting url to server + given path.</p>
+              <section>
+                <h4>Parameter</h4>
+                <table class="jsdoc-details-table">
+                  <thead>
+                    <tr>
+                      <th>Name</th>
+                      <th>Type</th>
+                      <th>Optional</th>
+                      <th>Description</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td>
+                        <p>path</p>
+                      </td>
+                      <td>
+                        <p>string</p>
+                      </td>
+                      <td>
+                        <p>&nbsp;</p>
+                      </td>
+                      <td>
+                        <p>Path to be added next to server url</p>
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </section>
+              <dl class="dl-compact">
+                <dt>Returns</dt>
+                <dd>
+                  <p><code>string</code>&nbsp;Url + path, for example &quot;http:4123//serverpath.com/thepath&quot; where &quot;thepath&quot; is given path.</p>
+                </dd>
+              </dl>
+            </section>
+          </section>
+        </div>
+      </div>
+      <nav id="jsdoc-toc-nav" role="navigation"></nav>
+    </div>
+  </div>
+  <footer id="jsdoc-footer" class="jsdoc-footer">
+    <div id="jsdoc-footer-container">
+      <p>
+        Generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc</a> 3.3.3 on October 5, 2015.
+      </p>
+    </div>
+  </footer>
+  <script src="scripts/jquery.min.js"></script>
+  <script src="scripts/jquery.cookie.js"></script>
+  <script src="scripts/tree.jquery.js"></script>
+  <script src="scripts/prettify.js"></script>
+  <script src="scripts/jsdoc-toc.js"></script>
+  <script src="scripts/linenumber.js"></script>
+  <script src="scripts/scrollanchor.js"></script>
+</body>
+
+</html>

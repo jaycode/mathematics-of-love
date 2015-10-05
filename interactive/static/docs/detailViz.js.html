@@ -1,0 +1,508 @@
+<!doctype html>
+<html>
+
+<head>
+  <meta name="generator" content="JSDoc 3.3.3">
+  <meta charset="utf-8">
+  <title>Source: detailViz.js</title>
+  <link rel="stylesheet" href="https://brick.a.ssl.fastly.net/Karla:400,400i,700,700i" type="text/css">
+  <link rel="stylesheet" href="https://brick.a.ssl.fastly.net/Noto+Serif:400,400i,700,700i" type="text/css">
+  <link rel="stylesheet" href="https://brick.a.ssl.fastly.net/Inconsolata:500" type="text/css">
+  <link href="css/baseline.css" rel="stylesheet">
+</head>
+
+<body onload="prettyPrint()">
+  <nav id="jsdoc-navbar" role="navigation" class="jsdoc-navbar">
+    <div id="jsdoc-navbar-container">
+      <div id="jsdoc-navbar-content">
+        <a href="index.html" class="jsdoc-navbar-package-name">Home</a>
+      </div>
+    </div>
+  </nav>
+  <div id="jsdoc-body-container">
+    <div id="jsdoc-content">
+      <div id="jsdoc-content-container">
+        <div id="jsdoc-banner" role="banner">
+        </div>
+        <div id="jsdoc-main" role="main">
+          <header class="page-header">
+            <h1>Source: detailViz.js</h1>
+          </header>
+          <article>
+            <pre class="prettyprint linenums"><code>var app = app || {};
+
+(function() {
+  /**
+   * Detail Plot
+   * ## Related Links
+   * - {@link app.detail}
+   * - {@link app.CurrentDetail}
+   * - {@link app.detailVizHelpers}
+   * - {@link app.vizHelpers}
+   * @namespace app.detailViz
+   */
+  app.detailViz = {
+    selector: &#x27;&#x27;,
+    chartSelector: &#x27;#g-d&#x27;,
+    width: 800,
+    height: 400,
+    marginLeft: 60,
+    marginTop: 80,
+    x2Height: 60,
+    bottomOffset: 20,
+    rightOffset: 20,
+    xExtent: null,
+    yExtent: null,
+    xScale: null,
+    yScale: null,
+    binsize: null,
+    data: [],
+    topX: null,
+    percent: false,
+    rejectionPhase: null
+  };
+
+  /**
+   * Draws detailViz.
+   * ## Related Links
+   * - {@link app.detailVizHelpers.prepareData}
+   * @param {Array} data List of compatibilities for given lifetime.
+   * @param {string} selector Selector to display detailViz in.
+   * @param params Parameters to use to configure data to draw.
+   * @param {integer} params.rejectionPhase 0 to 100.
+   * @param {number} params.topX Top number of / percentage of candidates to choose from.
+   * @param {boolean} params.percent Flag to decide whether to use percent or fixed number for topX.
+   */
+  app.detailViz.draw = function(data, selector, params) {
+    var self = this;
+    self.selector = selector;
+    self.topX = typeof(params[&#x27;topX&#x27;]) == &#x27;undefined&#x27; ? self.topX : params[&#x27;topX&#x27;];
+    self.percent = typeof(params[&#x27;percent&#x27;]) == &#x27;undefined&#x27; ? self.percent : params[&#x27;percent&#x27;];
+    self.rejectionPhase = typeof(params[&#x27;rejectionPhase&#x27;]) == &#x27;undefined&#x27; ? self.rejectionPhase : params[&#x27;rejectionPhase&#x27;];
+    self.data = app.detailVizHelpers.prepareData(data, self.rejectionPhase, self.topX, self.percent);
+    d3.select(selector)
+      .append(&#x27;svg&#x27;)
+        .attr(&#x27;width&#x27;, self.width + self.marginLeft + self.rightOffset)
+        .attr(&#x27;height&#x27;, self.height + self.marginTop + self.x2Height + self.bottomOffset)
+      .append(&#x27;g&#x27;)
+        .attr(&#x27;id&#x27;, &#x27;g-d&#x27;)
+        .attr(&#x27;class&#x27;,&#x27;chart d_plot&#x27;);
+
+    var x2Area = d3.select(self.chartSelector)
+      .append(&#x27;g&#x27;)
+      .attr(&#x27;class&#x27;, &#x27;x2Area&#x27;)
+      .attr(&#x27;transform&#x27;, &#x27;translate(0, &#x27;+self.height+&#x27;)&#x27;)
+
+    self.xExtent = [1, self.data.length];
+    self.yExtent = d3.extent(self.data, function(d) {return d[&#x27;candidate_score&#x27;];});
+
+    var scales = app.vizHelpers.drawAxes(self.chartSelector, {
+      xExtent: self.xExtent,
+      yExtent: self.yExtent,
+      width: self.width,
+      height: self.height,
+      marginLeft: self.marginLeft,
+      marginTop: self.marginTop,
+      bottomOffset: self.bottomOffset,
+      xLabel: &quot;Candidates&quot;,
+      yLabel: &quot;Compatibility Score&quot;,
+      title: &quot;Lifetime Simulation&quot;,
+      categorical: true
+    });
+
+    self.xScale = scales[0];
+    self.yScale = scales[1];
+    
+    // Categorize x-axis in ages.
+    // Draw this before drawing axes as we want to show this underneath.
+    // ------
+    var nestByAge = d3.nest()
+      .key(function(d) {
+        return d[&#x27;candidate_age_met&#x27;];
+      })
+      .rollup(function(leaves) {
+        return {
+          &#x27;total_candidates&#x27;: leaves.length,
+          &#x27;first_candidate_id&#x27;: parseInt(leaves[0].id),
+          &#x27;last_candidate_id&#x27;: parseInt(_.last(leaves).id)
+        };
+      })
+      .entries(self.data);
+
+    self.binsize = (self.xScale(_.last(self.data).id) - self.xScale(data[0].id)) / self.data.length;
+    var x2Extent = d3.extent(self.data, function(d) {return d[&#x27;candidate_age_met&#x27;];});
+    var i = 0;
+    _.range(x2Extent[0], x2Extent[1]+1).forEach(function(x2) {
+      var group = _.find(nestByAge, function(g) {return g.key == x2.toString();});
+
+      if (group) {
+        var startPos = self.xScale(group[&#x27;values&#x27;][&#x27;first_candidate_id&#x27;]);
+        var endPos = self.xScale(group[&#x27;values&#x27;][&#x27;last_candidate_id&#x27;])+self.binsize;
+        var areaWidth = endPos - startPos;
+        x2Area
+          .append(&#x27;rect&#x27;)
+          .attr(&#x27;transform&#x27;, &#x27;translate(&#x27;+startPos+&#x27;, 0)&#x27;)
+          .attr(&#x27;height&#x27;, self.x2Height)
+          .attr(&#x27;width&#x27;, 0)
+          .attr(&#x27;class&#x27;, &#x27;x2 x2-&#x27;+i)
+          // .style(&#x27;fill&#x27;, app.helpers.pickColor(i))
+          .transition()
+            .attr(&#x27;width&#x27;, areaWidth);
+
+        d3.select(self.chartSelector)
+          .append(&#x27;text&#x27;)
+            .attr(&#x27;class&#x27;, &#x27;x2-label&#x27;)
+            .attr(&#x27;text-anchor&#x27;, &#x27;middle&#x27;)
+            .attr(&#x27;transform&#x27;, &#x27;translate(&#x27;+(startPos + areaWidth/2)+&#x27;,&#x27;+(self.height+(self.x2Height/2 + 12))+&#x27;)&#x27;)
+            .text(x2);
+        i++;
+      }
+
+    });
+    // ------
+
+    // Taking care of additional labels.
+    // ------
+    // x-axes labels
+    d3.select(self.chartSelector)
+      .append(&#x27;text&#x27;)
+        .attr(&#x27;class&#x27;, &#x27;x-label&#x27;)
+        .attr(&#x27;text-anchor&#x27;, &#x27;end&#x27;)
+        .attr(&#x27;transform&#x27;, &#x27;translate(&#x27;+(self.marginLeft-10)+&#x27;,&#x27;+(self.height+16)+&#x27;)&#x27;)
+        .text(&#x27;# :&#x27;);
+
+    d3.select(self.chartSelector)
+      .append(&#x27;text&#x27;)
+        .attr(&#x27;class&#x27;, &#x27;x2-label&#x27;)
+        .attr(&#x27;text-anchor&#x27;, &#x27;end&#x27;)
+        .attr(&#x27;transform&#x27;, &#x27;translate(&#x27;+(self.marginLeft-17)+&#x27;,&#x27;+(self.height+(self.x2Height/2 + 5))+&#x27;)&#x27;)
+        .text(&quot;Age&quot;);
+
+    d3.select(self.chartSelector)
+      .append(&#x27;text&#x27;)
+        .attr(&#x27;class&#x27;, &#x27;x2-label&#x27;)
+        .attr(&#x27;text-anchor&#x27;, &#x27;end&#x27;)
+        .attr(&#x27;transform&#x27;, &#x27;translate(&#x27;+(self.marginLeft-17)+&#x27;,&#x27;+(self.height+(self.x2Height/2 + 22))+&#x27;)&#x27;)
+        .text(&quot;Met&quot;);
+
+    d3.select(self.chartSelector)
+      .append(&#x27;text&#x27;)
+        .attr(&#x27;class&#x27;, &#x27;x2-label&#x27;)
+        .attr(&#x27;text-anchor&#x27;, &#x27;end&#x27;)
+        .attr(&#x27;transform&#x27;, &#x27;translate(&#x27;+(self.marginLeft-10)+&#x27;,&#x27;+(self.height+(self.x2Height/2 + 12))+&#x27;)&#x27;)
+        .text(&quot;:&quot;);
+    // ------
+
+    app.detailViz.drawHistContent.call(self);
+
+    app.detailViz.drawRejectionPhase.call(self, function() {
+      app.detailViz.drawExperiment.call(self, self.data, params.callback);
+    });
+  };
+
+  /**
+   * Draws the rejection phase, then run given callback.
+   * @param {function} callback Callback function to run once rejection phase is drawn.
+   */
+  app.detailViz.drawRejectionPhase = function(callback) {
+    var self = this;
+    var selector = &#x27;#r_phase&#x27;;
+    var selector_id = &#x27;r_phase&#x27;;
+    d3.select(selector)
+      .remove();
+
+    var r = self.rejectionPhase/100;
+    var id = Math.round(self.data.length * r);
+    if (id &gt; 0) {
+      var x = self.marginLeft;
+      var y = self.marginTop;
+      if (id == self.data.length) {
+        var width = self.width;
+      }
+      else {
+        var scaled = self.xScale(id+1);
+        var width = scaled - x;
+      }
+      var height = self.height - self.marginTop;
+      var area = d3.select(self.chartSelector)
+        .insert(&#x27;g&#x27;, &#x27;:first-child&#x27;)
+          .classed(&#x27;r_phase&#x27;, true)
+          .attr(&#x27;id&#x27;, selector_id)
+          .attr(&#x27;transform&#x27;, &#x27;translate(&#x27;+x+&#x27;, &#x27;+y+&#x27;)&#x27;)
+          .attr(&#x27;width&#x27;, width)
+          .attr(&#x27;height&#x27;, height);
+      area
+        .append(&#x27;rect&#x27;)
+          .attr(&#x27;transform&#x27;, &#x27;translate(&#x27;+(width-5)+&#x27;, &#x27;+height+&#x27;)&#x27;)
+          .attr(&#x27;width&#x27;, 5)
+          .transition()
+          .attr(&#x27;transform&#x27;, &#x27;translate(&#x27;+(width-5)+&#x27;, &#x27;+0+&#x27;)&#x27;)
+          .attr(&#x27;height&#x27;, height)
+          .each(&#x27;end&#x27;, function() {
+            d3.select(selector)
+              .select(&#x27;rect&#x27;)
+                .transition()
+                .attr(&#x27;transform&#x27;, &#x27;translate(&#x27;+0+&#x27;, &#x27;+0+&#x27;)&#x27;)
+                .attr(&#x27;width&#x27;, width)
+                .each(&#x27;end&#x27;, function() {
+                  callback();
+                });          
+          });
+      area
+        .append(&#x27;text&#x27;)
+          .attr(&#x27;class&#x27;, &#x27;x2-label&#x27;)
+          .attr(&#x27;text-anchor&#x27;, &#x27;middle&#x27;)
+          .attr(&#x27;transform&#x27;, &#x27;translate(&#x27;+(0 + width/2)+&#x27;,&#x27;+30+&#x27;)&#x27;)
+          .text(&quot;Rejection&quot;)
+          .style(&#x27;opacity&#x27;, 0)
+          .transition()
+          .style(&#x27;opacity&#x27;, 1);
+      area
+        .append(&#x27;text&#x27;)
+          .attr(&#x27;class&#x27;, &#x27;x2-label&#x27;)
+          .attr(&#x27;text-anchor&#x27;, &#x27;middle&#x27;)
+          .attr(&#x27;transform&#x27;, &#x27;translate(&#x27;+(0 + width/2)+&#x27;,&#x27;+60+&#x27;)&#x27;)
+          .text(&quot;Phase&quot;)
+          .style(&#x27;opacity&#x27;, 0)
+          .transition()
+          .style(&#x27;opacity&#x27;, 1);
+
+    }
+  }
+
+  /**
+   * Draws the bars in histogram.
+   */
+  app.detailViz.drawHistContent = function() {
+    var self = this;
+    var xFunc = function(d) {return d[&#x27;id&#x27;];};
+    var yFunc = function(d) {return d[&#x27;candidate_score&#x27;]};
+
+    var bar = d3.select(self.chartSelector)
+      .selectAll(&quot;.bar&quot;)
+      .data(self.data)
+      .enter()
+      .append(&quot;g&quot;)
+        .attr(&quot;class&quot;, &quot;bar&quot;)
+        .attr(&quot;transform&quot;, function(d, i) {
+          return &quot;translate(&quot; + 
+             (self.xScale(xFunc(d))) + &quot;,&quot; + self.yScale(self.yExtent[0]) + &quot;)&quot;;
+        });
+
+    bar
+      .transition()
+      .duration(1500)
+      .attr(&quot;transform&quot;, function(d, i) { 
+        return &quot;translate(&quot; + 
+           (self.xScale(xFunc(d))) + &quot;,&quot; + self.yScale(yFunc(d)) + &quot;)&quot;;
+      });
+
+    // Add rectangles of correct size at correct location.
+    bar.append(&quot;rect&quot;)
+      .attr(&#x27;height&#x27;, 0)
+      .attr(&quot;width&quot;, self.binsize)
+      .transition()
+      .duration(1500)
+      .attr(&quot;height&quot;, function(d) { return self.height - self.yScale(yFunc(d)); });
+
+    var tip = d3.tip()
+      .attr(&#x27;class&#x27;, &#x27;d3-tip&#x27;)
+      .offset([-10, 0])
+      .html(function(d, i) {
+        var extent = self.yExtent;
+
+        return &quot;&amp;lt;strong&gt;Candidate #&amp;lt;/strong&gt;&amp;lt;span&gt;&quot; + d[&#x27;id&#x27;] + &quot;&amp;lt;/span&gt;&amp;lt;br /&gt;&quot; +
+        &quot;&amp;lt;strong&gt;Score:&amp;lt;/strong&gt; &amp;lt;span style=&#x27;color:red&#x27;&gt;&quot; + Math.round(yFunc(d)*10000)/100 +
+          &quot;&amp;lt;/span&gt; &amp;lt;span&gt;(&quot;+Math.round( ((d[&#x27;candidate_score&#x27;]-extent[0]) / (extent[1]-extent[0]))*10000)/100+&quot;%)&amp;lt;/span&gt;&quot;;
+      });
+
+    d3.select(self.selector + &#x27; svg&#x27;).call(tip);
+
+    bar
+      .on(&#x27;mouseover&#x27;, tip.show)
+      .on(&#x27;mouseout&#x27;, tip.hide);
+  };
+
+  /**
+   * Draws the entire experiment.
+   * @params {Array} data Data to fill the experiment with. When not given,
+   *   this method will get data from server using method {@link app.detailVizHelpers.prepareData}.&amp;lt;br /&gt;
+   *   Pass in data to avoid prepareData being called again.
+   * @params {function} callback Callback to run once data loaded.
+   */
+  app.detailViz.drawExperiment = function(data, callback) {
+    var self = this;
+    if (typeof(data) == &#x27;undefined&#x27;) {
+      var data = app.detailVizHelpers.prepareData(self.data, self.rejectionPhase, self.topX, self.percent);
+    }
+    var bars = d3.selectAll(self.chartSelector+&#x27; .bar&#x27;)
+    bars.select(&#x27;rect&#x27;)
+      .classed(&#x27;focus&#x27;, false);
+    d3.selectAll(self.chartSelector + &#x27; .marker&#x27;).remove();
+
+    // Number of markers still animated.
+    // Used to decide when to call the callback.
+    self._animatedMarkers = 0;
+
+    // Number of markers for time delay in animation.
+    var delayId = 0;
+
+    data.forEach(function(d, id) {
+      var x = self.xScale(d[&#x27;id&#x27;]);
+      var y = self.yScale(d[&#x27;candidate_score&#x27;]);
+
+      var bar = d3.select(bars[0][id])
+      if (d[&#x27;is_optimal&#x27;]) {
+        // nth-of-type cannot work with class i.e.:
+        // .bar:nth-of-type(&#x27;+(d[&#x27;id&#x27;])+&#x27;) still chooses the first few non- .bar
+        // g&#x27;s, so we have to do it the javascript way.
+
+        bar.select(&#x27;rect&#x27;)
+          .classed(&#x27;focus&#x27;, true);
+      }
+
+      if (d[&#x27;is_top&#x27;]) {
+        delayId++;
+        app.detailViz.drawMarker.call(self, bar, app.images.star, d, delayId, &#x27;yellow&#x27;, &#x27;top&#x27;, callback);
+      }
+      if (d[&#x27;chosen_status&#x27;] == 1) {
+        delayId++;
+        app.detailViz.drawMarker.call(self, bar, app.images.ok, d, delayId, &#x27;green&#x27;, &#x27;chosen&#x27;, callback);
+      }
+      else if (d[&#x27;chosen_status&#x27;] == -1) {
+        delayId++;
+        app.detailViz.drawMarker.call(self, bar, app.images.remove, d, delayId, &#x27;red&#x27;, &#x27;rejected&#x27;, callback);
+      }
+      else if (d[&#x27;chosen_status&#x27;] == -2) {
+        delayId++;
+        app.detailViz.drawMarker.call(self, bar, app.images.remove2, d, delayId, &#x27;red&#x27;, &#x27;unchosen&#x27;, callback);
+      }
+
+    });
+    if (typeof(callback) == &#x27;function&#x27; &amp;amp;&amp;amp; self._animatedMarkers == 0) {
+      callback();
+    }
+  }
+
+  /**
+   * Colors bars depending on their optimal status based on chosen {@link app.DetailGoal DetailGoal}.
+   * @param data Data used in this experiment. When not given,
+   *   this method will get data from server using method {@link app.detailVizHelpers.prepareData}.&amp;lt;br /&gt;
+   *   Pass in data to avoid prepareData being called again.
+   * @param callback Callback method to call when data loaded.
+   */
+  app.detailViz.drawOptimals = function(data, callback) {
+    var self = this;
+    if (typeof(data) == &#x27;undefined&#x27;) {
+      var data = app.detailVizHelpers.prepareData(self.data, self.rejectionPhase, self.topX, self.percent);
+    }
+    var bars = d3.selectAll(self.chartSelector+&#x27; .bar&#x27;)
+    bars.select(&#x27;rect&#x27;)
+      .classed(&#x27;focus&#x27;, false);
+
+    data.forEach(function(d, id) {
+      var x = self.xScale(d[&#x27;id&#x27;]);
+      var y = self.yScale(d[&#x27;candidate_score&#x27;]);
+
+      var bar = d3.select(bars[0][id])
+      if (d[&#x27;is_optimal&#x27;]) {
+        // nth-of-type cannot work with class i.e.:
+        // .bar:nth-of-type(&#x27;+(d[&#x27;id&#x27;])+&#x27;) still chooses the first few non- .bar
+        // g&#x27;s, so we have to do it the javascript way.
+
+        bar.select(&#x27;rect&#x27;)
+          .classed(&#x27;focus&#x27;, true);
+      }
+
+    });
+    if (typeof(callback) == &#x27;function&#x27;) {
+      callback();
+    }
+  }
+
+  /**
+   * Draws the markers on top of a bar.
+   * @param {element} bar Bar element (a &#x60;g&#x60; element containing a &#x60;rect&#x60;).
+   * @param {string} image Image html to use in marker. See {@link app.images} for a list of images to use.
+   * @param {object} d Current datum (need to have &#x27;id&#x27; and &#x27;candidate_score&#x27; attributes).
+   * @param {number} i Ordering position of this marker. Use this to decide on a delay before drawing this marker.
+   * @param {string} elclass CSS class to give to this marker.
+   * @param {function} callback Function to call when marker is drawn.
+   */
+  app.detailViz.drawMarker = function(bar, image, d, i, color, elclass, callback) {
+    var self = this;
+    self._animatedMarkers++;
+
+    var img = bar
+      .insert(&#x27;g&#x27;, &#x27;:first-child&#x27;)
+      .classed(&#x27;marker&#x27;, true)
+      .classed(elclass, true);
+
+    img
+      .html(image);
+
+    // Needed to avoid translation while scaling.
+    // See: http://stackoverflow.com/questions/24173560/svg-scale-without-moving-location
+    // var bbox=img.node().getBBox();
+    // var cx=bbox.x+(bbox.width/2),
+    //     cy=bbox.y+(bbox.height/2);   // finding center of element
+    // // var scalex=self.binsize/bbox.width, scaley=self.binsize/bbox.width;    // your desired scale
+    // var scalex=1, scaley=1;
+    // var imgLeft=-cx*(scalex-1);
+    // var imgTop2=-cy*(scaley-1) - bbox.height*2;                        
+
+    // ALRIGHT I GIVE UP! NO SCALING FOR NOW!!!
+
+
+    // var imgWidth = img.node().getBoundingClientRect().width;
+    var imgHeight = img.node().getBoundingClientRect().width;
+    // var imgScaleWidth = self.binsize/imgWidth;
+
+    var imgLeft = self.xScale(d[&#x27;id&#x27;]);
+    var imgTop1 = self.yScale(d[&#x27;candidate_score&#x27;]);
+    var imgTop2 = (self.yScale(d[&#x27;candidate_score&#x27;]) - imgHeight - 10);
+
+    imgTop1 = 0;
+    imgTop2 = -imgHeight*2;
+    imgLeft = -7;
+
+    // img.select(&#x27;path&#x27;).attr(&#x27;transform&#x27;, &#x27;scale(&#x27;+(scalestr)+&#x27;)&#x27;);
+    img
+      .attr(&#x27;transform&#x27;, &#x27;translate(&#x27;+(imgLeft)+&#x27;, &#x27;+imgTop1+&#x27;)&#x27;)
+      .style(&#x27;opacity&#x27;, 0)
+      .attr(&#x27;fill&#x27;, color)
+      .transition()
+      .delay(i*50)
+      .style(&#x27;opacity&#x27;, 1)
+      .attr(&#x27;transform&#x27;, &#x27;translate(&#x27;+(imgLeft)+&#x27;, &#x27;+imgTop2+&#x27;)&#x27;)
+      .each(&#x27;end&#x27;, function() {
+        self._animatedMarkers--;
+        if (self._animatedMarkers &amp;lt;= 0 &amp;amp;&amp;amp; typeof(callback) == &#x27;function&#x27;) {
+          callback();
+        }
+      });
+  }
+})();</code></pre>
+          </article>
+        </div>
+      </div>
+      <nav id="jsdoc-toc-nav" role="navigation"></nav>
+    </div>
+  </div>
+  <footer id="jsdoc-footer" class="jsdoc-footer">
+    <div id="jsdoc-footer-container">
+      <p>
+        Generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc</a> 3.3.3 on October 5, 2015.
+      </p>
+    </div>
+  </footer>
+  <script src="scripts/jquery.min.js"></script>
+  <script src="scripts/jquery.cookie.js"></script>
+  <script src="scripts/tree.jquery.js"></script>
+  <script src="scripts/prettify.js"></script>
+  <script src="scripts/jsdoc-toc.js"></script>
+  <script src="scripts/linenumber.js"></script>
+  <script src="scripts/scrollanchor.js"></script>
+</body>
+
+</html>

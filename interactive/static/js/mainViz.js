@@ -2,8 +2,23 @@ var app = app || {};
 
 (function() {
   "use strict";
+  /**
+   * Main Visualization where Simulation Analysis is displayed.
+   * ## Related Links
+   * - {@link app.Experiment}
+   * - {@link app.simulationAnalysis}
+   * - {@link app.vizHelpers}
+   * @namespace app.mainViz
+   */
   app.mainViz = {};
 
+  /**
+   * Runs an animation to remove currently displayed elements inside selector, then pass
+   * several parameters to {@link app.mainViz.drawGSA} function.
+   * @param {Array} data Data from server that include all calculations over different {@link app.data.experiment.goals goals}.
+   * @param {string} selector CSS selector where plots will be drawn at.
+   * @param {function} callback Call this function when plot is drawn.
+   */
   app.mainViz.draw = function(data, selector, callback) {
     d3.select(selector)
       .transition()
@@ -20,8 +35,14 @@ var app = app || {};
       });
   }
 
+  /**
+   * Draws simulation analysis plot based on given data,
+   * inside the element pointed by css selector, then runs a callback function.
+   * @param {Array} data Data from server that include all calculations over different {@link app.data.experiment.goals goals}.
+   * @param {string} selector CSS selector where plots will be drawn at.
+   * @param {function} callback Call this function when plot is drawn.
+   */
   app.mainViz.drawGSA = function(data, selector, callback) {
-    // Todo: when screen size changed, change this.
     var width = 800,
         height = 400,
         marginLeft = 60,
@@ -197,8 +218,32 @@ var app = app || {};
     }
   }
 
+  /**
+   * Helpers used in drawing the visualizations.
+   * ## Related Links
+   * - {@link app.mainViz}
+   * - {@link app.detailViz}
+   * - {@link app.introViz}
+   * - {@link app.generatedViz}
+   * @namespace app.vizHelpers
+   */
   app.vizHelpers = {};
 
+  /**
+   * Draws axes used in a visualization.
+   * @param {string} chartSelector CSS selector where the chart is drawn.
+   * @param {object} params Setting parameters for the drawn axes.
+   * @param {object} params.xExtent xExtent object (min,max) of x axis.
+   * @param {object} params.yExtent yExtent object (min, max) of y axis.
+   * @param {number} params.width Width of plot.
+   * @param {number} params.height Height of plot.
+   * @param {number} params.marginLeft Left margin before where plot is drawn.
+   * @param {number} params.marginTop Top margin before where plot is drawn.
+   * @param {number} params.bottomOffset Offset at the bottom after where the plot is drawn.
+   * @param {string} params.xLabel Label of x axis.
+   * @param {string} params.yLabel Label of y axis.
+   * @param {string} params.title Title of plot.
+   */
   app.vizHelpers.drawAxes = function(chartSelector, params) {
     // Create x-axis scale.
     if (params.categorical) {

@@ -1,0 +1,417 @@
+<!doctype html>
+<html>
+
+<head>
+  <meta name="generator" content="JSDoc 3.3.3">
+  <meta charset="utf-8">
+  <title>Namespace: detailViz</title>
+  <link rel="stylesheet" href="https://brick.a.ssl.fastly.net/Karla:400,400i,700,700i" type="text/css">
+  <link rel="stylesheet" href="https://brick.a.ssl.fastly.net/Noto+Serif:400,400i,700,700i" type="text/css">
+  <link rel="stylesheet" href="https://brick.a.ssl.fastly.net/Inconsolata:500" type="text/css">
+  <link href="css/baseline.css" rel="stylesheet">
+</head>
+
+<body onload="prettyPrint()">
+  <nav id="jsdoc-navbar" role="navigation" class="jsdoc-navbar">
+    <div id="jsdoc-navbar-container">
+      <div id="jsdoc-navbar-content">
+        <a href="index.html" class="jsdoc-navbar-package-name">Home</a>
+      </div>
+    </div>
+  </nav>
+  <div id="jsdoc-body-container">
+    <div id="jsdoc-content">
+      <div id="jsdoc-content-container">
+        <div id="jsdoc-main" role="main">
+          <header class="page-header">
+            <h1><div class="symbol-detail-labels"><span class="label label-kind">namespace</span>&nbsp;<span class="label label-static">static</span></div><small><a href="app.html">app</a>.<wbr></small><span class="symbol-name">detailViz</span></h1>
+            <p class="source-link">Source: <a href="detailViz.js.html#source-line-4">detailViz.<wbr>js:4</a></p>
+            <div class="symbol-description">
+              <p>Detail Plot</p>
+              <h2>Related Links</h2>
+              <ul>
+                <li><a href="app.detail.html">app.detail</a></li>
+                <li><a href="app.CurrentDetail.html">app.CurrentDetail</a></li>
+                <li><a href="app.detailVizHelpers.html">app.detailVizHelpers</a></li>
+                <li><a href="app.vizHelpers.html">app.vizHelpers</a></li>
+              </ul>
+            </div>
+            <dl class="dl-compact">
+            </dl>
+          </header>
+          <section id="summary">
+            <div class="summary-callout">
+              <h2 class="summary-callout-heading">Methods</h2>
+              <div class="summary-content">
+                <div class="summary-column">
+                  <dl class="dl-summary-callout">
+                    <dt><a href="app.detailViz.html#.draw">draw(data, selector, params)</a></dt>
+                    <dd>
+                    </dd>
+                    <dt><a href="app.detailViz.html#.drawExperiment">drawExperiment()</a></dt>
+                    <dd>
+                    </dd>
+                  </dl>
+                </div>
+                <div class="summary-column">
+                  <dl class="dl-summary-callout">
+                    <dt><a href="app.detailViz.html#.drawHistContent">drawHistContent()</a></dt>
+                    <dd>
+                    </dd>
+                    <dt><a href="app.detailViz.html#.drawMarker">drawMarker(bar, image, d, i, elclass, callback)</a></dt>
+                    <dd>
+                    </dd>
+                  </dl>
+                </div>
+                <div class="summary-column">
+                  <dl class="dl-summary-callout">
+                    <dt><a href="app.detailViz.html#.drawOptimals">drawOptimals(data, callback)</a></dt>
+                    <dd>
+                    </dd>
+                    <dt><a href="app.detailViz.html#.drawRejectionPhase">drawRejectionPhase(callback)</a></dt>
+                    <dd>
+                    </dd>
+                  </dl>
+                </div>
+              </div>
+            </div>
+          </section>
+          <section>
+            <h2>Methods</h2>
+            <section>
+              <h3 id=".draw"><div class="symbol-detail-labels"><span class="label label-static">static</span></div><span class="symbol-name">draw</span><span class="signature"><span class="signature-params">(data, selector, params)</span></span></h3>
+              <p>Draws detailViz.</p>
+              <h2>Related Links</h2>
+              <ul>
+                <li><a href="app.detailVizHelpers.html#.prepareData">app.detailVizHelpers.prepareData</a></li>
+              </ul>
+              <section>
+                <h4>Parameters</h4>
+                <table class="jsdoc-details-table">
+                  <thead>
+                    <tr>
+                      <th>Name</th>
+                      <th>Type</th>
+                      <th>Optional</th>
+                      <th>Description</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td>
+                        <p>data</p>
+                      </td>
+                      <td>
+                        <p>Array</p>
+                      </td>
+                      <td>
+                        <p>&nbsp;</p>
+                      </td>
+                      <td>
+                        <p>List of compatibilities for given lifetime.</p>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td>
+                        <p>selector</p>
+                      </td>
+                      <td>
+                        <p>string</p>
+                      </td>
+                      <td>
+                        <p>&nbsp;</p>
+                      </td>
+                      <td>
+                        <p>Selector to display detailViz in.</p>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td>
+                        <p>params</p>
+                      </td>
+                      <td>
+                        <p>&nbsp;</p>
+                      </td>
+                      <td>
+                        <p>&nbsp;</p>
+                      </td>
+                      <td>
+                        <p>Parameters to use to configure data to draw.</p>
+                        <p>Values in <code>params</code> have the following properties:</p>
+                        <table class="jsdoc-details-table">
+                          <thead>
+                            <tr>
+                              <th>Name</th>
+                              <th>Type</th>
+                              <th>Optional</th>
+                              <th>Description</th>
+                            </tr>
+                          </thead>
+                          <tbody>
+                            <tr>
+                              <td>
+                                <p>rejectionPhase</p>
+                              </td>
+                              <td>
+                                <p>integer</p>
+                              </td>
+                              <td>
+                                <p>&nbsp;</p>
+                              </td>
+                              <td>
+                                <p>0 to 100.</p>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <p>topX</p>
+                              </td>
+                              <td>
+                                <p>number</p>
+                              </td>
+                              <td>
+                                <p>&nbsp;</p>
+                              </td>
+                              <td>
+                                <p>Top number of / percentage of candidates to choose from.</p>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <p>percent</p>
+                              </td>
+                              <td>
+                                <p>boolean</p>
+                              </td>
+                              <td>
+                                <p>&nbsp;</p>
+                              </td>
+                              <td>
+                                <p>Flag to decide whether to use percent or fixed number for topX.</p>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </section>
+              <dl class="dl-compact">
+              </dl>
+              <h3 id=".drawExperiment"><div class="symbol-detail-labels"><span class="label label-static">static</span></div><span class="symbol-name">drawExperiment</span><span class="signature"><span class="signature-params">()</span></span></h3>
+              <p>Draws the entire experiment.</p>
+              <dl class="dl-compact">
+              </dl>
+              <h3 id=".drawHistContent"><div class="symbol-detail-labels"><span class="label label-static">static</span></div><span class="symbol-name">drawHistContent</span><span class="signature"><span class="signature-params">()</span></span></h3>
+              <p>Draws the bars in histogram.</p>
+              <dl class="dl-compact">
+              </dl>
+              <h3 id=".drawMarker"><div class="symbol-detail-labels"><span class="label label-static">static</span></div><span class="symbol-name">drawMarker</span><span class="signature"><span class="signature-params">(bar, image, d, i, elclass, callback)</span></span></h3>
+              <p>Draws the markers on top of a bar.</p>
+              <section>
+                <h4>Parameters</h4>
+                <table class="jsdoc-details-table">
+                  <thead>
+                    <tr>
+                      <th>Name</th>
+                      <th>Type</th>
+                      <th>Optional</th>
+                      <th>Description</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td>
+                        <p>bar</p>
+                      </td>
+                      <td>
+                        <p>element</p>
+                      </td>
+                      <td>
+                        <p>&nbsp;</p>
+                      </td>
+                      <td>
+                        <p>Bar element (a <code>g</code> element containing a <code>rect</code>).</p>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td>
+                        <p>image</p>
+                      </td>
+                      <td>
+                        <p>string</p>
+                      </td>
+                      <td>
+                        <p>&nbsp;</p>
+                      </td>
+                      <td>
+                        <p>Image html to use in marker. See <a href="app.images.html">app.images</a> for a list of images to use.</p>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td>
+                        <p>d</p>
+                      </td>
+                      <td>
+                        <p>object</p>
+                      </td>
+                      <td>
+                        <p>&nbsp;</p>
+                      </td>
+                      <td>
+                        <p>Current datum (need to have 'id' and 'candidate_score' attributes).</p>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td>
+                        <p>i</p>
+                      </td>
+                      <td>
+                        <p>number</p>
+                      </td>
+                      <td>
+                        <p>&nbsp;</p>
+                      </td>
+                      <td>
+                        <p>Ordering position of this marker. Use this to decide on a delay before drawing this marker.</p>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td>
+                        <p>elclass</p>
+                      </td>
+                      <td>
+                        <p>string</p>
+                      </td>
+                      <td>
+                        <p>&nbsp;</p>
+                      </td>
+                      <td>
+                        <p>CSS class to give to this marker.</p>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td>
+                        <p>callback</p>
+                      </td>
+                      <td>
+                        <p>function()</p>
+                      </td>
+                      <td>
+                        <p>&nbsp;</p>
+                      </td>
+                      <td>
+                        <p>Function to call when marker is drawn.</p>
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </section>
+              <dl class="dl-compact">
+              </dl>
+              <h3 id=".drawOptimals"><div class="symbol-detail-labels"><span class="label label-static">static</span></div><span class="symbol-name">drawOptimals</span><span class="signature"><span class="signature-params">(data, callback)</span></span></h3>
+              <p>Colors bars depending on their optimal status based on chosen <a href="app.DetailGoal.html">DetailGoal</a>.</p>
+              <section>
+                <h4>Parameters</h4>
+                <table class="jsdoc-details-table">
+                  <thead>
+                    <tr>
+                      <th>Name</th>
+                      <th>Type</th>
+                      <th>Optional</th>
+                      <th>Description</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td>
+                        <p>data</p>
+                      </td>
+                      <td>
+                        <p>&nbsp;</p>
+                      </td>
+                      <td>
+                        <p>&nbsp;</p>
+                      </td>
+                      <td>
+                        <p>Data used in this experiment. When not given, this method will get data from server using method <a href="app.detailVizHelpers.html#.prepareData">app.detailVizHelpers.prepareData</a>.
+                          <br /> Pass in data to avoid prepareData being called again.</p>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td>
+                        <p>callback</p>
+                      </td>
+                      <td>
+                        <p>&nbsp;</p>
+                      </td>
+                      <td>
+                        <p>&nbsp;</p>
+                      </td>
+                      <td>
+                        <p>Callback method to call when data loaded.</p>
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </section>
+              <dl class="dl-compact">
+              </dl>
+              <h3 id=".drawRejectionPhase"><div class="symbol-detail-labels"><span class="label label-static">static</span></div><span class="symbol-name">drawRejectionPhase</span><span class="signature"><span class="signature-params">(callback)</span></span></h3>
+              <p>Draws the rejection phase, then run given callback.</p>
+              <section>
+                <h4>Parameter</h4>
+                <table class="jsdoc-details-table">
+                  <thead>
+                    <tr>
+                      <th>Name</th>
+                      <th>Type</th>
+                      <th>Optional</th>
+                      <th>Description</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td>
+                        <p>callback</p>
+                      </td>
+                      <td>
+                        <p>function()</p>
+                      </td>
+                      <td>
+                        <p>&nbsp;</p>
+                      </td>
+                      <td>
+                        <p>Callback function to run once rejection phase is drawn.</p>
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </section>
+              <dl class="dl-compact">
+              </dl>
+            </section>
+          </section>
+        </div>
+      </div>
+      <nav id="jsdoc-toc-nav" role="navigation"></nav>
+    </div>
+  </div>
+  <footer id="jsdoc-footer" class="jsdoc-footer">
+    <div id="jsdoc-footer-container">
+      <p>
+        Generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc</a> 3.3.3 on October 5, 2015.
+      </p>
+    </div>
+  </footer>
+  <script src="scripts/jquery.min.js"></script>
+  <script src="scripts/jquery.cookie.js"></script>
+  <script src="scripts/tree.jquery.js"></script>
+  <script src="scripts/prettify.js"></script>
+  <script src="scripts/jsdoc-toc.js"></script>
+  <script src="scripts/linenumber.js"></script>
+  <script src="scripts/scrollanchor.js"></script>
+</body>
+
+</html>

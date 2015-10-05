@@ -2,9 +2,23 @@ var app = app || {};
 
 (function() {
   "use strict";
+  /**
+   * Introductionary visualization where we only visualize mathematical concept without any data.
+   * ## Related Links
+   * - {@link app.vizHelpers}
+   * @namespace app.introViz
+   */
   app.introViz = {};
-  app.introViz.drawIntro = function(data) {
+
+  /**
+   * Draw the visualization given data and css selector
+   * @param {Array} data Calculation data (Success rates over various rejection phases).
+   * @param {string} selector CSS selector where plots will be drawn at.
+   */
+  app.introViz.drawIntro = function(data, selector) {
     data = data.partners;
+    selector = typeof(selector) == 'undefined' ? '#intro_viz' : selector;
+
     // Todo: when screen size changed, change this.
     var width = 800,
         height = 400,
@@ -13,7 +27,6 @@ var app = app || {};
         bottomOffset = 20,
         right_offset = 20,
         radius = 5,
-        selector = '#intro_viz',
         chartSelectorId = 'g-i',
         chartSelector = '#g-i';
 

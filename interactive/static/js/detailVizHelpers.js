@@ -1,14 +1,32 @@
 var app = app || {};
 
 (function() {
+  /**
+   * Helper methods used in {@link app.detailViz}.
+   * ## Related Links
+   * - {@link app.detailViz}
+   * - {@link app.CurrentDetail}
+   * @namespace app.detailVizHelpers
+   */
   app.detailVizHelpers = {};
 
+  /**
+   * Prepare the data prior to use in {@link app.detailViz.draw}. Data is prepared by first
+   * ordering it by age, then make the following marks in each datum:
+   * - `id`: Sequential number starting from 1.
+   * - `chosen_status`: -2 for rejected (under rejection phase), -1 for not chosen, 0 for undecided, 1 for chosen.
+   * - `is_optimal`: Based on topX and percent, is this candidate part of our optimal goals?
+   * - `is_top`: The top most candidate out of all.
+   * ## Related Links
+   * - {@link app.detailViz.draw}
+   * @param {Array} data Unprepared data to be processed.
+   * @param {number} rejectPercent Rejection Phase percentage to be applied for given data.
+   *   Used to decide which marks above to use.
+   * @param {number} topX Number of top value / percent of data to be considered. Get this from 
+   *   the first element of Array returned by function {@link app.helpers.parseGoal}.
+   * @param {boolean} percent Flag to decide whether to use percent or fixed number in topX.
+   */
   app.detailVizHelpers.prepareData = function(data, rejectPercent, topX, percent) {
-    // Order by age, then make the following marks in each datum:
-    // id = Sequential number starting from 1.
-    // chosen_status: -2 for rejected (under rejection phase), -1 for not chosen, 0 for undecided, 1 for chosen.
-    // is_optimal = Based on topX and percent, is this candidate part of our optimal goals?
-    // is_top = The top most candidate out of all.
     data = _.sortBy(data, function(d) {return d['candidate_age_met'];});
     var allScores = _.map(data, function(d) {
       return d['candidate_score'];
@@ -45,8 +63,15 @@ var app = app || {};
     return data;
   }
 
-  // Checks if given compatibilityScores is acceptable(i.e. within the top x percent / number of
-  // everyone, if 0 then only take the top one).
+  /**
+   * Checks if given candidate's compatibility score is acceptable(i.e. within the top x percent / number of
+   * everyone's compatibility scores, if 0 then only take the top one).
+   * @param {float} compatibilityScore Compatibility score of this candidate to examine.
+   * @param {Array} allCompatibilityScores Compatibility scores of all candidates.
+   * @param {number} topX Number of top value / percent of data to be considered. Get this from 
+   *   the first element of Array returned by function {@link app.helpers.parseGoal}.
+   * @param {boolean} percent Flag to decide whether to use percent or fixed number in topX.
+   */
   app.detailVizHelpers.isAcceptable = function(compatibilityScore, allCompatibilityScores, topX, percent) {
     topX = typeof(topX) == 'undefined' ? 1 : topX;
     percent = typeof(percent) == 'undefined' ? false : percent;
@@ -61,6 +86,9 @@ var app = app || {};
     return (compatibilityScore >= minAccepted);
   }
 
+  /**
+   * Tests `app.detailVizHelpers.isAcceptable` method.
+   */
   app.detailVizHelpers.testIsAcceptable = function() {
     var compats = (_.range(1, 101,1));
     var result1 = app.detailVizHelpers.isAcceptable(100, compats);
@@ -91,13 +119,19 @@ var app = app || {};
     );
   }
 
-  // -------------------
-  // For reference only
-  // -------------------
-  // topX: Float, showing the top x percent or //, depending on percent.
+  /**
+   * This method is not used in the app as it was used by users, but it was used to validate the data from server.<br />
+   * Use this method to find to find answer to this question:<br />
+   * If I rejected rejectPercent% of people, then find the next person who is better than the rejected ones,
+   * do I end up with person with max compatibility?
+   * @param {Array} compatibilityScores Compatibility scores of all candidates.
+   * @param {number} rejectPercent Rejection phase percentage (1 for 1%, 2 for 2%, etc.).
+   * @param {number} topX Number of top value / percent of data to be considered. Get this from 
+   *   the first element of Array returned by function {@link app.helpers.parseGoal}.
+   * @param {boolean} percent Flag to decide whether to use percent or fixed number in topX.
+   */
   app.detailVizHelpers.rejectionTest = function(compatibilityScores, rejectPercent, topX, percent) {
-    // If I rejected rejectPercent% of people, then find the next person who is better than the rejected ones,
-    // do I end up with person with max compatibility?
+
     var pos = (parseInt(Math.round(compatibilityScores.length * rejectPercent / 100)) + 1);
     if (pos > compatibilityScores.length) {
       pos = compatibilityScores.length;
@@ -114,7 +148,9 @@ var app = app || {};
     }
   }
 
-  // Testing if function rejectionTest works as expected.
+  /**
+   * Tests `app.detailVizHelpers.rejectionTest` method.
+   */
   app.detailVizHelpers.testRejectionTest = function() {
     var compatibilityScores = [3, 5, 4, 8, 9, 5, 10, 1, 10, 3];
     // pos 0 = at 0% rejected

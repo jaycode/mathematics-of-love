@@ -1,0 +1,343 @@
+<!doctype html>
+<html>
+
+<head>
+  <meta name="generator" content="JSDoc 3.3.3">
+  <meta charset="utf-8">
+  <title>Namespace: detailVizHelpers</title>
+  <link rel="stylesheet" href="https://brick.a.ssl.fastly.net/Karla:400,400i,700,700i" type="text/css">
+  <link rel="stylesheet" href="https://brick.a.ssl.fastly.net/Noto+Serif:400,400i,700,700i" type="text/css">
+  <link rel="stylesheet" href="https://brick.a.ssl.fastly.net/Inconsolata:500" type="text/css">
+  <link href="css/baseline.css" rel="stylesheet">
+</head>
+
+<body onload="prettyPrint()">
+  <nav id="jsdoc-navbar" role="navigation" class="jsdoc-navbar">
+    <div id="jsdoc-navbar-container">
+      <div id="jsdoc-navbar-content">
+        <a href="index.html" class="jsdoc-navbar-package-name">Home</a>
+      </div>
+    </div>
+  </nav>
+  <div id="jsdoc-body-container">
+    <div id="jsdoc-content">
+      <div id="jsdoc-content-container">
+        <div id="jsdoc-main" role="main">
+          <header class="page-header">
+            <h1><div class="symbol-detail-labels"><span class="label label-kind">namespace</span>&nbsp;<span class="label label-static">static</span></div><small><a href="app.html">app</a>.<wbr></small><span class="symbol-name">detailVizHelpers</span></h1>
+            <p class="source-link">Source: <a href="detailVizHelpers.js.html#source-line-4">detailVizHelpers.<wbr>js:4</a></p>
+            <div class="symbol-description">
+              <p>Helper methods used in <a href="app.detailViz.html">app.detailViz</a>.</p>
+              <h2>Related Links</h2>
+              <ul>
+                <li><a href="app.detailViz.html">app.detailViz</a></li>
+                <li><a href="app.CurrentDetail.html">app.CurrentDetail</a></li>
+              </ul>
+            </div>
+            <dl class="dl-compact">
+            </dl>
+          </header>
+          <section id="summary">
+            <div class="summary-callout">
+              <h2 class="summary-callout-heading">Methods</h2>
+              <div class="summary-content">
+                <div class="summary-column">
+                  <dl class="dl-summary-callout">
+                    <dt><a href="app.detailVizHelpers.html#.isAcceptable">isAcceptable(compatibilityScore, allCompatibilityScores, topX, percent)</a></dt>
+                    <dd>
+                    </dd>
+                    <dt><a href="app.detailVizHelpers.html#.prepareData">prepareData(data, rejectPercent, topX, percent)</a></dt>
+                    <dd>
+                    </dd>
+                  </dl>
+                </div>
+                <div class="summary-column">
+                  <dl class="dl-summary-callout">
+                    <dt><a href="app.detailVizHelpers.html#.rejectionTest">rejectionTest(compatibilityScores, rejectPercent, topX, percent)</a></dt>
+                    <dd>
+                    </dd>
+                    <dt><a href="app.detailVizHelpers.html#.testIsAcceptable">testIsAcceptable()</a></dt>
+                    <dd>
+                    </dd>
+                  </dl>
+                </div>
+                <div class="summary-column">
+                  <dl class="dl-summary-callout">
+                    <dt><a href="app.detailVizHelpers.html#.testRejectionTest">testRejectionTest()</a></dt>
+                    <dd>
+                    </dd>
+                  </dl>
+                </div>
+              </div>
+            </div>
+          </section>
+          <section>
+            <h2>Methods</h2>
+            <section>
+              <h3 id=".isAcceptable"><div class="symbol-detail-labels"><span class="label label-static">static</span></div><span class="symbol-name">isAcceptable</span><span class="signature"><span class="signature-params">(compatibilityScore, allCompatibilityScores, topX, percent)</span></span></h3>
+              <p>Checks if given candidate's compatibility score is acceptable(i.e. within the top x percent / number of everyone's compatibility scores, if 0 then only take the top one).</p>
+              <section>
+                <h4>Parameters</h4>
+                <table class="jsdoc-details-table">
+                  <thead>
+                    <tr>
+                      <th>Name</th>
+                      <th>Type</th>
+                      <th>Optional</th>
+                      <th>Description</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td>
+                        <p>compatibilityScore</p>
+                      </td>
+                      <td>
+                        <p>float</p>
+                      </td>
+                      <td>
+                        <p>&nbsp;</p>
+                      </td>
+                      <td>
+                        <p>Compatibility score of this candidate to examine.</p>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td>
+                        <p>allCompatibilityScores</p>
+                      </td>
+                      <td>
+                        <p>Array</p>
+                      </td>
+                      <td>
+                        <p>&nbsp;</p>
+                      </td>
+                      <td>
+                        <p>Compatibility scores of all candidates.</p>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td>
+                        <p>topX</p>
+                      </td>
+                      <td>
+                        <p>number</p>
+                      </td>
+                      <td>
+                        <p>&nbsp;</p>
+                      </td>
+                      <td>
+                        <p>Number of top value / percent of data to be considered. Get this from the first element of Array returned by function <a href="app.helpers.html#.parseGoal">app.helpers.parseGoal</a>.</p>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td>
+                        <p>percent</p>
+                      </td>
+                      <td>
+                        <p>boolean</p>
+                      </td>
+                      <td>
+                        <p>&nbsp;</p>
+                      </td>
+                      <td>
+                        <p>Flag to decide whether to use percent or fixed number in topX.</p>
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </section>
+              <dl class="dl-compact">
+              </dl>
+              <h3 id=".prepareData"><div class="symbol-detail-labels"><span class="label label-static">static</span></div><span class="symbol-name">prepareData</span><span class="signature"><span class="signature-params">(data, rejectPercent, topX, percent)</span></span></h3>
+              <p>Prepare the data prior to use in <a href="app.detailViz.html#.draw">app.detailViz.draw</a>. Data is prepared by first ordering it by age, then make the following marks in each datum:</p>
+              <ul>
+                <li><code>id</code>: Sequential number starting from 1.</li>
+                <li><code>chosen_status</code>: -2 for rejected (under rejection phase), -1 for not chosen, 0 for undecided, 1 for chosen.</li>
+                <li><code>is_optimal</code>: Based on topX and percent, is this candidate part of our optimal goals?</li>
+                <li><code>is_top</code>: The top most candidate out of all.
+                  <h2>Related Links</h2></li>
+                <li><a href="app.detailViz.html#.draw">app.detailViz.draw</a></li>
+              </ul>
+              <section>
+                <h4>Parameters</h4>
+                <table class="jsdoc-details-table">
+                  <thead>
+                    <tr>
+                      <th>Name</th>
+                      <th>Type</th>
+                      <th>Optional</th>
+                      <th>Description</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td>
+                        <p>data</p>
+                      </td>
+                      <td>
+                        <p>Array</p>
+                      </td>
+                      <td>
+                        <p>&nbsp;</p>
+                      </td>
+                      <td>
+                        <p>Unprepared data to be processed.</p>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td>
+                        <p>rejectPercent</p>
+                      </td>
+                      <td>
+                        <p>number</p>
+                      </td>
+                      <td>
+                        <p>&nbsp;</p>
+                      </td>
+                      <td>
+                        <p>Rejection Phase percentage to be applied for given data. Used to decide which marks above to use.</p>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td>
+                        <p>topX</p>
+                      </td>
+                      <td>
+                        <p>number</p>
+                      </td>
+                      <td>
+                        <p>&nbsp;</p>
+                      </td>
+                      <td>
+                        <p>Number of top value / percent of data to be considered. Get this from the first element of Array returned by function <a href="app.helpers.html#.parseGoal">app.helpers.parseGoal</a>.</p>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td>
+                        <p>percent</p>
+                      </td>
+                      <td>
+                        <p>boolean</p>
+                      </td>
+                      <td>
+                        <p>&nbsp;</p>
+                      </td>
+                      <td>
+                        <p>Flag to decide whether to use percent or fixed number in topX.</p>
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </section>
+              <dl class="dl-compact">
+              </dl>
+              <h3 id=".rejectionTest"><div class="symbol-detail-labels"><span class="label label-static">static</span></div><span class="symbol-name">rejectionTest</span><span class="signature"><span class="signature-params">(compatibilityScores, rejectPercent, topX, percent)</span></span></h3>
+              <p>This method is not used in the app as it was used by users, but it was used to validate the data from server.
+                <br /> Use this method to find to find answer to this question:
+                <br /> If I rejected rejectPercent% of people, then find the next person who is better than the rejected ones, do I end up with person with max compatibility?</p>
+              <section>
+                <h4>Parameters</h4>
+                <table class="jsdoc-details-table">
+                  <thead>
+                    <tr>
+                      <th>Name</th>
+                      <th>Type</th>
+                      <th>Optional</th>
+                      <th>Description</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td>
+                        <p>compatibilityScores</p>
+                      </td>
+                      <td>
+                        <p>Array</p>
+                      </td>
+                      <td>
+                        <p>&nbsp;</p>
+                      </td>
+                      <td>
+                        <p>Compatibility scores of all candidates.</p>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td>
+                        <p>rejectPercent</p>
+                      </td>
+                      <td>
+                        <p>number</p>
+                      </td>
+                      <td>
+                        <p>&nbsp;</p>
+                      </td>
+                      <td>
+                        <p>Rejection phase percentage (1 for 1%, 2 for 2%, etc.).</p>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td>
+                        <p>topX</p>
+                      </td>
+                      <td>
+                        <p>number</p>
+                      </td>
+                      <td>
+                        <p>&nbsp;</p>
+                      </td>
+                      <td>
+                        <p>Number of top value / percent of data to be considered. Get this from the first element of Array returned by function <a href="app.helpers.html#.parseGoal">app.helpers.parseGoal</a>.</p>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td>
+                        <p>percent</p>
+                      </td>
+                      <td>
+                        <p>boolean</p>
+                      </td>
+                      <td>
+                        <p>&nbsp;</p>
+                      </td>
+                      <td>
+                        <p>Flag to decide whether to use percent or fixed number in topX.</p>
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </section>
+              <dl class="dl-compact">
+              </dl>
+              <h3 id=".testIsAcceptable"><div class="symbol-detail-labels"><span class="label label-static">static</span></div><span class="symbol-name">testIsAcceptable</span><span class="signature"><span class="signature-params">()</span></span></h3>
+              <p>Tests <code>app.detailVizHelpers.isAcceptable</code> method.</p>
+              <dl class="dl-compact">
+              </dl>
+              <h3 id=".testRejectionTest"><div class="symbol-detail-labels"><span class="label label-static">static</span></div><span class="symbol-name">testRejectionTest</span><span class="signature"><span class="signature-params">()</span></span></h3>
+              <p>Tests <code>app.detailVizHelpers.rejectionTest</code> method.</p>
+              <dl class="dl-compact">
+              </dl>
+            </section>
+          </section>
+        </div>
+      </div>
+      <nav id="jsdoc-toc-nav" role="navigation"></nav>
+    </div>
+  </div>
+  <footer id="jsdoc-footer" class="jsdoc-footer">
+    <div id="jsdoc-footer-container">
+      <p>
+        Generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc</a> 3.3.3 on October 5, 2015.
+      </p>
+    </div>
+  </footer>
+  <script src="scripts/jquery.min.js"></script>
+  <script src="scripts/jquery.cookie.js"></script>
+  <script src="scripts/tree.jquery.js"></script>
+  <script src="scripts/prettify.js"></script>
+  <script src="scripts/jsdoc-toc.js"></script>
+  <script src="scripts/linenumber.js"></script>
+  <script src="scripts/scrollanchor.js"></script>
+</body>
+
+</html>

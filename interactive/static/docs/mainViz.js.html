@@ -1,0 +1,369 @@
+<!doctype html>
+<html>
+
+<head>
+  <meta name="generator" content="JSDoc 3.3.3">
+  <meta charset="utf-8">
+  <title>Source: mainViz.js</title>
+  <link rel="stylesheet" href="https://brick.a.ssl.fastly.net/Karla:400,400i,700,700i" type="text/css">
+  <link rel="stylesheet" href="https://brick.a.ssl.fastly.net/Noto+Serif:400,400i,700,700i" type="text/css">
+  <link rel="stylesheet" href="https://brick.a.ssl.fastly.net/Inconsolata:500" type="text/css">
+  <link href="css/baseline.css" rel="stylesheet">
+</head>
+
+<body onload="prettyPrint()">
+  <nav id="jsdoc-navbar" role="navigation" class="jsdoc-navbar">
+    <div id="jsdoc-navbar-container">
+      <div id="jsdoc-navbar-content">
+        <a href="index.html" class="jsdoc-navbar-package-name">Home</a>
+      </div>
+    </div>
+  </nav>
+  <div id="jsdoc-body-container">
+    <div id="jsdoc-content">
+      <div id="jsdoc-content-container">
+        <div id="jsdoc-banner" role="banner">
+        </div>
+        <div id="jsdoc-main" role="main">
+          <header class="page-header">
+            <h1>Source: mainViz.js</h1>
+          </header>
+          <article>
+            <pre class="prettyprint linenums"><code>var app = app || {};
+
+(function() {
+  &quot;use strict&quot;;
+  /**
+   * Main Visualization where Simulation Analysis is displayed.
+   * ## Related Links
+   * - {@link app.Experiment}
+   * - {@link app.simulationAnalysis}
+   * - {@link app.vizHelpers}
+   * @namespace app.mainViz
+   */
+  app.mainViz = {};
+
+  /**
+   * Runs an animation to remove currently displayed elements inside selector, then pass
+   * several parameters to {@link app.mainViz.drawGSA} function.
+   * @param {Array} data Data from server that include all calculations over different {@link app.data.experiment.goals goals}.
+   * @param {string} selector CSS selector where plots will be drawn at.
+   * @param {function} callback Call this function when plot is drawn.
+   */
+  app.mainViz.draw = function(data, selector, callback) {
+    d3.select(selector)
+      .transition()
+      .style(&#x27;opacity&#x27;, 0)
+      .each(&#x27;end&#x27;, function() {
+        d3.select(selector)
+          .html(&#x27;&#x27;);
+          
+        app.mainViz.drawGSA(data, selector, callback);
+        d3.select(selector)
+          .transition()
+          .style(&#x27;opacity&#x27;, 1);
+
+      });
+  }
+
+  /**
+   * Draws simulation analysis plot based on given data,
+   * inside the element pointed by css selector, then runs a callback function.
+   * @param {Array} data Data from server that include all calculations over different {@link app.data.experiment.goals goals}.
+   * @param {string} selector CSS selector where plots will be drawn at.
+   * @param {function} callback Call this function when plot is drawn.
+   */
+  app.mainViz.drawGSA = function(data, selector, callback) {
+    var width = 800,
+        height = 400,
+        marginLeft = 60,
+        marginTop = 30,
+        bottomOffset = 60,
+        right_offset = 20,
+        radius = 5;
+
+    d3.select(selector)
+      .append(&#x27;svg&#x27;)
+        .attr(&#x27;width&#x27;, width + marginLeft + right_offset)
+        .attr(&#x27;height&#x27;, height + marginTop + bottomOffset)
+      .append(&#x27;g&#x27;)
+        .attr(&#x27;id&#x27;, &#x27;g-sa&#x27;)
+        .attr(&#x27;class&#x27;,&#x27;chart sa_plot&#x27;);
+
+    var xExtent = [0, 100];
+
+    // Find range of y column.
+    var max = 0,
+        min = 0;
+    data.goals.forEach(function(goal) {
+      var localMax = d3.max(goal[&#x27;data&#x27;]);
+      if (localMax &gt; max) {
+        max = localMax;
+      }
+      var localMin = d3.min(goal[&#x27;data&#x27;]);
+      if (localMin &amp;lt; min) {
+        min = localMin;
+      }
+    });
+    var yExtent = [min, max];
+    var scales = app.vizHelpers.drawAxes(&#x27;#g-sa&#x27;, {
+      xExtent: xExtent,
+      yExtent: yExtent,
+      width: width,
+      height: height,
+      marginLeft: marginLeft,
+      marginTop: marginTop,
+      bottomOffset: bottomOffset,
+      xLabel: &quot;% Rejected&quot;,
+      yLabel: &quot;Success Rate (%)&quot;,
+      title: &quot;Success Rates Throughout Different Rejection Periods And Goals&quot;
+    });
+
+    var xScale = scales[0];
+    var yScale = scales[1];
+
+    // Draw the lines.
+    var lineGen = d3.svg.line()
+      .x(function(d, i) {
+        return xScale(i);
+      })
+      .y(function(d) {
+        return yScale(d);
+      });
+
+
+    data.goals.forEach(function(goal, lineId) {
+      var path = d3.select(&#x27;#g-sa&#x27;)
+        .append(&#x27;svg:path&#x27;)
+          .attr(&#x27;class&#x27;, &#x27;path-main &#x27; + app.data.settings.colors[goal.color_id][&#x27;class&#x27;])
+          .attr(&#x27;d&#x27;, lineGen(goal[&#x27;data&#x27;]))
+          .attr(&#x27;fill&#x27;, &#x27;none&#x27;)
+
+      var totalLength = path.node().getTotalLength();
+
+      path
+        .attr(&quot;stroke-dasharray&quot;, totalLength + &quot; &quot; + totalLength)
+        .attr(&quot;stroke-dashoffset&quot;, totalLength)
+        .transition()
+          .duration(1000)
+          .ease(&quot;linear&quot;)
+          .attr(&quot;stroke-dashoffset&quot;, 0);
+
+      // Create invisible rects for graph interaction (only need 1).
+      if (lineId == 0) {
+        d3.select(&#x27;#g-sa&#x27;)
+          .append(&#x27;g&#x27;)
+            .attr(&#x27;class&#x27;, &#x27;hidden_rects&#x27;)      
+              .selectAll(&#x27;rect&#x27;)
+              .data(goal[&#x27;data&#x27;])
+              .enter()
+              .append(&#x27;rect&#x27;)
+              .attr(&#x27;transform&#x27;, function(d, i) { return &#x27;translate(&#x27;+xScale(i)+&#x27;, &#x27;+0+&#x27;)&#x27;;})
+              .attr(&#x27;width&#x27;, (xScale(1) - xScale(0)))
+              .attr(&#x27;height&#x27;, height)
+      }
+
+      // Create invisible circles for graph interaction.
+      d3.select(&#x27;#g-sa&#x27;)
+        .append(&#x27;g&#x27;)
+          .attr(&#x27;class&#x27;, &#x27;hidden_circles&#x27;)      
+            .selectAll(&#x27;circle&#x27;)
+            .data(goal[&#x27;data&#x27;])
+            .enter()
+            .append(&#x27;circle&#x27;)
+              .attr(&#x27;class&#x27;, &#x27;datum-circle &#x27; + app.data.settings.colors[goal.color_id].class)
+              .attr(&#x27;cx&#x27;, function(d, i) {
+                return xScale(i);
+              })
+              .attr(&#x27;cy&#x27;, function(d, i) {
+                return yScale(d);
+              })
+              .attr(&#x27;r&#x27;, radius)
+              .style(&#x27;opacity&#x27;, 0);
+    });
+
+    var tip = d3.tip()
+      .attr(&#x27;class&#x27;, &#x27;d3-tip&#x27;)
+      .offset([-10, 0])
+      .html(function(d, i) {
+        return &quot;&amp;lt;strong&gt;Success Rate:&amp;lt;/strong&gt; &amp;lt;span style=&#x27;color:red&#x27;&gt;&quot; + app.helpers.formatPercent(Math.round(d*10000)/100) +
+          &quot;&amp;lt;/span&gt;&amp;lt;br /&gt;&amp;lt;strong&gt;Rejected:&amp;lt;/strong&gt; &amp;lt;span&gt;&quot; + app.helpers.formatPercent(i%100) + &quot;&amp;lt;/span&gt;&quot;;
+      });
+
+    d3.select(selector + &#x27; svg&#x27;).call(tip);
+
+    // Graph interaction
+    d3.selectAll(&#x27;#g-sa .hidden_circles circle&#x27;)
+      .on(&#x27;mouseover&#x27;, tip.show)
+      .on(&#x27;mouseout&#x27;, tip.hide);
+
+    d3.selectAll(&#x27;#g-sa .hidden_rects rect&#x27;)
+      .on(&#x27;mouseover&#x27;, function(yValue, elementId) {
+        var self = this;
+        var closestId = elementId % 100;
+
+        // tip.show(yValue, elementId);
+        // Update CurrentDetail. Tooltip should automatically shows
+        // thanks to KnockoutJs.
+        app.vm.CurrentDetail.rejection_phase(closestId);
+        d3.select(&#x27;#detail_window&#x27;)
+          .classed(&#x27;show-block&#x27;, true);
+
+        // Get the bottom-most y position and draw tooltip underneath it.
+        var allY = [];
+        data.goals.forEach(function(g) {
+          allY[allY.length] = g.data[closestId];
+        });
+        var ymin = d3.min(allY);
+        app.vm.CurrentDetail.window_left((xScale(closestId)-10) + &#x27;px&#x27;);
+
+        // Following the mouse (not cool).
+        // var coordinates = d3.mouse(self);
+        // app.vm.CurrentDetail.window_top((coordinates[1]+30) + &#x27;px&#x27;);
+        app.vm.CurrentDetail.window_top((yScale(ymin) + 40) + &#x27;px&#x27;);
+
+        // Animate the circles.
+        // Initially I used radius animation, but animation lags so much
+        // so I disabled them. I kept the code for future reference.
+        d3.selectAll(&#x27;#g-sa .hidden_circles circle&#x27;)
+          .classed(&#x27;active&#x27;, false)
+          // .attr(&#x27;r&#x27;, radius)
+          .style(&#x27;opacity&#x27;, 0);
+          // .transition();
+        d3.selectAll(&#x27;#g-sa .hidden_circles circle:nth-of-type(&#x27;+(closestId+1)+&#x27;)&#x27;)
+          .classed(&#x27;active&#x27;, true)
+          .style(&#x27;opacity&#x27;, 1);
+          // .transition()
+          // .style(&#x27;opacity&#x27;, 1)
+          // .each(&#x27;end&#x27;, function() {
+          //   // d3.selectAll(&#x27;#g-sa .hidden_circles circle&#x27;)
+          //   //   .attr(&#x27;r&#x27;, 0);
+          //   // d3.selectAll(&#x27;#g-sa .hidden_circles circle:nth-of-type(&#x27;+closestId+&#x27;)&#x27;)
+          //   //   .attr(&#x27;r&#x27;, radius);
+          // });
+
+      });
+
+    if (typeof(callback) == &#x27;function&#x27;) {
+      callback();
+    }
+  }
+
+  /**
+   * Helpers used in drawing the visualizations.
+   * ## Related Links
+   * - {@link app.mainViz}
+   * - {@link app.detailViz}
+   * - {@link app.introViz}
+   * - {@link app.generatedViz}
+   * @namespace app.vizHelpers
+   */
+  app.vizHelpers = {};
+
+  /**
+   * Draws axes used in a visualization.
+   * @param {string} chartSelector CSS selector where the chart is drawn.
+   * @param {object} params Setting parameters for the drawn axes.
+   * @param {object} params.xExtent xExtent object (min,max) of x axis.
+   * @param {object} params.yExtent yExtent object (min, max) of y axis.
+   * @param {number} params.width Width of plot.
+   * @param {number} params.height Height of plot.
+   * @param {number} params.marginLeft Left margin before where plot is drawn.
+   * @param {number} params.marginTop Top margin before where plot is drawn.
+   * @param {number} params.bottomOffset Offset at the bottom after where the plot is drawn.
+   * @param {string} params.xLabel Label of x axis.
+   * @param {string} params.yLabel Label of y axis.
+   * @param {string} params.title Title of plot.
+   */
+  app.vizHelpers.drawAxes = function(chartSelector, params) {
+    // Create x-axis scale.
+    if (params.categorical) {
+      var xScale = d3.scale.ordinal()
+        .rangeBands([params.marginLeft, params.width+params.marginLeft])
+        .domain(_.range(params.xExtent[0], params.xExtent[1]+1));
+    }
+    else {
+      var xScale = d3.scale.linear()
+        .range([params.marginLeft, params.width+params.marginLeft])
+        .domain(params.xExtent);
+    }    
+
+    // Create y-axis scale.
+    var yScale = d3.scale.linear()
+      .range([params.height, params.marginTop])
+      .domain(params.yExtent);
+
+    // Create the actual x-axis.
+    var xAxis = d3.svg.axis()
+      .scale(xScale)
+
+    d3.select(chartSelector)
+      .append(&#x27;g&#x27;)
+        .attr(&#x27;class&#x27;, &#x27;x axis&#x27;)
+        .attr(&#x27;transform&#x27;, &quot;translate(0,&quot; + params.height + &quot;)&quot;)
+      .call(xAxis);
+
+    // Add x-axis label
+    var xAxisLength = xScale(params.xExtent[1]) - xScale(params.xExtent[0]);
+    d3.select(chartSelector)
+      .append(&#x27;text&#x27;)
+        .attr(&#x27;class&#x27;, &#x27;x_label axis_label&#x27;)
+        .attr(&#x27;text-anchor&#x27;, &#x27;middle&#x27;)
+        .attr(&#x27;transform&#x27;, &quot;translate(&quot;+(xAxisLength/2 + params.marginLeft)+&quot;,&quot;+(params.marginTop+params.height+params.bottomOffset-15)+&quot;)&quot;)
+        .text(params.xLabel);
+
+    // Create the actual y-axis.
+    var yAxis = d3.svg.axis()
+      .scale(yScale)
+      .orient(&#x27;left&#x27;);
+
+    d3.select(chartSelector)
+      .append(&#x27;g&#x27;)
+        .attr(&#x27;class&#x27;, &#x27;y axis&#x27;)
+        .attr(&#x27;transform&#x27;, &quot;translate(&quot; + (params.marginLeft-3) + &quot;,0)&quot;)
+      .call(yAxis);
+
+    // Add y-axis label
+    var yAxisHeight = yScale(params.yExtent[0]) - yScale(params.yExtent[1]);
+    d3.select(chartSelector)
+      .append(&#x27;text&#x27;)
+        .attr(&#x27;class&#x27;, &#x27;y_label axis_label&#x27;)
+        .attr(&#x27;text-anchor&#x27;, &#x27;middle&#x27;)
+        .attr(&#x27;transform&#x27;, &quot;rotate(270), &quot; +
+          &quot;translate(&quot;+(-params.marginTop-yAxisHeight/2)+&quot;,&quot;+20+&quot;)&quot;)
+        .text(params.yLabel);
+
+    // Add plot title
+    d3.select(chartSelector)
+      .append(&#x27;text&#x27;)
+        .attr(&#x27;class&#x27;, &#x27;plot_title&#x27;)
+        .attr(&#x27;text-anchor&#x27;, &#x27;middle&#x27;)
+        .attr(&#x27;transform&#x27;, &quot;translate(&quot;+(params.width/2 + params.marginLeft)+&quot;,&quot;+20+&quot;)&quot;)
+        .text(params.title);
+
+    return [xScale, yScale];
+  }
+})();</code></pre>
+          </article>
+        </div>
+      </div>
+      <nav id="jsdoc-toc-nav" role="navigation"></nav>
+    </div>
+  </div>
+  <footer id="jsdoc-footer" class="jsdoc-footer">
+    <div id="jsdoc-footer-container">
+      <p>
+        Generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc</a> 3.3.3 on October 5, 2015.
+      </p>
+    </div>
+  </footer>
+  <script src="scripts/jquery.min.js"></script>
+  <script src="scripts/jquery.cookie.js"></script>
+  <script src="scripts/tree.jquery.js"></script>
+  <script src="scripts/prettify.js"></script>
+  <script src="scripts/jsdoc-toc.js"></script>
+  <script src="scripts/linenumber.js"></script>
+  <script src="scripts/scrollanchor.js"></script>
+</body>
+
+</html>

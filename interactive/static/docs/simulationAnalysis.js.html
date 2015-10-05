@@ -1,0 +1,333 @@
+<!doctype html>
+<html>
+
+<head>
+  <meta name="generator" content="JSDoc 3.3.3">
+  <meta charset="utf-8">
+  <title>Source: simulationAnalysis.js</title>
+  <link rel="stylesheet" href="https://brick.a.ssl.fastly.net/Karla:400,400i,700,700i" type="text/css">
+  <link rel="stylesheet" href="https://brick.a.ssl.fastly.net/Noto+Serif:400,400i,700,700i" type="text/css">
+  <link rel="stylesheet" href="https://brick.a.ssl.fastly.net/Inconsolata:500" type="text/css">
+  <link href="css/baseline.css" rel="stylesheet">
+</head>
+
+<body onload="prettyPrint()">
+  <nav id="jsdoc-navbar" role="navigation" class="jsdoc-navbar">
+    <div id="jsdoc-navbar-container">
+      <div id="jsdoc-navbar-content">
+        <a href="index.html" class="jsdoc-navbar-package-name">Home</a>
+      </div>
+    </div>
+  </nav>
+  <div id="jsdoc-body-container">
+    <div id="jsdoc-content">
+      <div id="jsdoc-content-container">
+        <div id="jsdoc-banner" role="banner">
+        </div>
+        <div id="jsdoc-main" role="main">
+          <header class="page-header">
+            <h1>Source: simulationAnalysis.js</h1>
+          </header>
+          <article>
+            <pre class="prettyprint linenums"><code>// SimulationAnalysis page
+var app = app || {};
+
+(function() {
+  /**
+   * A module where functions to do stuff on {@link app.mainViz} are kept.
+   * ## Related Links
+   * - {@link app.Experiment}
+   * - {@link app.mainViz}
+   * @namespace app.simulationAnalysis
+   */
+  app.simulationAnalysis = {};
+
+  /**
+   * Changes currently displayed page to simulation analysis page, then runs a callback function.
+   * @param {function} callback
+   */
+  app.simulationAnalysis.view = function(callback) {
+    app.helpers.changePage(&#x27;#main_viz-simulation_analysis&#x27;, function() {
+      app.simulationAnalysis.redrawPlot(callback);
+    });
+  }
+
+  /**
+   * Redraws {@link app.mainViz}, then runs a callback function.
+   * @param {function} callback
+   */
+  app.simulationAnalysis.redrawPlot = function(callback) {
+    app.helpers.showLoading(&#x27;#simulation_analysis-plot_area&#x27;);
+    app.mainViz.draw(ko.toJS(app.vm.Experiment), &#x27;#simulation_analysis-plot_area&#x27;, callback);
+  }
+
+  /**
+   * Goal ViewModel, relates to goals in Simulation Analysis page.&amp;lt;br /&gt;
+   * The data here are initialized from {@link app.data.experiment.goals.goal goal data object}.
+   * ## Related Links
+   * - {@link app.Experiment}
+   * - {@link app.simulationAnalysis}
+   * - {@link app.data.experiment.goals}
+   * @param {app.data.experiment.goals.goal} data Settings data of a goal.
+   * @namespace app.Goal
+   */
+  app.Goal = function(data) {
+    this.id = ko.observable(data[&#x27;id&#x27;]);
+    this.name = ko.computed(function() {
+      var matches = data[&#x27;name&#x27;].match(/[a-zA-Z0-9%]+/g);
+      return matches.join(&#x27; &#x27;);
+    }, this);
+    this.getClass = ko.computed(function() {
+      return app.data.settings[&#x27;colors&#x27;][data[&#x27;color_id&#x27;]][&#x27;class&#x27;];
+    });
+    this.color_id = ko.observable(data[&#x27;color_id&#x27;]);
+    this.destructible = ko.observable(data[&#x27;destructible&#x27;]);
+    this.active = ko.observable(data[&#x27;active&#x27;]);
+    this.data = data[&#x27;data&#x27;]; // no need to observe this (I guess?)
+    this.showMenu = function(goal, e, i, j) {
+      d3.selectAll(&#x27;.remove_goal_area&#x27;)
+        .style(&#x27;opacity&#x27;, 0)
+        .transition();
+      var id = _.findIndex(app.vm.Experiment.goals(), function(g) {return g.name() == goal.name();});
+      d3.select(d3.selectAll(&#x27;.remove_goal_area&#x27;)[0][id])
+        .transition()
+        .style(&#x27;opacity&#x27;, 1);
+    }
+    this.hideMenu = function(goal, e) {
+      if (goal.destructible()) {
+        d3.selectAll(&#x27;.remove_goal_area&#x27;)
+          .transition()
+          .style(&#x27;opacity&#x27;, 0);
+      }
+    }
+    this.remove = function(goal, e) {
+      if (goal.destructible()) {
+        var detailGoal = _.find(app.vm.CurrentDetail.goals(), function(g) {return g.name() == goal.name();});
+        app.vm.CurrentDetail.goals.remove(detailGoal);
+        var changeActive = false;
+        if (goal.active()) {
+          changeActive = true;
+        }
+        app.vm.Experiment.goals.remove(goal);
+        if (changeActive) {
+          app.vm.Experiment.goals()[0].active(true);
+        }
+        app.helpers.showLoading(&#x27;#simulation_analysis-plot_area&#x27;)
+          d3.json(app.helpers.experimentUrl(), function(data1) {
+            app.simulationAnalysis.updateExperiment(data1.processed);
+            app.simulationAnalysis.redrawPlot();
+          });
+      }
+    }
+  }
+
+  /**
+   * ViewModel related to an experiment, displayed in SimulationAnalysis page.&amp;lt;br /&gt;
+   * Singleton instance is available as &#x60;app.vm.Experiment&#x60;.
+   * @param {app.data.experiment} data Settings data of an experiment.
+   * @class app.Experiment
+   */
+  app.Experiment = function(data) {
+    var self = this;
+
+    /**
+     * Observed {@link app.data.experiment.lifetime}.&amp;lt;br /&gt;
+     * Use &#x60;_lifetime&#x60; (or other &#x60;_varname&#x60;) method to access the numeric values directly,
+     * but for other needs e.g. updating or display, use &#x60;lifetime&#x60; (or &#x60;varname&#x60;) method.
+     * @type {ko.observable}
+     * @return {number}
+     */
+    this._lifetimes = ko.observable(data[&#x27;lifetimes&#x27;]);
+
+    /**
+     * Computed class to get value of lifetimes and {@link app.helpers.formatThousandSeparators format thousand separators}.
+     * @type {ko.computed}
+     * @return {string}
+     * @namespace app.Experiment#lifetime
+     */
+    this.lifetimes = ko.computed(function() {
+      return app.helpers.formatThousandSeparators(self._lifetimes());
+    }, this);
+
+    /**
+     * Observed {@link app.data.experiment.a1 age start}.
+     * @type {ko.observable}
+     * @return {number}
+     */
+    this.a1 = ko.observable(data[&#x27;a1&#x27;]);
+
+    /**
+     * Observed {@link app.data.experiment.a2 age end}.
+     * @type {ko.observable}
+     * @return {number}
+     */
+    this.a2 = ko.observable(data[&#x27;a2&#x27;]);
+
+    /**
+     * Observed {@link app.data.experiment.p1 minimum potential partners per year}.
+     * @type {ko.observable}
+     * @return {number}
+     */
+    this.p1 = ko.observable(data[&#x27;p1&#x27;]);
+
+    /**
+     * Observed {@link app.data.experiment.p2 maximum potential partners per year}.
+     * @type {ko.observable}
+     * @return {number}
+     */
+    this.p2 = ko.observable(data[&#x27;p2&#x27;]);
+
+    /**
+     * Observed {@link app.data.experiment.goals array of goals} containing multiple {@link app.Goal Goal} ViewModels.
+     * @type {ko.observableArray}
+     */
+    this.goals = ko.observableArray([]);
+    data.goals.forEach(function(goal) {
+      self.goals.push(new app.Goal(goal));
+    });
+
+    /**
+     * Observed {@link app.data.experiment.processed processed} status.&amp;lt;br /&gt;
+     * If processed is true, do not process again.&amp;lt;br /&gt;
+     * Set processed to false when generating new compatibilities
+     * i.e. {@link app.generate.generateDataset}.
+     */
+    this.processed = ko.observable(data[&#x27;processed&#x27;]);
+
+    /**
+     * A function to be bound to &quot;Add Goal&quot; button in the HTML. The first call to this function
+     * will show input text for user to enter the setting of this new goal, while the second call will
+     * confirm its creation.&amp;lt;br /&gt;
+     * Validates goal adding with function {@link app.simulationAnalysis.validateGoal}.
+     */
+    this.addGoal = function() {
+      if (d3.select(&#x27;#sa-hidden_inputs&#x27;).classed(&#x27;active&#x27;)) {
+        var value = parseInt(d3.select(&#x27;#sa-hidden_inputs input&#x27;).property(&#x27;value&#x27;));
+        var type = d3.select(&#x27;#sa-hidden_inputs select&#x27;).property(&#x27;value&#x27;);
+        if (app.simulationAnalysis.validateGoal(value, type)) {
+
+          var newId = _.max(self.goals(), function(goal) {return goal.id();}).id() + 1;
+          data = {
+            name: &#x27;top-&#x27;+value+type,
+            active: true,
+            color_id: newId,
+            destructible: true,
+            id: newId
+          }
+          self.goals.unshift(new app.Goal(data));
+          app.vm.CurrentDetail.goals.unshift(new app.DetailGoal(app.vm, {
+            goal_id: newId,
+            active: false,
+            success_rate: 0,
+            data: []
+          }));
+
+          // Connect to server to update experiment data.
+          app.helpers.showLoading(&#x27;#simulation_analysis-plot_area&#x27;)
+          d3.json(app.helpers.experimentUrl(), function(data1) {
+            app.simulationAnalysis.updateExperiment(data1.processed);
+            app.simulationAnalysis.redrawPlot();
+          });
+
+          this.cancelAddGoal();
+        }
+      }
+      else {
+        if (app.vm.Experiment.goals().length &gt;= app.data.settings.max_goals) {
+          alert(&quot;Can&#x27;t have more than &quot; + app.data.settings.max_goals + &quot;. Remove some goals before adding more.&quot;);
+        }
+        else {
+          d3.select(&#x27;#sa-hidden_inputs&#x27;)
+            .classed(&#x27;active&#x27;, true)
+            .transition()
+            .style(&#x27;width&#x27;, d3.select(&#x27;#sa-hidden_inputs div&#x27;).style(&#x27;width&#x27;));
+          d3.select(&#x27;#sa-add_goal&#x27;)
+            .text(&#x27;Create&#x27;);
+        }
+      }
+    };
+
+    /**
+     * A function to be bound to &quot;Cancel Add Goal&quot; button in HTML. Pressing this will cancel the
+     * current goal adding process.
+     */
+    this.cancelAddGoal = function() {
+      d3.select(&#x27;#sa-hidden_inputs&#x27;)
+        .classed(&#x27;active&#x27;, false)
+        .transition()
+        .style(&#x27;width&#x27;, &#x27;0px&#x27;);
+      d3.select(&#x27;#sa-add_goal&#x27;)
+        .text(&#x27;Add&#x27;);
+    }
+
+  }
+  
+  /**
+   * Validates the goal about to be added with {@link app.Experiment#addGoal} function.
+   * @param {number} value Rejection phase of the goal e.g. if a goal is &quot;top-10%&quot; then value is &#x60;10&#x60;.
+   * @param {string} type Either &#x27;&#x27; or &#x27;%&#x27; to decide percent flag.
+   */
+  app.simulationAnalysis.validateGoal = function(value, type) {
+    errors = [];
+    if (!(value &gt;= app.data.settings.min_rejection_phase &amp;amp;&amp;amp; value &amp;lt;= app.data.settings.max_rejection_phase)) {
+      errors.push(&quot;Value must be between &quot; + app.data.settings.min_rejection_phase + &#x27; and &#x27; + app.data.settings.max_rejection_phase + &quot;.&quot;);
+    }
+    if (type != &#x27;&#x27; &amp;amp;&amp;amp; type != &#x27;%&#x27;) {
+      errors.push(&quot;Please choose a type.&quot;);
+    }
+    app.vm.Experiment.goals().forEach(function(goal) {
+      var goalval = app.helpers.parseGoal(goal.name());
+      if (goalval[1]) {
+        goalval[1] = &#x27;%&#x27;;
+      }
+      else {
+        goalval[1] = &#x27;&#x27;;
+      }
+      if ( goalval[0] == value &amp;amp;&amp;amp; goalval[1] == type &amp;amp;&amp;amp; goal.name() != &#x27;theory&#x27;) {
+        errors.push(&quot;Value &quot; + goal.name() + &quot; already exists. Try another one.&quot;);
+      }
+    });
+
+    if (errors.length &gt; 0) {
+      alert(errors.join(&#x27;&amp;lt;br /&gt;&#x27;))
+    }
+
+    return errors.length == 0
+  };
+
+  /**
+   * Update Experiment with data from server.
+   * @params {Array} data Experiment data from server, grouped by different goals.
+   */
+  app.simulationAnalysis.updateExperiment = function(data) {
+    app.vm.Experiment.goals().forEach(function(goal, i) {
+      app.vm.Experiment.goals()[i].data = data[goal.name()];
+      app.vm.CurrentDetail.goals()[i].success_rate(data[goal.name()][app.vm.CurrentDetail._rejection_phase()]);
+    });
+    app.vm.Experiment.processed(true);
+  }
+
+})();</code></pre>
+          </article>
+        </div>
+      </div>
+      <nav id="jsdoc-toc-nav" role="navigation"></nav>
+    </div>
+  </div>
+  <footer id="jsdoc-footer" class="jsdoc-footer">
+    <div id="jsdoc-footer-container">
+      <p>
+        Generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc</a> 3.3.3 on October 5, 2015.
+      </p>
+    </div>
+  </footer>
+  <script src="scripts/jquery.min.js"></script>
+  <script src="scripts/jquery.cookie.js"></script>
+  <script src="scripts/tree.jquery.js"></script>
+  <script src="scripts/prettify.js"></script>
+  <script src="scripts/jsdoc-toc.js"></script>
+  <script src="scripts/linenumber.js"></script>
+  <script src="scripts/scrollanchor.js"></script>
+</body>
+
+</html>

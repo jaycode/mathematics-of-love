@@ -1,0 +1,370 @@
+<!doctype html>
+<html>
+
+<head>
+  <meta name="generator" content="JSDoc 3.3.3">
+  <meta charset="utf-8">
+  <title>Source: generate.js</title>
+  <link rel="stylesheet" href="https://brick.a.ssl.fastly.net/Karla:400,400i,700,700i" type="text/css">
+  <link rel="stylesheet" href="https://brick.a.ssl.fastly.net/Noto+Serif:400,400i,700,700i" type="text/css">
+  <link rel="stylesheet" href="https://brick.a.ssl.fastly.net/Inconsolata:500" type="text/css">
+  <link href="css/baseline.css" rel="stylesheet">
+</head>
+
+<body onload="prettyPrint()">
+  <nav id="jsdoc-navbar" role="navigation" class="jsdoc-navbar">
+    <div id="jsdoc-navbar-container">
+      <div id="jsdoc-navbar-content">
+        <a href="index.html" class="jsdoc-navbar-package-name">Home</a>
+      </div>
+    </div>
+  </nav>
+  <div id="jsdoc-body-container">
+    <div id="jsdoc-content">
+      <div id="jsdoc-content-container">
+        <div id="jsdoc-banner" role="banner">
+        </div>
+        <div id="jsdoc-main" role="main">
+          <header class="page-header">
+            <h1>Source: generate.js</h1>
+          </header>
+          <article>
+            <pre class="prettyprint linenums"><code>var app = app || {};
+
+(function(){
+  /**
+   * Generate dataset page (Page that controls the inputs to generate dataset).
+   * ## Related Links
+   * - {@link app.Generator}
+   * @namespace app.generate
+   */
+  app.generate = {};
+
+  /**
+   * Change currently displayed page to generate dataset page.
+   */
+  app.generate.view = function() {
+    app.helpers.changePage(&#x27;#main_viz-generate&#x27;);
+  };
+
+  /**
+   * ViewModel that relates to generate dataset page. Singleton instance is available as &#x60;app.vm.Generator&#x60;.
+   * ## Related Links
+   * - {@link app.generate}
+   * - {@link app.data.generator}
+   * @param {Array} data Pass {@link app.data.generator} data to initialize this.
+   * @class app.Generator
+   */
+  app.Generator =  function(data) {
+    var self = this;
+    /**
+     * Observed validated status of the form.&amp;lt;br /&gt;
+     * Form can be submitted only when this is true.
+     */
+    this.validated = ko.observable(true);
+
+    /**
+     * Observed {@link app.data.generator.a1 age start}.
+     * @type {ko.observable}
+     * @return {number}
+     */
+    this._a1 = ko.observable(data[&#x27;a1&#x27;]);
+    
+    /** 
+     * Observed {@link app.data.generator.a2 age end}.
+     * @type {ko.observable}
+     * @return {number}
+     */
+    this._a2 = ko.observable(data[&#x27;a2&#x27;]);
+
+    /**
+     * Observed {@link app.data.generator.p1 minimum potential partners per year}.
+     * @type {ko.observable}
+     * @return {number}
+     */
+    this._p1 = ko.observable(data[&#x27;p1&#x27;]);
+
+    /**
+     * Observed {@link app.data.generator.p2 maximum potential partners per year}.
+     * @type {ko.observable}
+     * @return {number}
+     */
+    this._p2 = ko.observable(data[&#x27;p2&#x27;]);
+
+    /**
+     * Computed age start. Use this to read and write to age start from bound element in HTML.
+     * @type {ko.computed}
+     * @namespace app.Generator#a1
+     */
+    this.a1 = ko.computed({
+      /**
+       * Returns age start.
+       * @return {number}
+       * @memberOf app.Generator#a1
+       */
+      read: function() {
+        return self._a1();
+      },
+      /**
+       * Validates before saving age start.
+       * @memberOf app.Generator#a1
+       * @params {string|number} value
+       */
+      write: function(value) {
+        self._a1(parseInt(value));
+        self.validate();
+      }
+    });
+
+    /**
+     * Computed age end. Use this to read and write to age end from bound element in HTML.
+     * @type {ko.computed}
+     * @namespace app.Generator#a2
+     */
+    this.a2 = ko.computed({
+      /**
+       * Returns age end.
+       * @return {number}
+       * @memberOf app.Generator#a2
+       */
+      read: function() {
+        return self._a2();
+      },
+      /**
+       * Validates before saving age end.
+       * @memberOf app.Generator#a2
+       * @params {string|number} value
+       */
+      write: function(value) {
+        self._a2(parseInt(value));
+        self.validate();
+      }
+    });
+
+    /**
+     * Computed minimum potential partners per year.
+     * Use this to read and write to min potential partners from bound element in HTML.
+     * @type {ko.computed}
+     * @namespace app.Generator#p1
+     */
+    this.p1 = ko.computed({
+      /**
+       * Returns min potential partners.
+       * @return {number}
+       * @memberOf app.Generator#p1
+       */
+      read: function() {
+        return self._p1();
+      },
+      /**
+       * Validates before saving min potential partners.
+       * @memberOf app.Generator#p1
+       * @params {string|number} value
+       */
+      write: function(value) {
+        self._p1(parseInt(value));
+        self.validate();
+      }
+    });
+
+    /**
+     * Computed maximum potential partners per year.
+     * Use this to read and write to max potential partners from bound element in HTML.
+     * @type {ko.computed}
+     * @namespace app.Generator#p2
+     */
+    this.p2 = ko.computed({
+      /**
+       * Returns max potential partners.
+       * @return {number}
+       * @memberOf app.Generator#p2
+       */
+      read: function() {
+        return self._p2();
+      },
+      /**
+       * Validates before saving max potential partners.
+       * @memberOf app.Generator#p2
+       * @params {string|number} value
+       */
+      write: function(value) {
+        self._p2(parseInt(value));
+        self.validate();
+      }
+    });
+
+    /**
+     * Observed number of lifetimes to simulate.
+     * @type {ko.observable}
+     * @return {number}
+     */
+    this._lifetimes = ko.observable(data[&#x27;lifetimes&#x27;]);
+
+    /**
+     * Computed number of lifetimes.
+     * Use this to read and write to number of lifetimes from bound element in HTML.
+     * @type {ko.computed}
+     * @namespace app.Generator#lifetimes
+     */
+    this.lifetimes = ko.computed({
+      /**
+       * Returns number of lifetimes, {@link app.helpers.formatThousandSeparators separated by commas}.
+       * @return {number}
+       * @memberOf app.Generator#lifetimes
+       */
+      read: function() {
+        return app.helpers.formatThousandSeparators(self._lifetimes());
+      },
+      /**
+       * Validates before saving number of lifetimes.
+       * @memberOf app.Generator#lifetimes
+       * @param {string|number} value Could be &quot;10,000&quot; or &quot;10000&quot;.
+       */
+      write: function(value) {
+        self._lifetimes(app.helpers.parseNumberWithSeparators(value));
+        self.validate();
+      }
+    });
+
+    /**
+     * Submits generate form. Runs validation before submission.
+     * @params {object} formElement
+     */
+    this.submitGenerateForm = function(formElement) {
+      var self = this;
+
+      if (self.validate()) {
+        self.generateDataset(function() {
+          // Display initial view (generated dataset).
+          app.generated.view();
+        }, function(data) {
+          app.generatedViz.draw(app.data.compatibilities, &#x27;#generated-plot_area&#x27;);
+          app.vm.CurrentDetail.lifetime(_.random(1, app.vm.Experiment._lifetimes()));
+        });
+      }
+    }
+
+    self.ageErrorText = &quot;Age difference must be between &quot; + app.data.settings.min_age_diff + &quot; and &quot; + app.data.settings.max_age_diff;
+    self.ppErrorText = &quot;Number of potential partners must be between &quot; + app.data.settings.min_potential_partners + &quot; and &quot; + app.data.settings.max_potential_partners;
+    self.lifetimesErrorText = &quot;Lifetimes must be between &quot; + app.helpers.formatThousandSeparators(app.data.settings.min_lifetimes) +
+     &quot; and &quot; + app.helpers.formatThousandSeparators(app.data.settings.max_lifetimes) + &quot; (sorry, my server&#x27;s just not strong enough).&quot;;
+
+    self.a1Error = ko.observable(false);
+    self.a2Error = ko.observable(false);
+    self.p1Error = ko.observable(false);
+    self.p2Error = ko.observable(false);
+    self.lifetimesError = ko.observable(false);
+    /**
+     * Validation method.
+     */
+    this.validate = function() {
+      var self = this;
+
+      self.a1Error(false);
+      self.a2Error(false);
+      self.p1Error(false);
+      self.p2Error(false);
+      self.lifetimesError(false);
+
+      var error = false;
+      var value = self.a2()-self.a1();
+
+      if (value &amp;lt; app.data.settings.min_age_diff || value &gt; app.data.settings.max_age_diff) {
+        self.a1Error(true);
+        self.a2Error(true);
+        error = true;
+      }
+
+      [self.p1(), self.p2()].forEach(function(value, i) {
+        if (value &amp;lt; app.data.settings.min_potential_partners || value &gt; app.data.settings.max_potential_partners) {
+          // Dynamic function calls.
+          self[&#x27;p&#x27;+(i+1)+&#x27;Error&#x27;](true);
+          error = true;
+        }
+      });
+
+      if (self._lifetimes() &amp;lt; app.data.settings.min_lifetimes || self._lifetimes() &gt; app.data.settings.max_lifetimes) {
+        // Dynamic function calls.
+        self[&#x27;lifetimesError&#x27;](true);
+        error = true;
+      }
+      self.validated(!error);
+      return !error;
+    }
+
+    /**
+     * Generate dataset then run callbacks after done.
+     * @param {function} callbackDirect Use callbackDirect for actions that should directly run without waiting
+     *   for dataset to be ready.
+     * @param {function(data)} callbackWait Use callbackWait for doing stuff with generated data.
+     * @param {Array} callbackWait.data Data passed to callbackWait function.
+     */
+    this.generateDataset = function(callbackDirect, callbackWait) {
+      var self = this;
+
+      app.vm.Experiment.a1(self.a1());
+      app.vm.Experiment.a2(self.a2());
+      app.vm.Experiment.p1(self.p1());
+      app.vm.Experiment.p2(self.p2());
+      app.vm.Experiment._lifetimes(self._lifetimes());
+      app.data.compatibilities = [];
+      
+      app.vm.Experiment.processed(false);
+
+      // If last url is the same, don&#x27;t repeat request.
+      var url = app.helpers.dataUrl();
+
+      if (app.data.last_url === url) {
+        callbackWait(app.data.compatibilities);
+      }
+      else {
+        d3.json(url, function(data) {
+          app.data.compatibilities = data.compatibilities;
+          // Set experiment.processed to false.
+
+          // Also loads experiment-related data and set &quot;processed&quot; to true afterward.
+          d3.json(app.helpers.experimentUrl(), function(data1) {
+            app.simulationAnalysis.updateExperiment(data1.processed);
+
+            // Set default random chosen lifetime.
+            // Not needed since this caused initial load update detail page several times
+            // and broke the tour feature. Instead, set lifetime in 
+            // callbackWait method.
+            // app.vm.CurrentDetail.lifetime(_.random(1, app.vm.Experiment._lifetimes()));
+
+            if (typeof(callbackWait) == &#x27;function&#x27;) {
+              callbackWait(app.data.compatibilities);
+            }
+          });
+        });
+      }
+      if (typeof(callbackDirect) == &#x27;function&#x27;) {
+        callbackDirect();
+      }
+    };
+  };
+
+})();</code></pre>
+          </article>
+        </div>
+      </div>
+      <nav id="jsdoc-toc-nav" role="navigation"></nav>
+    </div>
+  </div>
+  <footer id="jsdoc-footer" class="jsdoc-footer">
+    <div id="jsdoc-footer-container">
+      <p>
+        Generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc</a> 3.3.3 on October 5, 2015.
+      </p>
+    </div>
+  </footer>
+  <script src="scripts/jquery.min.js"></script>
+  <script src="scripts/jquery.cookie.js"></script>
+  <script src="scripts/tree.jquery.js"></script>
+  <script src="scripts/prettify.js"></script>
+  <script src="scripts/jsdoc-toc.js"></script>
+  <script src="scripts/linenumber.js"></script>
+  <script src="scripts/scrollanchor.js"></script>
+</body>
+
+</html>

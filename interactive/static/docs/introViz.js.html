@@ -1,0 +1,167 @@
+<!doctype html>
+<html>
+
+<head>
+  <meta name="generator" content="JSDoc 3.3.3">
+  <meta charset="utf-8">
+  <title>Source: introViz.js</title>
+  <link rel="stylesheet" href="https://brick.a.ssl.fastly.net/Karla:400,400i,700,700i" type="text/css">
+  <link rel="stylesheet" href="https://brick.a.ssl.fastly.net/Noto+Serif:400,400i,700,700i" type="text/css">
+  <link rel="stylesheet" href="https://brick.a.ssl.fastly.net/Inconsolata:500" type="text/css">
+  <link href="css/baseline.css" rel="stylesheet">
+</head>
+
+<body onload="prettyPrint()">
+  <nav id="jsdoc-navbar" role="navigation" class="jsdoc-navbar">
+    <div id="jsdoc-navbar-container">
+      <div id="jsdoc-navbar-content">
+        <a href="index.html" class="jsdoc-navbar-package-name">Home</a>
+      </div>
+    </div>
+  </nav>
+  <div id="jsdoc-body-container">
+    <div id="jsdoc-content">
+      <div id="jsdoc-content-container">
+        <div id="jsdoc-banner" role="banner">
+        </div>
+        <div id="jsdoc-main" role="main">
+          <header class="page-header">
+            <h1>Source: introViz.js</h1>
+          </header>
+          <article>
+            <pre class="prettyprint linenums"><code>var app = app || {};
+
+(function() {
+  &quot;use strict&quot;;
+  /**
+   * Introductionary visualization where we only visualize mathematical concept without any data.
+   * ## Related Links
+   * - {@link app.vizHelpers}
+   * @namespace app.introViz
+   */
+  app.introViz = {};
+
+  /**
+   * Draw the visualization given data and css selector
+   * @param {Array} data Calculation data (Success rates over various rejection phases).
+   * @param {string} selector CSS selector where plots will be drawn at.
+   */
+  app.introViz.drawIntro = function(data, selector) {
+    data = data.partners;
+    selector = typeof(selector) == &#x27;undefined&#x27; ? &#x27;#intro_viz&#x27; : selector;
+
+    // Todo: when screen size changed, change this.
+    var width = 800,
+        height = 400,
+        marginLeft = 60,
+        marginTop = 50,
+        bottomOffset = 20,
+        right_offset = 20,
+        radius = 5,
+        chartSelectorId = &#x27;g-i&#x27;,
+        chartSelector = &#x27;#g-i&#x27;;
+
+    var radius = 3;
+    var color = &quot;blue&quot;;
+
+    d3.select(selector)
+      .append(&#x27;svg&#x27;)
+        .attr(&#x27;width&#x27;, width + marginLeft + right_offset)
+        .attr(&#x27;height&#x27;, height + marginTop + bottomOffset)
+      .append(&#x27;g&#x27;)
+        .attr(&#x27;id&#x27;, chartSelectorId)
+        .attr(&#x27;class&#x27;,&#x27;chart i_plot&#x27;);
+
+    var xExtent = d3.extent(data, function(d,i) {
+      return i;
+    });
+    var yExtent = d3.extent(data, function(d) {
+      return d;
+    });
+
+    var scales = app.vizHelpers.drawAxes(chartSelector, {
+      xExtent: xExtent,
+      yExtent: yExtent,
+      width: width,
+      height: height,
+      marginLeft: marginLeft,
+      marginTop: marginTop,
+      bottomOffset: bottomOffset,
+      xLabel: &quot;# Candidates Rejected / r&quot;,
+      yLabel: &quot;Success Rate (%) / P(r)&quot;,
+      title: &quot;Success Rates Throughout Different Rejection Periods And Goals&quot;
+    });
+    var xScale = scales[0];
+    var yScale = scales[1];
+
+    // Draw the line.
+    var lineGen = d3.svg.line()
+      .x(function(d, i) {
+        return xScale(i);
+        // return xScale(d[&#x27;x&#x27;]);
+      })
+      .y(function(d) {
+        return yScale(d);
+        // return yScale(d[&#x27;y&#x27;]);
+      });
+
+    d3.select(chartSelector)
+      .append(&#x27;svg:path&#x27;)
+      .attr(&#x27;class&#x27;, &#x27;path-intro&#x27;)
+      .attr(&#x27;d&#x27;, lineGen(data));
+
+    // Draw the circles.
+
+    var tip = d3.tip()
+      .attr(&#x27;class&#x27;, &#x27;d3-tip&#x27;)
+      .offset([-10, 0])
+      .html(function(d, i) {
+        return &quot;&amp;lt;strong&gt;Success Rate:&amp;lt;/strong&gt; &amp;lt;span style=&#x27;color:red&#x27;&gt;&quot; + d +
+          &quot;&amp;lt;/span&gt;&amp;lt;br /&gt;&amp;lt;strong&gt;Candidates Rejected:&amp;lt;/strong&gt; &amp;lt;span&gt;&quot; + i + &quot;&amp;lt;/span&gt;&quot;;
+      });
+
+    d3.select(selector + &#x27; svg&#x27;).call(tip);
+
+    d3.select(chartSelector)
+      .selectAll(&#x27;circle&#x27;)
+      .data(data)
+      .enter()
+      .append(&#x27;circle&#x27;);
+
+    d3.selectAll(&#x27;circle&#x27;)
+      .attr(&#x27;cx&#x27;, function(d, i) {
+        return xScale(i);
+      })
+      .attr(&#x27;cy&#x27;, function(d) {
+        return yScale(d);
+        // return yScale(d[&#x27;y&#x27;]);
+      })
+      .attr(&#x27;r&#x27;, radius)
+      .attr(&#x27;fill&#x27;, color)
+      .on(&#x27;mouseover&#x27;, tip.show)
+      .on(&#x27;mouseout&#x27;, tip.hide);
+  }
+})();</code></pre>
+          </article>
+        </div>
+      </div>
+      <nav id="jsdoc-toc-nav" role="navigation"></nav>
+    </div>
+  </div>
+  <footer id="jsdoc-footer" class="jsdoc-footer">
+    <div id="jsdoc-footer-container">
+      <p>
+        Generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc</a> 3.3.3 on October 5, 2015.
+      </p>
+    </div>
+  </footer>
+  <script src="scripts/jquery.min.js"></script>
+  <script src="scripts/jquery.cookie.js"></script>
+  <script src="scripts/tree.jquery.js"></script>
+  <script src="scripts/prettify.js"></script>
+  <script src="scripts/jsdoc-toc.js"></script>
+  <script src="scripts/linenumber.js"></script>
+  <script src="scripts/scrollanchor.js"></script>
+</body>
+
+</html>

@@ -1,0 +1,1784 @@
+<!doctype html>
+<html>
+
+<head>
+  <meta name="generator" content="JSDoc 3.3.3">
+  <meta charset="utf-8">
+  <title>Home</title>
+  <link rel="stylesheet" href="https://brick.a.ssl.fastly.net/Karla:400,400i,700,700i" type="text/css">
+  <link rel="stylesheet" href="https://brick.a.ssl.fastly.net/Noto+Serif:400,400i,700,700i" type="text/css">
+  <link rel="stylesheet" href="https://brick.a.ssl.fastly.net/Inconsolata:500" type="text/css">
+  <link href="css/baseline.css" rel="stylesheet">
+</head>
+
+<body onload="prettyPrint()">
+  <nav id="jsdoc-navbar" role="navigation" class="jsdoc-navbar">
+    <div id="jsdoc-navbar-container">
+      <div id="jsdoc-navbar-content">
+        <a href="index.html" class="jsdoc-navbar-package-name">Home</a>
+      </div>
+    </div>
+  </nav>
+  <div id="jsdoc-body-container">
+    <div id="jsdoc-content">
+      <div id="jsdoc-content-container">
+        <div id="jsdoc-banner" role="banner">
+        </div>
+        <div id="jsdoc-main" role="main">
+          <article>
+            <h1>The Mathematics of Love - When to Settle Down</h1>
+            <p><em>Interactive version</em></p>
+            <p>This project is available for viewing here: <a href="http://mathoflove.teguhwijaya.com/">http://mathoflove.teguhwijaya.com/</a></p>
+            <h2>How to Run</h2>
+            <p>This section explains how to run this project in your local machine. Please do contact me at te g u h w purw an to [at] gmail [dot] com if you have any question with installation.</p>
+            <p>This app needs following python modules:</p>
+            <ul>
+              <li>Flask (<code>pip install flask</code>)</li>
+              <li>uJson (<code>pip install ujson</code>)</li>
+            </ul>
+            <p>and Bower (<a href="http://bower.io/#install-bower">see installation here</a>).</p>
+            <p>and Grunt for styling:</p>
+            <pre class="prettyprint source"><code>npm install -g grunt-cli
+npm install load-grunt-tasks</code></pre>
+            <p><code>cd static</code> then <code>grunt</code> to compile css file.</p>
+            <p>Once you got them installed, do the following to run the app on your server:</p>
+            <ul>
+              <li><code>bower install --allow-root</code> to install all the required javascript.</li>
+              <li><code>python server.py</code></li>
+            </ul>
+            <p>Then you should be able to access this app on <code>http://localhost</code> (make sure no other app is using your port 80).</p>
+            <h2>Development Notes</h2>
+            <ul>
+              <li>To add new javascript plugin, run <code>bower install pluginname</code>.</li>
+              <li>This project uses Foundation with Grunt, so when you need to update your css, cd to <code>static</code> dir and run <code>grunt</code>. You may then update the scss files and they will be compiled into app.css used in this app.</li>
+              <li>Documentation is made with jsdoc with baseline plugin. To export documentation, run <code>jsdoc -t node_modules/jsdoc-baseline static/js/ readme.md</code> from /interactive directory.</li>
+            </ul>
+            <h2>Design</h2>
+            <p>To put it simply, in this project I generate a large number of random numbers and apply a Mathematical concept to explain it. Regarding the eligibility of this project, it has been discussed <a href="https://discussions.udacity.com/t/project-6-is-data-visualization-to-prove-a-mathematical-concept-eligible/29823/6">here in the Udacity forum</a>.</p>
+            <p>This app uses various types of visualizations to explain different aspects of the dataset, divided into three major graphs:</p>
+            <ul>
+              <li><strong>Histograms</strong> to review the distribution of generated dataset.</li>
+              <li><strong>Line charts</strong> to read the pattern produced by applying some strategies / Mathematical equations into our dataset.</li>
+              <li><strong>Bar chart with a twist</strong> to explain the Mathematical concept.</li>
+            </ul>
+            <p>Due to its size, it is inevitable that this project has experienced many design changes. They can be reviewed in detail from the <a href="https://github.com/jaycode/mathematics-of-love/commits/master">github page of this project</a>, here
+              are the overview of the changes:</p>
+            <p><strong>3rd of July, 2015</strong></p>
+            <p> Initially, the beginning for this project was me toying around in R, the project is still available <a href="https://jaycode.github.io/mathematics-of-love/when-to-settle-down.html">here</a>.</p>
+            <p><strong>23rd of August, 2015</strong></p>
+            <p>I asked if this project would be eligible <a href="https://discussions.udacity.com/t/project-6-is-data-visualization-to-prove-a-mathematical-concept-eligible/29823/6">in the Udacity forum</a>.</p>
+            <p><strong>27 Aug 2015</strong></p>
+            <p>It was decided that the project was good to go, so I started doodling within the next 5 days.</p>
+            <p><strong>1 Sept 2015</strong></p>
+            <p>I finished drawing some doodles for this app. Doodles are available <a href="https://drive.google.com/open?id=0B2ib3M3otvbDflM2RjJPTXZadU1VQUMwT0lTblJqNDlUVTNiRWM3VzVHYlVxSl9JZG9zOGM">here</a>. As you can see from my post in that forum, at
+              this stage I was still not even sure how I was going to build this application.</p>
+            <p><strong>5 Sept 2015</strong> And so I spent the next 4 days &quot;binge learning&quot; Udacity's Front-End development and introduction to Fullstack development courses. From the former I learned how to structure my javascript app with KnockoutJs,
+              and from the latter I learned that I can quickly setup a Python webserver using Flask framework (later I found there's a more ideal way to do this).</p>
+            <p><strong>6 Sept 2015</strong></p>
+            <p>During the next two days (date 5 and 6), I focused on the structure and some initial design of the app, as well as re-learning the Theory again to put for content. I also tinkered with the d3-slider to see how it works.</p>
+            <p><strong>8 Sept 2015</strong></p>
+            <p>From then, up until date 8 I moved over the logic I used in R into Javascript. </p>
+            <p><strong>9 Sept 2015</strong> Which was a terrible mistake since the loading time was too high that the app was practically useless. I spent the following day (date 9) on rewriting the code in Python. It was a huge success since Python has
+              this Numpy array which made the calculation much faster.</p>
+            <p><strong>11 Sept 2015</strong></p>
+            <p>I then kept working on different parts of the app iteratively until date 11. I encountered another setback as I accidentally not including many files, including the whole javascript files in this app. It was terrible since turned out I needed
+              to use that R analysis code I ported into Javascript. The problem was caused by the inclusion of <code>.git</code> directory inside of <code>static</code> dir which made that entire directory untraceable in Git. I removed that <code>.git</code>              dir and rewrote the code.</p>
+            <p>At the middle of date 11, the app already looked really fine where all of the features are working quite well.</p>
+            <p>I shown this app to a couple of people in a social meetup called Hackteria (basically like Hackerspace, but for Biologists) and this idea turned out to be a good conversation starter.</p>
+            <p>I enjoyed the moment when their fear of anything Mathematics turned into little sparks of curiosity. That happened with me too months ago when watching the talk that inspired me to write this project.</p>
+            <p><strong>12 Sept 2015</strong></p>
+            <p>But then again, I noticed that while they enjoyed my explanation, they seemed kind of lost when I let them play with the simulation on their own. So I decided to incorporate a tour-like plugin into the simulation.</p>
+            <p>Now, as usual I had zero idea how this may work. I remember my colleagues at Trio Digital had been using similar system for one of our web projects, so I know that this was possible. So I searched around and found this plugin BootstrapTour.</p>
+            <p>The plugin was nearly perfect, but there were some additions I needed to make before it can be used for my project, so I hacked my way to add the following features:</p>
+            <ul>
+              <li>When &quot;next&quot; and &quot;prev&quot; button clicked, the plugin used jQuery promise feature to wait for animation to finish, then move to respective page. Due to the number of various animation and threads I have in my project, this
+                feature broke, and instead I &quot;patched&quot; the plugin to not assuming anything when onNext and onPrev events triggered. That way I can just wait until my animation completed and manually go to the right pages. Simple.</li>
+              <li>Sometimes I needed to have a slightly different tour panel position and page scrolling in my project, so I patched that feature to allow me adding some options to do manual scrolling.</li>
+            </ul>
+            <p>At the end of date 12, I have completed the story for this tour feature.</p>
+            <p><strong>13 Sept 2015</strong></p>
+            <p>This day was reserved to setup the server for general public to see. So I quickly put together a basic web server, polished the content, and launched the site. Back then I have made a <a href="https://hub.docker.com/r/jaycode/python2-scipy/">docker environment for Python</a>              just for the fun of it, turned out to be very useful in this situation. I set up a server in record time of under 1 hour thanks to that.</p>
+            <p>Oh I also made a <a href="http://goo.gl/forms/5X3hO6CGFl">Google Form</a> so I can gather even more feedback.</p>
+            <p>With everything set up I was ready to spread this app to the world.</p>
+            <p><strong>14 Sept 2015</strong></p>
+            <p>Except that they didn't. Someone notified me that he could not remove goals after creating them, turns out that was a feature I forgot to complete, so I quickly rushed to add that feature.</p>
+            <p>An even bigger problem came up. Another one complained the app was non-existent. As it turned out, Python's Flask is <strong>really</strong> not suitable for production. I've read that in its documentation, but I thought it should have been
+              fine for under 100 clients or something. More like 1-client-at-a-time, it seems.</p>
+            <p>Luckily I only have distributed the link to my Facebook friends. So I browsed around, and found out <a href="http://stackoverflow.com/questions/14814201/can-i-serve-multiple-clients-using-just-flask-app-run-as-standalone">a couple of alternatives for the web server</a>.
+              I ended up using <a href="http://stackoverflow.com/questions/8143141/using-flask-and-tornado-together/8247457#8247457">Tornado in tandem with Flask</a>, since it was super fast to set up.</p>
+            <p><strong>17 Sept 2015</strong> Improved the app based on feedback from the wonderful Udacity community:</p>
+            <ul>
+              <li>Fixed add and remove goals feature. Used to have many small glitches.</li>
+              <li>Less colors.</li>
+              <li>Updated mouse hover behavior in main visualization.</li>
+              <li>Fixed edge case of rejecting 0 candidate.</li>
+              <li>Corrected grammatical and spelling errors, and typos.</li>
+              <li>Tiny cosmetic changes.</li>
+            </ul>
+            <h2>Feedback</h2>
+            <p>Some of the discussions were done verbally, but I have also gathered some feedback from other sources for this project.</p>
+            <p>For one, thanks to <a href="https://discussions.udacity.com/t/project-6-is-data-visualization-to-prove-a-mathematical-concept-eligible/29823">Charlie and Sheng Kung in Udacity Forum</a> I know that I could use this idea for the project.</p>
+            <p>In the early phase of this project, I mentioned I <a href="https://drive.google.com/open?id=0B2ib3M3otvbDflM2RjJPTXZadU1VQUMwT0lTblJqNDlUVTNiRWM3VzVHYlVxSl9JZG9zOGM">made some doodles</a>. I didn't include all the annotated scraps since they
+              were too many of them, but I took a photo of a bunch of annotated doodle in file <a href="https://lh3.googleusercontent.com/pi5eSemwZgcYtJxiZ2i2QwzzsSUO8AY3r8PxxSQww7TFGbG8KvS856jQs9I1TrP99crDBQ=w1342-h523">assorted-annotations.jpg</a>.</p>
+            <p>I have created <a href="https://plus.google.com/100979599321722862352/posts/4N2BLggiAZD">a post in Udacity Google group forum</a> and by the time I've done writing this readme file, I have gathered 4 anonymous comments.</p>
+            <p>The comments are recorded <a href="https://docs.google.com/spreadsheets/d/1i14GTZp2z4G1HT2K1AtUlcOKGxhMZCOue6WZ96z1D8U/edit?usp=sharing">in this publicly available spreadsheet document</a>. I enjoyed reading them, most of them had fun reading
+              the article (at the time of writing, at least) and had some really constructive feedback to improve this project further. I will work on this project a bit further after submitting this into the review system, you can always see the latest
+              update at its <a href="https://github.com/jaycode/mathematics-of-love/tree/master/interactive">Github page</a>.</p>
+          </article>
+          <div class="symbol-index">
+            <section>
+              <div class="symbol-index-content">
+                <h2 id="app">app</h2>
+                <div class="symbol-index-section">
+                  <div class="symbol-index-column">
+                    <dl class="symbol-index-list">
+                      <dt class="symbol-index-name">
+                <a href="app.html" class="!symbol-index-name">app</a>
+            </dt>
+                      <dd>
+                      </dd>
+                    </dl>
+                  </div>
+                  <div class="symbol-index-column">
+                    <dl class="symbol-index-list">
+                      <dt class="symbol-index-name">
+                <a href="app.html#.getTourSettings" class="!symbol-index-name">app.<wbr>getTourSettings()</a>
+            </dt>
+                      <dd>
+                      </dd>
+                    </dl>
+                  </div>
+                  <div class="symbol-index-column">
+                    <dl class="symbol-index-list">
+                    </dl>
+                  </div>
+                </div>
+              </div>
+            </section>
+            <section>
+              <div class="symbol-index-content">
+                <h2 id="app.CurrentDetail">app.CurrentDetail</h2>
+                <div class="symbol-index-section">
+                  <div class="symbol-index-column">
+                    <dl class="symbol-index-list">
+                      <dt class="symbol-index-name">
+                <a href="app.CurrentDetail.html" class="!symbol-index-name">app.<wbr>CurrentDetail()</a>
+            </dt>
+                      <dd>
+                      </dd>
+                      <dt class="symbol-index-name">
+                <a href="app.CurrentDetail.html#_lifetime" class="!symbol-index-name">app.<wbr>CurrentDetail#<wbr>_lifetime</a>
+            </dt>
+                      <dd>
+                      </dd>
+                      <dt class="symbol-index-name">
+                <a href="app.CurrentDetail.html#_rejection_phase" class="!symbol-index-name">app.<wbr>CurrentDetail#<wbr>_rejection_phase</a>
+            </dt>
+                      <dd>
+                      </dd>
+                      <dt class="symbol-index-name">
+                <a href="app.CurrentDetail.html#activeGoal" class="!symbol-index-name">app.<wbr>CurrentDetail#<wbr>activeGoal()</a>
+            </dt>
+                      <dd>
+                      </dd>
+                    </dl>
+                  </div>
+                  <div class="symbol-index-column">
+                    <dl class="symbol-index-list">
+                      <dt class="symbol-index-name">
+                <a href="app.CurrentDetail.html#closeDetailWindow" class="!symbol-index-name">app.<wbr>CurrentDetail#<wbr>closeDetailWindow()</a>
+            </dt>
+                      <dd>
+                      </dd>
+                      <dt class="symbol-index-name">
+                <a href="app.CurrentDetail.html#goals" class="!symbol-index-name">app.<wbr>CurrentDetail#<wbr>goals</a>
+            </dt>
+                      <dd>
+                      </dd>
+                      <dt class="symbol-index-name">
+                <a href="app.CurrentDetail.html#nextRandomLifetime" class="!symbol-index-name">app.<wbr>CurrentDetail#<wbr>nextRandomLifetime()</a>
+            </dt>
+                      <dd>
+                      </dd>
+                      <dt class="symbol-index-name">
+                <a href="app.CurrentDetail.html#showLifetimeSlider" class="!symbol-index-name">app.<wbr>CurrentDetail#<wbr>showLifetimeSlider()</a>
+            </dt>
+                      <dd>
+                      </dd>
+                    </dl>
+                  </div>
+                  <div class="symbol-index-column">
+                    <dl class="symbol-index-list">
+                      <dt class="symbol-index-name">
+                <a href="app.CurrentDetail.html#showPhaseSlider" class="!symbol-index-name">app.<wbr>CurrentDetail#<wbr>showPhaseSlider()</a>
+            </dt>
+                      <dd>
+                      </dd>
+                      <dt class="symbol-index-name">
+                <a href="app.CurrentDetail.html#total_candidates" class="!symbol-index-name">app.<wbr>CurrentDetail#<wbr>total_candidates</a>
+            </dt>
+                      <dd>
+                      </dd>
+                      <dt class="symbol-index-name">
+                <a href="app.CurrentDetail.html#window_left" class="!symbol-index-name">app.<wbr>CurrentDetail#<wbr>window_left</a>
+            </dt>
+                      <dd>
+                      </dd>
+                      <dt class="symbol-index-name">
+                <a href="app.CurrentDetail.html#window_top" class="!symbol-index-name">app.<wbr>CurrentDetail#<wbr>window_top</a>
+            </dt>
+                      <dd>
+                      </dd>
+                    </dl>
+                  </div>
+                </div>
+              </div>
+            </section>
+            <section>
+              <div class="symbol-index-content">
+                <h2 id="app.CurrentDetail#displayedLifetime">app.CurrentDetail#displayedLifetime</h2>
+                <div class="symbol-index-section">
+                  <div class="symbol-index-column">
+                    <dl class="symbol-index-list">
+                      <dt class="symbol-index-name">
+                <a href="app.CurrentDetail_displayedLifetime.html" class="!symbol-index-name">app.<wbr>CurrentDetail#<wbr>displayedLifetime</a>
+            </dt>
+                      <dd>
+                      </dd>
+                    </dl>
+                  </div>
+                  <div class="symbol-index-column">
+                    <dl class="symbol-index-list">
+                      <dt class="symbol-index-name">
+                <a href="app.CurrentDetail_displayedLifetime.html#.read" class="!symbol-index-name">app.<wbr>CurrentDetail#<wbr>displayedLifetime.<wbr>read()</a>
+            </dt>
+                      <dd>
+                      </dd>
+                    </dl>
+                  </div>
+                  <div class="symbol-index-column">
+                    <dl class="symbol-index-list">
+                      <dt class="symbol-index-name">
+                <a href="app.CurrentDetail_displayedLifetime.html#.write" class="!symbol-index-name">app.<wbr>CurrentDetail#<wbr>displayedLifetime.<wbr>write()</a>
+            </dt>
+                      <dd>
+                      </dd>
+                    </dl>
+                  </div>
+                </div>
+              </div>
+            </section>
+            <section>
+              <div class="symbol-index-content">
+                <h2 id="app.CurrentDetail#lifetime">app.CurrentDetail#lifetime</h2>
+                <div class="symbol-index-section">
+                  <div class="symbol-index-column">
+                    <dl class="symbol-index-list">
+                      <dt class="symbol-index-name">
+                <a href="app.CurrentDetail_lifetime.html" class="!symbol-index-name">app.<wbr>CurrentDetail#<wbr>lifetime</a>
+            </dt>
+                      <dd>
+                      </dd>
+                    </dl>
+                  </div>
+                  <div class="symbol-index-column">
+                    <dl class="symbol-index-list">
+                      <dt class="symbol-index-name">
+                <a href="app.CurrentDetail_lifetime.html#.read" class="!symbol-index-name">app.<wbr>CurrentDetail#<wbr>lifetime.<wbr>read()</a>
+            </dt>
+                      <dd>
+                      </dd>
+                    </dl>
+                  </div>
+                  <div class="symbol-index-column">
+                    <dl class="symbol-index-list">
+                      <dt class="symbol-index-name">
+                <a href="app.CurrentDetail_lifetime.html#.write" class="!symbol-index-name">app.<wbr>CurrentDetail#<wbr>lifetime.<wbr>write()</a>
+            </dt>
+                      <dd>
+                      </dd>
+                    </dl>
+                  </div>
+                </div>
+              </div>
+            </section>
+            <section>
+              <div class="symbol-index-content">
+                <h2 id="app.CurrentDetail#rejection_phase">app.CurrentDetail#rejection_phase</h2>
+                <div class="symbol-index-section">
+                  <div class="symbol-index-column">
+                    <dl class="symbol-index-list">
+                      <dt class="symbol-index-name">
+                <a href="app.CurrentDetail_rejection_phase.html" class="!symbol-index-name">app.<wbr>CurrentDetail#<wbr>rejection_phase</a>
+            </dt>
+                      <dd>
+                      </dd>
+                    </dl>
+                  </div>
+                  <div class="symbol-index-column">
+                    <dl class="symbol-index-list">
+                      <dt class="symbol-index-name">
+                <a href="app.CurrentDetail_rejection_phase.html#.read" class="!symbol-index-name">app.<wbr>CurrentDetail#<wbr>rejection_phase.<wbr>read()</a>
+            </dt>
+                      <dd>
+                      </dd>
+                    </dl>
+                  </div>
+                  <div class="symbol-index-column">
+                    <dl class="symbol-index-list">
+                      <dt class="symbol-index-name">
+                <a href="app.CurrentDetail_rejection_phase.html#.write" class="!symbol-index-name">app.<wbr>CurrentDetail#<wbr>rejection_phase.<wbr>write()</a>
+            </dt>
+                      <dd>
+                      </dd>
+                    </dl>
+                  </div>
+                </div>
+              </div>
+            </section>
+            <section>
+              <div class="symbol-index-content">
+                <h2 id="app.DetailGoal">app.DetailGoal</h2>
+                <div class="symbol-index-section">
+                  <div class="symbol-index-column">
+                    <dl class="symbol-index-list">
+                      <dt class="symbol-index-name">
+                <a href="app.DetailGoal.html" class="!symbol-index-name">app.<wbr>DetailGoal()</a>
+            </dt>
+                      <dd>
+                      </dd>
+                      <dt class="symbol-index-name">
+                <a href="app.DetailGoal.html#active" class="!symbol-index-name">app.<wbr>DetailGoal#<wbr>active</a>
+            </dt>
+                      <dd>
+                      </dd>
+                      <dt class="symbol-index-name">
+                <a href="app.DetailGoal.html#getClass" class="!symbol-index-name">app.<wbr>DetailGoal#<wbr>getClass</a>
+            </dt>
+                      <dd>
+                      </dd>
+                      <dt class="symbol-index-name">
+                <a href="app.DetailGoal.html#getClassAndActiveStatus" class="!symbol-index-name">app.<wbr>DetailGoal#<wbr>getClassAndActiveStatus</a>
+            </dt>
+                      <dd>
+                      </dd>
+                    </dl>
+                  </div>
+                  <div class="symbol-index-column">
+                    <dl class="symbol-index-list">
+                      <dt class="symbol-index-name">
+                <a href="app.DetailGoal.html#id" class="!symbol-index-name">app.<wbr>DetailGoal#<wbr>id</a>
+            </dt>
+                      <dd>
+                      </dd>
+                      <dt class="symbol-index-name">
+                <a href="app.DetailGoal.html#idClass" class="!symbol-index-name">app.<wbr>DetailGoal#<wbr>idClass</a>
+            </dt>
+                      <dd>
+                      </dd>
+                      <dt class="symbol-index-name">
+                <a href="app.DetailGoal.html#name" class="!symbol-index-name">app.<wbr>DetailGoal#<wbr>name</a>
+            </dt>
+                      <dd>
+                      </dd>
+                      <dt class="symbol-index-name">
+                <a href="app.DetailGoal.html#setActive" class="!symbol-index-name">app.<wbr>DetailGoal#<wbr>setActive()</a>
+            </dt>
+                      <dd>
+                      </dd>
+                    </dl>
+                  </div>
+                  <div class="symbol-index-column">
+                    <dl class="symbol-index-list">
+                      <dt class="symbol-index-name">
+                <a href="app.DetailGoal.html#success_rate" class="!symbol-index-name">app.<wbr>DetailGoal#<wbr>success_rate</a>
+            </dt>
+                      <dd>
+                      </dd>
+                      <dt class="symbol-index-name">
+                <a href="app.DetailGoal.html#success_rate_percent" class="!symbol-index-name">app.<wbr>DetailGoal#<wbr>success_rate_percent</a>
+            </dt>
+                      <dd>
+                      </dd>
+                    </dl>
+                  </div>
+                </div>
+              </div>
+            </section>
+            <section>
+              <div class="symbol-index-content">
+                <h2 id="app.Experiment">app.Experiment</h2>
+                <div class="symbol-index-section">
+                  <div class="symbol-index-column">
+                    <dl class="symbol-index-list">
+                      <dt class="symbol-index-name">
+                <a href="app.Experiment.html" class="!symbol-index-name">app.<wbr>Experiment(data)</a>
+            </dt>
+                      <dd>
+                      </dd>
+                      <dt class="symbol-index-name">
+                <a href="app.Experiment.html#_lifetimes" class="!symbol-index-name">app.<wbr>Experiment#<wbr>_lifetimes</a>
+            </dt>
+                      <dd>
+                      </dd>
+                      <dt class="symbol-index-name">
+                <a href="app.Experiment.html#a1" class="!symbol-index-name">app.<wbr>Experiment#<wbr>a1</a>
+            </dt>
+                      <dd>
+                      </dd>
+                      <dt class="symbol-index-name">
+                <a href="app.Experiment.html#a2" class="!symbol-index-name">app.<wbr>Experiment#<wbr>a2</a>
+            </dt>
+                      <dd>
+                      </dd>
+                    </dl>
+                  </div>
+                  <div class="symbol-index-column">
+                    <dl class="symbol-index-list">
+                      <dt class="symbol-index-name">
+                <a href="app.Experiment.html#addGoal" class="!symbol-index-name">app.<wbr>Experiment#<wbr>addGoal()</a>
+            </dt>
+                      <dd>
+                      </dd>
+                      <dt class="symbol-index-name">
+                <a href="app.Experiment.html#cancelAddGoal" class="!symbol-index-name">app.<wbr>Experiment#<wbr>cancelAddGoal()</a>
+            </dt>
+                      <dd>
+                      </dd>
+                      <dt class="symbol-index-name">
+                <a href="app.Experiment.html#goals" class="!symbol-index-name">app.<wbr>Experiment#<wbr>goals</a>
+            </dt>
+                      <dd>
+                      </dd>
+                      <dt class="symbol-index-name">
+                <a href="app.Experiment.html#p1" class="!symbol-index-name">app.<wbr>Experiment#<wbr>p1</a>
+            </dt>
+                      <dd>
+                      </dd>
+                    </dl>
+                  </div>
+                  <div class="symbol-index-column">
+                    <dl class="symbol-index-list">
+                      <dt class="symbol-index-name">
+                <a href="app.Experiment.html#p2" class="!symbol-index-name">app.<wbr>Experiment#<wbr>p2</a>
+            </dt>
+                      <dd>
+                      </dd>
+                      <dt class="symbol-index-name">
+                <a href="app.Experiment.html#processed" class="!symbol-index-name">app.<wbr>Experiment#<wbr>processed</a>
+            </dt>
+                      <dd>
+                      </dd>
+                    </dl>
+                  </div>
+                </div>
+              </div>
+            </section>
+            <section>
+              <div class="symbol-index-content">
+                <h2 id="app.Experiment#lifetime">app.Experiment#lifetime</h2>
+                <div class="symbol-index-section">
+                  <div class="symbol-index-column">
+                    <dl class="symbol-index-list">
+                      <dt class="symbol-index-name">
+                <a href="app.Experiment_lifetime.html" class="!symbol-index-name">app.<wbr>Experiment#<wbr>lifetime</a>
+            </dt>
+                      <dd>
+                      </dd>
+                    </dl>
+                  </div>
+                  <div class="symbol-index-column">
+                    <dl class="symbol-index-list">
+                    </dl>
+                  </div>
+                  <div class="symbol-index-column">
+                    <dl class="symbol-index-list">
+                    </dl>
+                  </div>
+                </div>
+              </div>
+            </section>
+            <section>
+              <div class="symbol-index-content">
+                <h2 id="app.Generator">app.Generator</h2>
+                <div class="symbol-index-section">
+                  <div class="symbol-index-column">
+                    <dl class="symbol-index-list">
+                      <dt class="symbol-index-name">
+                <a href="app.Generator.html" class="!symbol-index-name">app.<wbr>Generator(data)</a>
+            </dt>
+                      <dd>
+                      </dd>
+                      <dt class="symbol-index-name">
+                <a href="app.Generator.html#_a1" class="!symbol-index-name">app.<wbr>Generator#<wbr>_a1</a>
+            </dt>
+                      <dd>
+                      </dd>
+                      <dt class="symbol-index-name">
+                <a href="app.Generator.html#_a2" class="!symbol-index-name">app.<wbr>Generator#<wbr>_a2</a>
+            </dt>
+                      <dd>
+                      </dd>
+                      <dt class="symbol-index-name">
+                <a href="app.Generator.html#_lifetimes" class="!symbol-index-name">app.<wbr>Generator#<wbr>_lifetimes</a>
+            </dt>
+                      <dd>
+                      </dd>
+                    </dl>
+                  </div>
+                  <div class="symbol-index-column">
+                    <dl class="symbol-index-list">
+                      <dt class="symbol-index-name">
+                <a href="app.Generator.html#_p1" class="!symbol-index-name">app.<wbr>Generator#<wbr>_p1</a>
+            </dt>
+                      <dd>
+                      </dd>
+                      <dt class="symbol-index-name">
+                <a href="app.Generator.html#_p2" class="!symbol-index-name">app.<wbr>Generator#<wbr>_p2</a>
+            </dt>
+                      <dd>
+                      </dd>
+                      <dt class="symbol-index-name">
+                <a href="app.Generator.html#generateDataset" class="!symbol-index-name">app.<wbr>Generator#<wbr>generateDataset(callbackDirect, callbackWait)</a>
+            </dt>
+                      <dd>
+                      </dd>
+                      <dt class="symbol-index-name">
+                <a href="app.Generator.html#submitGenerateForm" class="!symbol-index-name">app.<wbr>Generator#<wbr>submitGenerateForm()</a>
+            </dt>
+                      <dd>
+                      </dd>
+                    </dl>
+                  </div>
+                  <div class="symbol-index-column">
+                    <dl class="symbol-index-list">
+                      <dt class="symbol-index-name">
+                <a href="app.Generator.html#validate" class="!symbol-index-name">app.<wbr>Generator#<wbr>validate()</a>
+            </dt>
+                      <dd>
+                      </dd>
+                      <dt class="symbol-index-name">
+                <a href="app.Generator.html#validated" class="!symbol-index-name">app.<wbr>Generator#<wbr>validated</a>
+            </dt>
+                      <dd>
+                      </dd>
+                    </dl>
+                  </div>
+                </div>
+              </div>
+            </section>
+            <section>
+              <div class="symbol-index-content">
+                <h2 id="app.Generator#a1">app.Generator#a1</h2>
+                <div class="symbol-index-section">
+                  <div class="symbol-index-column">
+                    <dl class="symbol-index-list">
+                      <dt class="symbol-index-name">
+                <a href="app.Generator_a1.html" class="!symbol-index-name">app.<wbr>Generator#<wbr>a1</a>
+            </dt>
+                      <dd>
+                      </dd>
+                    </dl>
+                  </div>
+                  <div class="symbol-index-column">
+                    <dl class="symbol-index-list">
+                      <dt class="symbol-index-name">
+                <a href="app.Generator_a1.html#.read" class="!symbol-index-name">app.<wbr>Generator#<wbr>a1.<wbr>read()</a>
+            </dt>
+                      <dd>
+                      </dd>
+                    </dl>
+                  </div>
+                  <div class="symbol-index-column">
+                    <dl class="symbol-index-list">
+                      <dt class="symbol-index-name">
+                <a href="app.Generator_a1.html#.write" class="!symbol-index-name">app.<wbr>Generator#<wbr>a1.<wbr>write()</a>
+            </dt>
+                      <dd>
+                      </dd>
+                    </dl>
+                  </div>
+                </div>
+              </div>
+            </section>
+            <section>
+              <div class="symbol-index-content">
+                <h2 id="app.Generator#a2">app.Generator#a2</h2>
+                <div class="symbol-index-section">
+                  <div class="symbol-index-column">
+                    <dl class="symbol-index-list">
+                      <dt class="symbol-index-name">
+                <a href="app.Generator_a2.html" class="!symbol-index-name">app.<wbr>Generator#<wbr>a2</a>
+            </dt>
+                      <dd>
+                      </dd>
+                    </dl>
+                  </div>
+                  <div class="symbol-index-column">
+                    <dl class="symbol-index-list">
+                      <dt class="symbol-index-name">
+                <a href="app.Generator_a2.html#.read" class="!symbol-index-name">app.<wbr>Generator#<wbr>a2.<wbr>read()</a>
+            </dt>
+                      <dd>
+                      </dd>
+                    </dl>
+                  </div>
+                  <div class="symbol-index-column">
+                    <dl class="symbol-index-list">
+                      <dt class="symbol-index-name">
+                <a href="app.Generator_a2.html#.write" class="!symbol-index-name">app.<wbr>Generator#<wbr>a2.<wbr>write()</a>
+            </dt>
+                      <dd>
+                      </dd>
+                    </dl>
+                  </div>
+                </div>
+              </div>
+            </section>
+            <section>
+              <div class="symbol-index-content">
+                <h2 id="app.Generator#lifetimes">app.Generator#lifetimes</h2>
+                <div class="symbol-index-section">
+                  <div class="symbol-index-column">
+                    <dl class="symbol-index-list">
+                      <dt class="symbol-index-name">
+                <a href="app.Generator_lifetimes.html" class="!symbol-index-name">app.<wbr>Generator#<wbr>lifetimes</a>
+            </dt>
+                      <dd>
+                      </dd>
+                    </dl>
+                  </div>
+                  <div class="symbol-index-column">
+                    <dl class="symbol-index-list">
+                      <dt class="symbol-index-name">
+                <a href="app.Generator_lifetimes.html#.read" class="!symbol-index-name">app.<wbr>Generator#<wbr>lifetimes.<wbr>read()</a>
+            </dt>
+                      <dd>
+                      </dd>
+                    </dl>
+                  </div>
+                  <div class="symbol-index-column">
+                    <dl class="symbol-index-list">
+                      <dt class="symbol-index-name">
+                <a href="app.Generator_lifetimes.html#.write" class="!symbol-index-name">app.<wbr>Generator#<wbr>lifetimes.<wbr>write(value)</a>
+            </dt>
+                      <dd>
+                      </dd>
+                    </dl>
+                  </div>
+                </div>
+              </div>
+            </section>
+            <section>
+              <div class="symbol-index-content">
+                <h2 id="app.Generator#p1">app.Generator#p1</h2>
+                <div class="symbol-index-section">
+                  <div class="symbol-index-column">
+                    <dl class="symbol-index-list">
+                      <dt class="symbol-index-name">
+                <a href="app.Generator_p1.html" class="!symbol-index-name">app.<wbr>Generator#<wbr>p1</a>
+            </dt>
+                      <dd>
+                      </dd>
+                    </dl>
+                  </div>
+                  <div class="symbol-index-column">
+                    <dl class="symbol-index-list">
+                      <dt class="symbol-index-name">
+                <a href="app.Generator_p1.html#.read" class="!symbol-index-name">app.<wbr>Generator#<wbr>p1.<wbr>read()</a>
+            </dt>
+                      <dd>
+                      </dd>
+                    </dl>
+                  </div>
+                  <div class="symbol-index-column">
+                    <dl class="symbol-index-list">
+                      <dt class="symbol-index-name">
+                <a href="app.Generator_p1.html#.write" class="!symbol-index-name">app.<wbr>Generator#<wbr>p1.<wbr>write()</a>
+            </dt>
+                      <dd>
+                      </dd>
+                    </dl>
+                  </div>
+                </div>
+              </div>
+            </section>
+            <section>
+              <div class="symbol-index-content">
+                <h2 id="app.Generator#p2">app.Generator#p2</h2>
+                <div class="symbol-index-section">
+                  <div class="symbol-index-column">
+                    <dl class="symbol-index-list">
+                      <dt class="symbol-index-name">
+                <a href="app.Generator_p2.html" class="!symbol-index-name">app.<wbr>Generator#<wbr>p2</a>
+            </dt>
+                      <dd>
+                      </dd>
+                    </dl>
+                  </div>
+                  <div class="symbol-index-column">
+                    <dl class="symbol-index-list">
+                      <dt class="symbol-index-name">
+                <a href="app.Generator_p2.html#.read" class="!symbol-index-name">app.<wbr>Generator#<wbr>p2.<wbr>read()</a>
+            </dt>
+                      <dd>
+                      </dd>
+                    </dl>
+                  </div>
+                  <div class="symbol-index-column">
+                    <dl class="symbol-index-list">
+                      <dt class="symbol-index-name">
+                <a href="app.Generator_p2.html#.write" class="!symbol-index-name">app.<wbr>Generator#<wbr>p2.<wbr>write()</a>
+            </dt>
+                      <dd>
+                      </dd>
+                    </dl>
+                  </div>
+                </div>
+              </div>
+            </section>
+            <section>
+              <div class="symbol-index-content">
+                <h2 id="app.Goal">app.Goal</h2>
+                <div class="symbol-index-section">
+                  <div class="symbol-index-column">
+                    <dl class="symbol-index-list">
+                      <dt class="symbol-index-name">
+                <a href="app.Goal.html" class="!symbol-index-name">app.<wbr>Goal</a>
+            </dt>
+                      <dd>
+                      </dd>
+                    </dl>
+                  </div>
+                  <div class="symbol-index-column">
+                    <dl class="symbol-index-list">
+                    </dl>
+                  </div>
+                  <div class="symbol-index-column">
+                    <dl class="symbol-index-list">
+                    </dl>
+                  </div>
+                </div>
+              </div>
+            </section>
+            <section>
+              <div class="symbol-index-content">
+                <h2 id="app.ViewModel">app.ViewModel</h2>
+                <div class="symbol-index-section">
+                  <div class="symbol-index-column">
+                    <dl class="symbol-index-list">
+                      <dt class="symbol-index-name">
+                <a href="app.ViewModel.html" class="!symbol-index-name">app.<wbr>ViewModel()</a>
+            </dt>
+                      <dd>
+                      </dd>
+                      <dt class="symbol-index-name">
+                <a href="app.ViewModel.html#.self.CurrentDetail" class="!symbol-index-name">app.<wbr>ViewModel.<wbr>self.<wbr>CurrentDetail</a>
+            </dt>
+                      <dd>
+                      </dd>
+                      <dt class="symbol-index-name">
+                <a href="app.ViewModel.html#.self.Experiment" class="!symbol-index-name">app.<wbr>ViewModel.<wbr>self.<wbr>Experiment</a>
+            </dt>
+                      <dd>
+                      </dd>
+                    </dl>
+                  </div>
+                  <div class="symbol-index-column">
+                    <dl class="symbol-index-list">
+                      <dt class="symbol-index-name">
+                <a href="app.ViewModel.html#.self.Generator" class="!symbol-index-name">app.<wbr>ViewModel.<wbr>self.<wbr>Generator</a>
+            </dt>
+                      <dd>
+                      </dd>
+                      <dt class="symbol-index-name">
+                <a href="app.ViewModel.html#viewDetail" class="!symbol-index-name">app.<wbr>ViewModel#<wbr>viewDetail()</a>
+            </dt>
+                      <dd>
+                      </dd>
+                      <dt class="symbol-index-name">
+                <a href="app.ViewModel.html#viewGenerateDataset" class="!symbol-index-name">app.<wbr>ViewModel#<wbr>viewGenerateDataset()</a>
+            </dt>
+                      <dd>
+                      </dd>
+                    </dl>
+                  </div>
+                  <div class="symbol-index-column">
+                    <dl class="symbol-index-list">
+                      <dt class="symbol-index-name">
+                <a href="app.ViewModel.html#viewGeneratedDataset" class="!symbol-index-name">app.<wbr>ViewModel#<wbr>viewGeneratedDataset()</a>
+            </dt>
+                      <dd>
+                      </dd>
+                      <dt class="symbol-index-name">
+                <a href="app.ViewModel.html#viewSimulationAnalysis" class="!symbol-index-name">app.<wbr>ViewModel#<wbr>viewSimulationAnalysis()</a>
+            </dt>
+                      <dd>
+                      </dd>
+                    </dl>
+                  </div>
+                </div>
+              </div>
+            </section>
+            <section>
+              <div class="symbol-index-content">
+                <h2 id="app.data">app.data</h2>
+                <div class="symbol-index-section">
+                  <div class="symbol-index-column">
+                    <dl class="symbol-index-list">
+                      <dt class="symbol-index-name">
+                <a href="app.data.html" class="!symbol-index-name">app.<wbr>data</a>
+            </dt>
+                      <dd>
+                      </dd>
+                    </dl>
+                  </div>
+                  <div class="symbol-index-column">
+                    <dl class="symbol-index-list">
+                      <dt class="symbol-index-name">
+                <a href="app.data.html#.compatibilities" class="!symbol-index-name">app.<wbr>data.<wbr>compatibilities</a>
+            </dt>
+                      <dd>
+                      </dd>
+                    </dl>
+                  </div>
+                  <div class="symbol-index-column">
+                    <dl class="symbol-index-list">
+                      <dt class="symbol-index-name">
+                <a href="app.data.html#.last_url" class="!symbol-index-name">app.<wbr>data.<wbr>last_url</a>
+            </dt>
+                      <dd>
+                      </dd>
+                    </dl>
+                  </div>
+                </div>
+              </div>
+            </section>
+            <section>
+              <div class="symbol-index-content">
+                <h2 id="app.data.currentDetail">app.data.currentDetail</h2>
+                <div class="symbol-index-section">
+                  <div class="symbol-index-column">
+                    <dl class="symbol-index-list">
+                      <dt class="symbol-index-name">
+                <a href="app.data.currentDetail.html" class="!symbol-index-name">app.<wbr>data.<wbr>currentDetail</a>
+            </dt>
+                      <dd>
+                      </dd>
+                      <dt class="symbol-index-name">
+                <a href="app.data.currentDetail.html#.compatibilities" class="!symbol-index-name">app.<wbr>data.<wbr>currentDetail.<wbr>compatibilities</a>
+            </dt>
+                      <dd>
+                      </dd>
+                      <dt class="symbol-index-name">
+                <a href="app.data.currentDetail.html#.lifetime" class="!symbol-index-name">app.<wbr>data.<wbr>currentDetail.<wbr>lifetime</a>
+            </dt>
+                      <dd>
+                      </dd>
+                    </dl>
+                  </div>
+                  <div class="symbol-index-column">
+                    <dl class="symbol-index-list">
+                      <dt class="symbol-index-name">
+                <a href="app.data.currentDetail.html#.rejection_phase" class="!symbol-index-name">app.<wbr>data.<wbr>currentDetail.<wbr>rejection_phase</a>
+            </dt>
+                      <dd>
+                      </dd>
+                      <dt class="symbol-index-name">
+                <a href="app.data.currentDetail.html#.total_candidates" class="!symbol-index-name">app.<wbr>data.<wbr>currentDetail.<wbr>total_candidates</a>
+            </dt>
+                      <dd>
+                      </dd>
+                      <dt class="symbol-index-name">
+                <a href="app.data.currentDetail.html#.window_left" class="!symbol-index-name">app.<wbr>data.<wbr>currentDetail.<wbr>window_left</a>
+            </dt>
+                      <dd>
+                      </dd>
+                    </dl>
+                  </div>
+                  <div class="symbol-index-column">
+                    <dl class="symbol-index-list">
+                      <dt class="symbol-index-name">
+                <a href="app.data.currentDetail.html#.window_top" class="!symbol-index-name">app.<wbr>data.<wbr>currentDetail.<wbr>window_top</a>
+            </dt>
+                      <dd>
+                      </dd>
+                    </dl>
+                  </div>
+                </div>
+              </div>
+            </section>
+            <section>
+              <div class="symbol-index-content">
+                <h2 id="app.data.currentDetail.goals">app.data.currentDetail.goals</h2>
+                <div class="symbol-index-section">
+                  <div class="symbol-index-column">
+                    <dl class="symbol-index-list">
+                      <dt class="symbol-index-name">
+                <a href="app.data.currentDetail.goals.html" class="!symbol-index-name">app.<wbr>data.<wbr>currentDetail.<wbr>goals</a>
+            </dt>
+                      <dd>
+                      </dd>
+                    </dl>
+                  </div>
+                  <div class="symbol-index-column">
+                    <dl class="symbol-index-list">
+                    </dl>
+                  </div>
+                  <div class="symbol-index-column">
+                    <dl class="symbol-index-list">
+                    </dl>
+                  </div>
+                </div>
+              </div>
+            </section>
+            <section>
+              <div class="symbol-index-content">
+                <h2 id="app.data.currentDetail.goals.goal">app.data.currentDetail.goals.goal</h2>
+                <div class="symbol-index-section">
+                  <div class="symbol-index-column">
+                    <dl class="symbol-index-list">
+                      <dt class="symbol-index-name">
+                <a href="app.data.currentDetail.goals.goal.html" class="!symbol-index-name">app.<wbr>data.<wbr>currentDetail.<wbr>goals.<wbr>goal</a>
+            </dt>
+                      <dd>
+                      </dd>
+                      <dt class="symbol-index-name">
+                <a href="app.data.currentDetail.goals.goal.html#.active" class="!symbol-index-name">app.<wbr>data.<wbr>currentDetail.<wbr>goals.<wbr>goal.<wbr>active</a>
+            </dt>
+                      <dd>
+                      </dd>
+                    </dl>
+                  </div>
+                  <div class="symbol-index-column">
+                    <dl class="symbol-index-list">
+                      <dt class="symbol-index-name">
+                <a href="app.data.currentDetail.goals.goal.html#.goal_id" class="!symbol-index-name">app.<wbr>data.<wbr>currentDetail.<wbr>goals.<wbr>goal.<wbr>goal_id</a>
+            </dt>
+                      <dd>
+                      </dd>
+                      <dt class="symbol-index-name">
+                <a href="app.data.currentDetail.goals.goal.html#.success_rate" class="!symbol-index-name">app.<wbr>data.<wbr>currentDetail.<wbr>goals.<wbr>goal.<wbr>success_rate</a>
+            </dt>
+                      <dd>
+                      </dd>
+                    </dl>
+                  </div>
+                  <div class="symbol-index-column">
+                    <dl class="symbol-index-list">
+                    </dl>
+                  </div>
+                </div>
+              </div>
+            </section>
+            <section>
+              <div class="symbol-index-content">
+                <h2 id="app.data.experiment">app.data.experiment</h2>
+                <div class="symbol-index-section">
+                  <div class="symbol-index-column">
+                    <dl class="symbol-index-list">
+                      <dt class="symbol-index-name">
+                <a href="app.data.experiment.html" class="!symbol-index-name">app.<wbr>data.<wbr>experiment</a>
+            </dt>
+                      <dd>
+                      </dd>
+                      <dt class="symbol-index-name">
+                <a href="app.data.experiment.html#.a1" class="!symbol-index-name">app.<wbr>data.<wbr>experiment.<wbr>a1</a>
+            </dt>
+                      <dd>
+                      </dd>
+                      <dt class="symbol-index-name">
+                <a href="app.data.experiment.html#.a2" class="!symbol-index-name">app.<wbr>data.<wbr>experiment.<wbr>a2</a>
+            </dt>
+                      <dd>
+                      </dd>
+                    </dl>
+                  </div>
+                  <div class="symbol-index-column">
+                    <dl class="symbol-index-list">
+                      <dt class="symbol-index-name">
+                <a href="app.data.experiment.html#.lifetimes" class="!symbol-index-name">app.<wbr>data.<wbr>experiment.<wbr>lifetimes</a>
+            </dt>
+                      <dd>
+                      </dd>
+                      <dt class="symbol-index-name">
+                <a href="app.data.experiment.html#.p1" class="!symbol-index-name">app.<wbr>data.<wbr>experiment.<wbr>p1</a>
+            </dt>
+                      <dd>
+                      </dd>
+                      <dt class="symbol-index-name">
+                <a href="app.data.experiment.html#.p2" class="!symbol-index-name">app.<wbr>data.<wbr>experiment.<wbr>p2</a>
+            </dt>
+                      <dd>
+                      </dd>
+                    </dl>
+                  </div>
+                  <div class="symbol-index-column">
+                    <dl class="symbol-index-list">
+                      <dt class="symbol-index-name">
+                <a href="app.data.experiment.html#.processed" class="!symbol-index-name">app.<wbr>data.<wbr>experiment.<wbr>processed</a>
+            </dt>
+                      <dd>
+                      </dd>
+                    </dl>
+                  </div>
+                </div>
+              </div>
+            </section>
+            <section>
+              <div class="symbol-index-content">
+                <h2 id="app.data.experiment.goals">app.data.experiment.goals</h2>
+                <div class="symbol-index-section">
+                  <div class="symbol-index-column">
+                    <dl class="symbol-index-list">
+                      <dt class="symbol-index-name">
+                <a href="app.data.experiment.goals.html" class="!symbol-index-name">app.<wbr>data.<wbr>experiment.<wbr>goals</a>
+            </dt>
+                      <dd>
+                      </dd>
+                    </dl>
+                  </div>
+                  <div class="symbol-index-column">
+                    <dl class="symbol-index-list">
+                    </dl>
+                  </div>
+                  <div class="symbol-index-column">
+                    <dl class="symbol-index-list">
+                    </dl>
+                  </div>
+                </div>
+              </div>
+            </section>
+            <section>
+              <div class="symbol-index-content">
+                <h2 id="app.data.experiment.goals.goal">app.data.experiment.goals.goal</h2>
+                <div class="symbol-index-section">
+                  <div class="symbol-index-column">
+                    <dl class="symbol-index-list">
+                      <dt class="symbol-index-name">
+                <a href="app.data.experiment.goals.goal.html" class="!symbol-index-name">app.<wbr>data.<wbr>experiment.<wbr>goals.<wbr>goal</a>
+            </dt>
+                      <dd>
+                      </dd>
+                      <dt class="symbol-index-name">
+                <a href="app.data.experiment.goals.goal.html#.active" class="!symbol-index-name">app.<wbr>data.<wbr>experiment.<wbr>goals.<wbr>goal.<wbr>active</a>
+            </dt>
+                      <dd>
+                      </dd>
+                      <dt class="symbol-index-name">
+                <a href="app.data.experiment.goals.goal.html#.color_id" class="!symbol-index-name">app.<wbr>data.<wbr>experiment.<wbr>goals.<wbr>goal.<wbr>color_id</a>
+            </dt>
+                      <dd>
+                      </dd>
+                    </dl>
+                  </div>
+                  <div class="symbol-index-column">
+                    <dl class="symbol-index-list">
+                      <dt class="symbol-index-name">
+                <a href="app.data.experiment.goals.goal.html#.data" class="!symbol-index-name">app.<wbr>data.<wbr>experiment.<wbr>goals.<wbr>goal.<wbr>data</a>
+            </dt>
+                      <dd>
+                      </dd>
+                      <dt class="symbol-index-name">
+                <a href="app.data.experiment.goals.goal.html#.destructible" class="!symbol-index-name">app.<wbr>data.<wbr>experiment.<wbr>goals.<wbr>goal.<wbr>destructible</a>
+            </dt>
+                      <dd>
+                      </dd>
+                      <dt class="symbol-index-name">
+                <a href="app.data.experiment.goals.goal.html#.id" class="!symbol-index-name">app.<wbr>data.<wbr>experiment.<wbr>goals.<wbr>goal.<wbr>id</a>
+            </dt>
+                      <dd>
+                      </dd>
+                    </dl>
+                  </div>
+                  <div class="symbol-index-column">
+                    <dl class="symbol-index-list">
+                      <dt class="symbol-index-name">
+                <a href="app.data.experiment.goals.goal.html#.name" class="!symbol-index-name">app.<wbr>data.<wbr>experiment.<wbr>goals.<wbr>goal.<wbr>name</a>
+            </dt>
+                      <dd>
+                      </dd>
+                    </dl>
+                  </div>
+                </div>
+              </div>
+            </section>
+            <section>
+              <div class="symbol-index-content">
+                <h2 id="app.data.generator">app.data.generator</h2>
+                <div class="symbol-index-section">
+                  <div class="symbol-index-column">
+                    <dl class="symbol-index-list">
+                      <dt class="symbol-index-name">
+                <a href="app.data.generator.html" class="!symbol-index-name">app.<wbr>data.<wbr>generator</a>
+            </dt>
+                      <dd>
+                      </dd>
+                      <dt class="symbol-index-name">
+                <a href="app.data.generator.html#.a1" class="!symbol-index-name">app.<wbr>data.<wbr>generator.<wbr>a1</a>
+            </dt>
+                      <dd>
+                      </dd>
+                    </dl>
+                  </div>
+                  <div class="symbol-index-column">
+                    <dl class="symbol-index-list">
+                      <dt class="symbol-index-name">
+                <a href="app.data.generator.html#.a2" class="!symbol-index-name">app.<wbr>data.<wbr>generator.<wbr>a2</a>
+            </dt>
+                      <dd>
+                      </dd>
+                      <dt class="symbol-index-name">
+                <a href="app.data.generator.html#.lifetimes" class="!symbol-index-name">app.<wbr>data.<wbr>generator.<wbr>lifetimes</a>
+            </dt>
+                      <dd>
+                      </dd>
+                    </dl>
+                  </div>
+                  <div class="symbol-index-column">
+                    <dl class="symbol-index-list">
+                      <dt class="symbol-index-name">
+                <a href="app.data.generator.html#.p1" class="!symbol-index-name">app.<wbr>data.<wbr>generator.<wbr>p1</a>
+            </dt>
+                      <dd>
+                      </dd>
+                      <dt class="symbol-index-name">
+                <a href="app.data.generator.html#.p2" class="!symbol-index-name">app.<wbr>data.<wbr>generator.<wbr>p2</a>
+            </dt>
+                      <dd>
+                      </dd>
+                    </dl>
+                  </div>
+                </div>
+              </div>
+            </section>
+            <section>
+              <div class="symbol-index-content">
+                <h2 id="app.data.settings">app.data.settings</h2>
+                <div class="symbol-index-section">
+                  <div class="symbol-index-column">
+                    <dl class="symbol-index-list">
+                      <dt class="symbol-index-name">
+                <a href="app.data.settings.html" class="!symbol-index-name">app.<wbr>data.<wbr>settings</a>
+            </dt>
+                      <dd>
+                      </dd>
+                      <dt class="symbol-index-name">
+                <a href="app.data.settings.html#.colors" class="!symbol-index-name">app.<wbr>data.<wbr>settings.<wbr>colors</a>
+            </dt>
+                      <dd>
+                      </dd>
+                      <dt class="symbol-index-name">
+                <a href="app.data.settings.html#.max_age_diff" class="!symbol-index-name">app.<wbr>data.<wbr>settings.<wbr>max_age_diff</a>
+            </dt>
+                      <dd>
+                      </dd>
+                      <dt class="symbol-index-name">
+                <a href="app.data.settings.html#.max_goals" class="!symbol-index-name">app.<wbr>data.<wbr>settings.<wbr>max_goals</a>
+            </dt>
+                      <dd>
+                      </dd>
+                    </dl>
+                  </div>
+                  <div class="symbol-index-column">
+                    <dl class="symbol-index-list">
+                      <dt class="symbol-index-name">
+                <a href="app.data.settings.html#.max_lifetimes" class="!symbol-index-name">app.<wbr>data.<wbr>settings.<wbr>max_lifetimes</a>
+            </dt>
+                      <dd>
+                      </dd>
+                      <dt class="symbol-index-name">
+                <a href="app.data.settings.html#.max_potential_partners" class="!symbol-index-name">app.<wbr>data.<wbr>settings.<wbr>max_potential_partners</a>
+            </dt>
+                      <dd>
+                      </dd>
+                      <dt class="symbol-index-name">
+                <a href="app.data.settings.html#.max_rejection_phase" class="!symbol-index-name">app.<wbr>data.<wbr>settings.<wbr>max_rejection_phase</a>
+            </dt>
+                      <dd>
+                      </dd>
+                      <dt class="symbol-index-name">
+                <a href="app.data.settings.html#.min_age_diff" class="!symbol-index-name">app.<wbr>data.<wbr>settings.<wbr>min_age_diff</a>
+            </dt>
+                      <dd>
+                      </dd>
+                    </dl>
+                  </div>
+                  <div class="symbol-index-column">
+                    <dl class="symbol-index-list">
+                      <dt class="symbol-index-name">
+                <a href="app.data.settings.html#.min_lifetimes" class="!symbol-index-name">app.<wbr>data.<wbr>settings.<wbr>min_lifetimes</a>
+            </dt>
+                      <dd>
+                      </dd>
+                      <dt class="symbol-index-name">
+                <a href="app.data.settings.html#.min_potential_partners" class="!symbol-index-name">app.<wbr>data.<wbr>settings.<wbr>min_potential_partners</a>
+            </dt>
+                      <dd>
+                      </dd>
+                      <dt class="symbol-index-name">
+                <a href="app.data.settings.html#.min_rejection_phase" class="!symbol-index-name">app.<wbr>data.<wbr>settings.<wbr>min_rejection_phase</a>
+            </dt>
+                      <dd>
+                      </dd>
+                    </dl>
+                  </div>
+                </div>
+              </div>
+            </section>
+            <section>
+              <div class="symbol-index-content">
+                <h2 id="app.detail">app.detail</h2>
+                <div class="symbol-index-section">
+                  <div class="symbol-index-column">
+                    <dl class="symbol-index-list">
+                      <dt class="symbol-index-name">
+                <a href="app.detail.html" class="!symbol-index-name">app.<wbr>detail</a>
+            </dt>
+                      <dd>
+                      </dd>
+                      <dt class="symbol-index-name">
+                <a href="app.detail.html#.redrawExperiment" class="!symbol-index-name">app.<wbr>detail.<wbr>redrawExperiment()</a>
+            </dt>
+                      <dd>
+                      </dd>
+                      <dt class="symbol-index-name">
+                <a href="app.detail.html#.redrawPlot" class="!symbol-index-name">app.<wbr>detail.<wbr>redrawPlot()</a>
+            </dt>
+                      <dd>
+                      </dd>
+                    </dl>
+                  </div>
+                  <div class="symbol-index-column">
+                    <dl class="symbol-index-list">
+                      <dt class="symbol-index-name">
+                <a href="app.detail.html#.redrawRejectionPhase" class="!symbol-index-name">app.<wbr>detail.<wbr>redrawRejectionPhase()</a>
+            </dt>
+                      <dd>
+                      </dd>
+                      <dt class="symbol-index-name">
+                <a href="app.detail.html#.showLifetimeSlider" class="!symbol-index-name">app.<wbr>detail.<wbr>showLifetimeSlider(vm, e)</a>
+            </dt>
+                      <dd>
+                      </dd>
+                      <dt class="symbol-index-name">
+                <a href="app.detail.html#.showPhaseSlider" class="!symbol-index-name">app.<wbr>detail.<wbr>showPhaseSlider(vm, e)</a>
+            </dt>
+                      <dd>
+                      </dd>
+                    </dl>
+                  </div>
+                  <div class="symbol-index-column">
+                    <dl class="symbol-index-list">
+                      <dt class="symbol-index-name">
+                <a href="app.detail.html#.slider" class="!symbol-index-name">app.<wbr>detail.<wbr>slider</a>
+            </dt>
+                      <dd>
+                      </dd>
+                      <dt class="symbol-index-name">
+                <a href="app.detail.html#.view" class="!symbol-index-name">app.<wbr>detail.<wbr>view()</a>
+            </dt>
+                      <dd>
+                      </dd>
+                    </dl>
+                  </div>
+                </div>
+              </div>
+            </section>
+            <section>
+              <div class="symbol-index-content">
+                <h2 id="app.detailViz">app.detailViz</h2>
+                <div class="symbol-index-section">
+                  <div class="symbol-index-column">
+                    <dl class="symbol-index-list">
+                      <dt class="symbol-index-name">
+                <a href="app.detailViz.html" class="!symbol-index-name">app.<wbr>detailViz</a>
+            </dt>
+                      <dd>
+                      </dd>
+                      <dt class="symbol-index-name">
+                <a href="app.detailViz.html#.draw" class="!symbol-index-name">app.<wbr>detailViz.<wbr>draw(data, selector, params)</a>
+            </dt>
+                      <dd>
+                      </dd>
+                      <dt class="symbol-index-name">
+                <a href="app.detailViz.html#.drawExperiment" class="!symbol-index-name">app.<wbr>detailViz.<wbr>drawExperiment()</a>
+            </dt>
+                      <dd>
+                      </dd>
+                    </dl>
+                  </div>
+                  <div class="symbol-index-column">
+                    <dl class="symbol-index-list">
+                      <dt class="symbol-index-name">
+                <a href="app.detailViz.html#.drawHistContent" class="!symbol-index-name">app.<wbr>detailViz.<wbr>drawHistContent()</a>
+            </dt>
+                      <dd>
+                      </dd>
+                      <dt class="symbol-index-name">
+                <a href="app.detailViz.html#.drawMarker" class="!symbol-index-name">app.<wbr>detailViz.<wbr>drawMarker(bar, image, d, i, elclass, callback)</a>
+            </dt>
+                      <dd>
+                      </dd>
+                      <dt class="symbol-index-name">
+                <a href="app.detailViz.html#.drawOptimals" class="!symbol-index-name">app.<wbr>detailViz.<wbr>drawOptimals(data, callback)</a>
+            </dt>
+                      <dd>
+                      </dd>
+                    </dl>
+                  </div>
+                  <div class="symbol-index-column">
+                    <dl class="symbol-index-list">
+                      <dt class="symbol-index-name">
+                <a href="app.detailViz.html#.drawRejectionPhase" class="!symbol-index-name">app.<wbr>detailViz.<wbr>drawRejectionPhase(callback)</a>
+            </dt>
+                      <dd>
+                      </dd>
+                    </dl>
+                  </div>
+                </div>
+              </div>
+            </section>
+            <section>
+              <div class="symbol-index-content">
+                <h2 id="app.detailVizHelpers">app.detailVizHelpers</h2>
+                <div class="symbol-index-section">
+                  <div class="symbol-index-column">
+                    <dl class="symbol-index-list">
+                      <dt class="symbol-index-name">
+                <a href="app.detailVizHelpers.html" class="!symbol-index-name">app.<wbr>detailVizHelpers</a>
+            </dt>
+                      <dd>
+                      </dd>
+                      <dt class="symbol-index-name">
+                <a href="app.detailVizHelpers.html#.isAcceptable" class="!symbol-index-name">app.<wbr>detailVizHelpers.<wbr>isAcceptable(compatibilityScore, allCompatibilityScores, topX, percent)</a>
+            </dt>
+                      <dd>
+                      </dd>
+                    </dl>
+                  </div>
+                  <div class="symbol-index-column">
+                    <dl class="symbol-index-list">
+                      <dt class="symbol-index-name">
+                <a href="app.detailVizHelpers.html#.prepareData" class="!symbol-index-name">app.<wbr>detailVizHelpers.<wbr>prepareData(data, rejectPercent, topX, percent)</a>
+            </dt>
+                      <dd>
+                      </dd>
+                      <dt class="symbol-index-name">
+                <a href="app.detailVizHelpers.html#.rejectionTest" class="!symbol-index-name">app.<wbr>detailVizHelpers.<wbr>rejectionTest(compatibilityScores, rejectPercent, topX, percent)</a>
+            </dt>
+                      <dd>
+                      </dd>
+                    </dl>
+                  </div>
+                  <div class="symbol-index-column">
+                    <dl class="symbol-index-list">
+                      <dt class="symbol-index-name">
+                <a href="app.detailVizHelpers.html#.testIsAcceptable" class="!symbol-index-name">app.<wbr>detailVizHelpers.<wbr>testIsAcceptable()</a>
+            </dt>
+                      <dd>
+                      </dd>
+                      <dt class="symbol-index-name">
+                <a href="app.detailVizHelpers.html#.testRejectionTest" class="!symbol-index-name">app.<wbr>detailVizHelpers.<wbr>testRejectionTest()</a>
+            </dt>
+                      <dd>
+                      </dd>
+                    </dl>
+                  </div>
+                </div>
+              </div>
+            </section>
+            <section>
+              <div class="symbol-index-content">
+                <h2 id="app.generate">app.generate</h2>
+                <div class="symbol-index-section">
+                  <div class="symbol-index-column">
+                    <dl class="symbol-index-list">
+                      <dt class="symbol-index-name">
+                <a href="app.generate.html" class="!symbol-index-name">app.<wbr>generate</a>
+            </dt>
+                      <dd>
+                      </dd>
+                    </dl>
+                  </div>
+                  <div class="symbol-index-column">
+                    <dl class="symbol-index-list">
+                      <dt class="symbol-index-name">
+                <a href="app.generate.html#.view" class="!symbol-index-name">app.<wbr>generate.<wbr>view()</a>
+            </dt>
+                      <dd>
+                      </dd>
+                    </dl>
+                  </div>
+                  <div class="symbol-index-column">
+                    <dl class="symbol-index-list">
+                    </dl>
+                  </div>
+                </div>
+              </div>
+            </section>
+            <section>
+              <div class="symbol-index-content">
+                <h2 id="app.generated">app.generated</h2>
+                <div class="symbol-index-section">
+                  <div class="symbol-index-column">
+                    <dl class="symbol-index-list">
+                      <dt class="symbol-index-name">
+                <a href="app.generated.html" class="!symbol-index-name">app.<wbr>generated</a>
+            </dt>
+                      <dd>
+                      </dd>
+                    </dl>
+                  </div>
+                  <div class="symbol-index-column">
+                    <dl class="symbol-index-list">
+                      <dt class="symbol-index-name">
+                <a href="app.generated.html#.view" class="!symbol-index-name">app.<wbr>generated.<wbr>view()</a>
+            </dt>
+                      <dd>
+                      </dd>
+                    </dl>
+                  </div>
+                  <div class="symbol-index-column">
+                    <dl class="symbol-index-list">
+                    </dl>
+                  </div>
+                </div>
+              </div>
+            </section>
+            <section>
+              <div class="symbol-index-content">
+                <h2 id="app.generatedViz">app.generatedViz</h2>
+                <div class="symbol-index-section">
+                  <div class="symbol-index-column">
+                    <dl class="symbol-index-list">
+                      <dt class="symbol-index-name">
+                <a href="app.generatedViz.html" class="!symbol-index-name">app.<wbr>generatedViz</a>
+            </dt>
+                      <dd>
+                      </dd>
+                      <dt class="symbol-index-name">
+                <a href="app.generatedViz.html#.draw" class="!symbol-index-name">app.<wbr>generatedViz.<wbr>draw(data, selector)</a>
+            </dt>
+                      <dd>
+                      </dd>
+                    </dl>
+                  </div>
+                  <div class="symbol-index-column">
+                    <dl class="symbol-index-list">
+                      <dt class="symbol-index-name">
+                <a href="app.generatedViz.html#.drawG1" class="!symbol-index-name">app.<wbr>generatedViz.<wbr>drawG1(data, selector)</a>
+            </dt>
+                      <dd>
+                      </dd>
+                      <dt class="symbol-index-name">
+                <a href="app.generatedViz.html#.drawG2" class="!symbol-index-name">app.<wbr>generatedViz.<wbr>drawG2(data, selector)</a>
+            </dt>
+                      <dd>
+                      </dd>
+                    </dl>
+                  </div>
+                  <div class="symbol-index-column">
+                    <dl class="symbol-index-list">
+                      <dt class="symbol-index-name">
+                <a href="app.generatedViz.html#.drawHistContent" class="!symbol-index-name">app.<wbr>generatedViz.<wbr>drawHistContent(data, chartSelector, params)</a>
+            </dt>
+                      <dd>
+                      </dd>
+                    </dl>
+                  </div>
+                </div>
+              </div>
+            </section>
+            <section>
+              <div class="symbol-index-content">
+                <h2 id="app.helpers">app.helpers</h2>
+                <div class="symbol-index-section">
+                  <div class="symbol-index-column">
+                    <dl class="symbol-index-list">
+                      <dt class="symbol-index-name">
+                <a href="app.helpers.html" class="!symbol-index-name">app.<wbr>helpers</a>
+            </dt>
+                      <dd>
+                      </dd>
+                      <dt class="symbol-index-name">
+                <a href="app.helpers.html#.changePage" class="!symbol-index-name">app.<wbr>helpers.<wbr>changePage(selector, callback)</a>
+            </dt>
+                      <dd>
+                      </dd>
+                      <dt class="symbol-index-name">
+                <a href="app.helpers.html#.dataUrl" class="!symbol-index-name">app.<wbr>helpers.<wbr>dataUrl()</a>
+            </dt>
+                      <dd>
+                      </dd>
+                      <dt class="symbol-index-name">
+                <a href="app.helpers.html#.experimentUrl" class="!symbol-index-name">app.<wbr>helpers.<wbr>experimentUrl()</a>
+            </dt>
+                      <dd>
+                      </dd>
+                      <dt class="symbol-index-name">
+                <a href="app.helpers.html#.formatPercent" class="!symbol-index-name">app.<wbr>helpers.<wbr>formatPercent(text)</a>
+            </dt>
+                      <dd>
+                      </dd>
+                    </dl>
+                  </div>
+                  <div class="symbol-index-column">
+                    <dl class="symbol-index-list">
+                      <dt class="symbol-index-name">
+                <a href="app.helpers.html#.formatThousandSeparators" class="!symbol-index-name">app.<wbr>helpers.<wbr>formatThousandSeparators(text)</a>
+            </dt>
+                      <dd>
+                      </dd>
+                      <dt class="symbol-index-name">
+                <a href="app.helpers.html#.groupCompatibilitiesByLifetime" class="!symbol-index-name">app.<wbr>helpers.<wbr>groupCompatibilitiesByLifetime(compatibilities)</a>
+            </dt>
+                      <dd>
+                      </dd>
+                      <dt class="symbol-index-name">
+                <a href="app.helpers.html#.parseGoal" class="!symbol-index-name">app.<wbr>helpers.<wbr>parseGoal(text)</a>
+            </dt>
+                      <dd>
+                      </dd>
+                      <dt class="symbol-index-name">
+                <a href="app.helpers.html#.parseNumberWithSeparators" class="!symbol-index-name">app.<wbr>helpers.<wbr>parseNumberWithSeparators(text)</a>
+            </dt>
+                      <dd>
+                      </dd>
+                      <dt class="symbol-index-name">
+                <a href="app.helpers.html#.parsePercent" class="!symbol-index-name">app.<wbr>helpers.<wbr>parsePercent(text)</a>
+            </dt>
+                      <dd>
+                      </dd>
+                    </dl>
+                  </div>
+                  <div class="symbol-index-column">
+                    <dl class="symbol-index-list">
+                      <dt class="symbol-index-name">
+                <a href="app.helpers.html#.pickColor" class="!symbol-index-name">app.<wbr>helpers.<wbr>pickColor()</a>
+            </dt>
+                      <dd>
+                      </dd>
+                      <dt class="symbol-index-name">
+                <a href="app.helpers.html#.showLoading" class="!symbol-index-name">app.<wbr>helpers.<wbr>showLoading(selector)</a>
+            </dt>
+                      <dd>
+                      </dd>
+                      <dt class="symbol-index-name">
+                <a href="app.helpers.html#.stopifnot" class="!symbol-index-name">app.<wbr>helpers.<wbr>stopifnot(condition, message)</a>
+            </dt>
+                      <dd>
+                      </dd>
+                      <dt class="symbol-index-name">
+                <a href="app.helpers.html#.url" class="!symbol-index-name">app.<wbr>helpers.<wbr>url(path)</a>
+            </dt>
+                      <dd>
+                      </dd>
+                    </dl>
+                  </div>
+                </div>
+              </div>
+            </section>
+            <section>
+              <div class="symbol-index-content">
+                <h2 id="app.images">app.images</h2>
+                <div class="symbol-index-section">
+                  <div class="symbol-index-column">
+                    <dl class="symbol-index-list">
+                      <dt class="symbol-index-name">
+                <a href="app.images.html" class="!symbol-index-name">app.<wbr>images</a>
+            </dt>
+                      <dd>
+                      </dd>
+                      <dt class="symbol-index-name">
+                <a href="app.images.html#.ok" class="!symbol-index-name">app.<wbr>images.<wbr>ok</a>
+            </dt>
+                      <dd>
+                      </dd>
+                    </dl>
+                  </div>
+                  <div class="symbol-index-column">
+                    <dl class="symbol-index-list">
+                      <dt class="symbol-index-name">
+                <a href="app.images.html#.remove" class="!symbol-index-name">app.<wbr>images.<wbr>remove</a>
+            </dt>
+                      <dd>
+                      </dd>
+                      <dt class="symbol-index-name">
+                <a href="app.images.html#.remove2" class="!symbol-index-name">app.<wbr>images.<wbr>remove2</a>
+            </dt>
+                      <dd>
+                      </dd>
+                    </dl>
+                  </div>
+                  <div class="symbol-index-column">
+                    <dl class="symbol-index-list">
+                      <dt class="symbol-index-name">
+                <a href="app.images.html#.star" class="!symbol-index-name">app.<wbr>images.<wbr>star</a>
+            </dt>
+                      <dd>
+                      </dd>
+                    </dl>
+                  </div>
+                </div>
+              </div>
+            </section>
+            <section>
+              <div class="symbol-index-content">
+                <h2 id="app.introViz">app.introViz</h2>
+                <div class="symbol-index-section">
+                  <div class="symbol-index-column">
+                    <dl class="symbol-index-list">
+                      <dt class="symbol-index-name">
+                <a href="app.introViz.html" class="!symbol-index-name">app.<wbr>introViz</a>
+            </dt>
+                      <dd>
+                      </dd>
+                    </dl>
+                  </div>
+                  <div class="symbol-index-column">
+                    <dl class="symbol-index-list">
+                      <dt class="symbol-index-name">
+                <a href="app.introViz.html#.drawIntro" class="!symbol-index-name">app.<wbr>introViz.<wbr>drawIntro(data, selector)</a>
+            </dt>
+                      <dd>
+                      </dd>
+                    </dl>
+                  </div>
+                  <div class="symbol-index-column">
+                    <dl class="symbol-index-list">
+                    </dl>
+                  </div>
+                </div>
+              </div>
+            </section>
+            <section>
+              <div class="symbol-index-content">
+                <h2 id="app.mainViz">app.mainViz</h2>
+                <div class="symbol-index-section">
+                  <div class="symbol-index-column">
+                    <dl class="symbol-index-list">
+                      <dt class="symbol-index-name">
+                <a href="app.mainViz.html" class="!symbol-index-name">app.<wbr>mainViz</a>
+            </dt>
+                      <dd>
+                      </dd>
+                    </dl>
+                  </div>
+                  <div class="symbol-index-column">
+                    <dl class="symbol-index-list">
+                      <dt class="symbol-index-name">
+                <a href="app.mainViz.html#.draw" class="!symbol-index-name">app.<wbr>mainViz.<wbr>draw(data, selector, callback)</a>
+            </dt>
+                      <dd>
+                      </dd>
+                    </dl>
+                  </div>
+                  <div class="symbol-index-column">
+                    <dl class="symbol-index-list">
+                      <dt class="symbol-index-name">
+                <a href="app.mainViz.html#.drawGSA" class="!symbol-index-name">app.<wbr>mainViz.<wbr>drawGSA(data, selector, callback)</a>
+            </dt>
+                      <dd>
+                      </dd>
+                    </dl>
+                  </div>
+                </div>
+              </div>
+            </section>
+            <section>
+              <div class="symbol-index-content">
+                <h2 id="app.simulationAnalysis">app.simulationAnalysis</h2>
+                <div class="symbol-index-section">
+                  <div class="symbol-index-column">
+                    <dl class="symbol-index-list">
+                      <dt class="symbol-index-name">
+                <a href="app.simulationAnalysis.html" class="!symbol-index-name">app.<wbr>simulationAnalysis</a>
+            </dt>
+                      <dd>
+                      </dd>
+                      <dt class="symbol-index-name">
+                <a href="app.simulationAnalysis.html#.redrawPlot" class="!symbol-index-name">app.<wbr>simulationAnalysis.<wbr>redrawPlot(callback)</a>
+            </dt>
+                      <dd>
+                      </dd>
+                    </dl>
+                  </div>
+                  <div class="symbol-index-column">
+                    <dl class="symbol-index-list">
+                      <dt class="symbol-index-name">
+                <a href="app.simulationAnalysis.html#.updateExperiment" class="!symbol-index-name">app.<wbr>simulationAnalysis.<wbr>updateExperiment()</a>
+            </dt>
+                      <dd>
+                      </dd>
+                      <dt class="symbol-index-name">
+                <a href="app.simulationAnalysis.html#.validateGoal" class="!symbol-index-name">app.<wbr>simulationAnalysis.<wbr>validateGoal(value, type)</a>
+            </dt>
+                      <dd>
+                      </dd>
+                    </dl>
+                  </div>
+                  <div class="symbol-index-column">
+                    <dl class="symbol-index-list">
+                      <dt class="symbol-index-name">
+                <a href="app.simulationAnalysis.html#.view" class="!symbol-index-name">app.<wbr>simulationAnalysis.<wbr>view(callback)</a>
+            </dt>
+                      <dd>
+                      </dd>
+                    </dl>
+                  </div>
+                </div>
+              </div>
+            </section>
+            <section>
+              <div class="symbol-index-content">
+                <h2 id="app.vizHelpers">app.vizHelpers</h2>
+                <div class="symbol-index-section">
+                  <div class="symbol-index-column">
+                    <dl class="symbol-index-list">
+                      <dt class="symbol-index-name">
+                <a href="app.vizHelpers.html" class="!symbol-index-name">app.<wbr>vizHelpers</a>
+            </dt>
+                      <dd>
+                      </dd>
+                    </dl>
+                  </div>
+                  <div class="symbol-index-column">
+                    <dl class="symbol-index-list">
+                      <dt class="symbol-index-name">
+                <a href="app.vizHelpers.html#.drawAxes" class="!symbol-index-name">app.<wbr>vizHelpers.<wbr>drawAxes(chartSelector, params)</a>
+            </dt>
+                      <dd>
+                      </dd>
+                    </dl>
+                  </div>
+                  <div class="symbol-index-column">
+                    <dl class="symbol-index-list">
+                    </dl>
+                  </div>
+                </div>
+              </div>
+            </section>
+          </div>
+        </div>
+      </div>
+      <nav id="jsdoc-toc-nav" role="navigation"></nav>
+    </div>
+  </div>
+  <footer id="jsdoc-footer" class="jsdoc-footer">
+    <div id="jsdoc-footer-container">
+      <p>
+        Generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc</a> 3.3.3 on October 5, 2015.
+      </p>
+    </div>
+  </footer>
+  <script src="scripts/jquery.min.js"></script>
+  <script src="scripts/jquery.cookie.js"></script>
+  <script src="scripts/tree.jquery.js"></script>
+  <script src="scripts/prettify.js"></script>
+  <script src="scripts/jsdoc-toc.js"></script>
+  <script src="scripts/linenumber.js"></script>
+  <script src="scripts/scrollanchor.js"></script>
+</body>
+
+</html>

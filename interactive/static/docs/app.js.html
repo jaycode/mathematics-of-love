@@ -1,0 +1,384 @@
+<!doctype html>
+<html>
+
+<head>
+  <meta name="generator" content="JSDoc 3.3.3">
+  <meta charset="utf-8">
+  <title>Source: app.js</title>
+  <link rel="stylesheet" href="https://brick.a.ssl.fastly.net/Karla:400,400i,700,700i" type="text/css">
+  <link rel="stylesheet" href="https://brick.a.ssl.fastly.net/Noto+Serif:400,400i,700,700i" type="text/css">
+  <link rel="stylesheet" href="https://brick.a.ssl.fastly.net/Inconsolata:500" type="text/css">
+  <link href="css/baseline.css" rel="stylesheet">
+</head>
+
+<body onload="prettyPrint()">
+  <nav id="jsdoc-navbar" role="navigation" class="jsdoc-navbar">
+    <div id="jsdoc-navbar-container">
+      <div id="jsdoc-navbar-content">
+        <a href="index.html" class="jsdoc-navbar-package-name">Home</a>
+      </div>
+    </div>
+  </nav>
+  <div id="jsdoc-body-container">
+    <div id="jsdoc-content">
+      <div id="jsdoc-content-container">
+        <div id="jsdoc-banner" role="banner">
+        </div>
+        <div id="jsdoc-main" role="main">
+          <header class="page-header">
+            <h1>Source: app.js</h1>
+          </header>
+          <article>
+            <pre class="prettyprint linenums"><code>/**
+ * This is the main section of our application where we define our
+ * ViewModels and helpers.
+ * - ViewModel names are capitalized e.g. {@link app.Goal}, {@link app.ViewModel}, {@link app.Experiment}, etc.
+ * - For everything else use standard camelcase e.g. &#x60;app.simulationAnalysis&#x60;.
+ * - ViewModel can be accessed using &#x60;app.vm&#x60;. Use this to get data e.g. &#x60;app.vm.CurrentDetail.lifetime()&#x60;.
+ * - All pages have their own instances:
+ *   - {@link app.simulationAnalysis} for main analysis page.
+ *   - {@link app.detail} for the page when you clicked on &quot;View more detail&quot;.
+ *   - {@link app.generate} for generate data page.
+ *   - {@link app.generated} for &#x27;review generated data&#x27; page.
+ * - All these pages are stored inside templates within index.html.
+ * - Helper methods are stored in {@link app.helpers}.
+ * - All data are prefixed with &#x60;data&#x60; e.g. {@link app.data.experiment}
+ * @namespace app
+ */
+var app = app || {};
+
+(function(){
+  /** 
+   * Helpers used throughout the app.
+   * @namespace app.helpers
+   */
+  app.helpers = {};
+  /**
+   * Adds commas to number string, for example &quot;10000&quot; to &quot;10,000&quot;.
+   * @param {string|number} text String of number to we will add commas for.
+   *   Due to how javascript works, you can pass in numbers as well.
+   * @return {string} String of number with commas added.
+   */
+  app.helpers.formatThousandSeparators = function(text) {
+    return parseInt(text).toLocaleString();
+  };
+
+  /**
+   * Removes commas from given number string.
+   * For example it converts &quot;10,000&quot; to 10000. This is useful for
+   * preprocessing number prior to entering it to models.
+   * @param {string} text String of number with comma separators.
+   * @return {number} Numeric representation of given string.
+   */
+  app.helpers.parseNumberWithSeparators = function(text) {
+    return parseInt(text.toString().replace(/(\d+),(?=\d{3}(\D|$))/g, &quot;$1&quot;));
+  };
+
+  /**
+   * Simply add percentage symbol to a text.
+   * Parse that text into float before conversion,
+   * just to make sure that given text is a number, and it converts
+   * NaN to 0.0.
+   * @param {string|number} text String of number.
+   * @return {string} String + percent symbol (%).
+   */
+  app.helpers.formatPercent = function(text) {
+    return parseFloat(text) + &#x27;%&#x27;;
+  };
+
+  /**
+   * Remove percent symbol (%) from a given string and return its numeric
+   * representation. Useful for preprocessing prior to entering to models.
+   * @param {string} text String of number + percent symbol.
+   * @return {number} Numeric representation of the text percentage.
+   */
+  app.helpers.parsePercent = function(text) {
+    var regex = /\d+/g;
+    var matches = text.match(regex);
+    if (typeof(matches) == &#x27;undefined&#x27;) {
+      var number = 0;
+    }
+    else {
+      var number = parseInt(matches);
+    }
+
+    return number;
+  };
+
+  /**
+   * Parse goal text into an Array of number and symbol.
+   * For example, &quot;top-10%&quot; to 10 and &quot;%&quot;,
+   * &quot;top-5&quot; to 5 and false.
+   * @param {string} text Goal string.
+   * @return {array} [number, symbol] Symbol could either be &#x27;%&#x27;
+   *   or false.
+   */
+  app.helpers.parseGoal = function(text) {
+    var matches = text.match(/[0-9]+|%/g);
+    if (matches == null || matches.length == 0) {
+      return [1, false];
+    }
+    else {
+      var topX = parseFloat(matches[0]);
+      var percent = true;
+      if (matches[1] !== &#x27;%&#x27;) {
+        percent = false;
+      }
+      return [topX, percent];
+    }
+  };
+
+  /**
+   * Grouping compatibilities by lifetimes with d3.nest.
+   * This will later be used in DetailViz.
+   * @param {array} compatibilities Array of compatibilities stored
+   *   in the dataset.
+   * @return {array} An array of nested data returned by d3.nest.
+   */
+  app.helpers.groupCompatibilitiesByLifetime = function(compatibilities) {
+    // Find number of total candidates within this lifetime from compatibilities dataset.
+    var nested = d3.nest()
+      .key(function(d) {
+        return d[&#x27;lifetime&#x27;];
+      })
+      .rollup(function(leaves) {
+        return {
+          &#x27;total_candidates&#x27;: leaves.length,
+          &#x27;candidates&#x27;: leaves
+        };
+      })
+      .entries(compatibilities);
+    return nested;
+  };
+
+  /**
+   * Getting url to server + given path.
+   * @param {string} path Path to be added next to server url
+   * @return {string} Url + path, for example &quot;http:4123//serverpath.com/thepath&quot; where
+   *   &quot;thepath&quot; is given path.
+   */
+  app.helpers.url = function(path) {
+    return window.location.protocol + &#x27;//&#x27; + window.location.host + &#x27;/&#x27; + path;
+  };
+
+  /**
+   * Show &quot;now loading&quot; area at given selector.
+   * @param {string} selector CSS selector where loading element will be added into.
+   */
+  app.helpers.showLoading = function(selector) {
+    d3.select(selector)
+      .html(&#x27;&amp;lt;div class=&quot;now_loading&quot;&gt;Drawing, please wait...&amp;lt;/div&gt;&#x27;);
+  };
+
+  /**
+   * Change page into selector&#x27;s element.
+   * Run callback after all animations completed.
+   * @param {string} selector
+   * @param {function|null} callback Function to run after page changed.
+   */
+  app.helpers.changePage = function(selector, callback) {
+    d3.select(&#x27;#main_viz .is_active&#x27;)
+      .transition()
+      .style(&#x27;opacity&#x27;, 0)
+      .each(&#x27;end&#x27;, function() {
+        d3.select(&#x27;#main_viz .is_active&#x27;)
+          .classed(&#x27;is_active&#x27;, false);
+        d3.select(selector)
+          .transition()
+          .style(&#x27;opacity&#x27;, 1)
+          .each(&#x27;end&#x27;, function() {
+            d3.select(selector)
+            .classed(&#x27;is_active&#x27;, true);
+            if (typeof(callback) != &#x27;undefined&#x27;) {
+              callback();
+            }
+          });
+      });
+  };
+
+  /**
+   * A function similar to assert. Stop app execution
+   * when given condition not met + show message.
+   * @param {boolean} condition Boolean to test.
+   * @param {string} message Message to display on error.
+   */
+  app.helpers.stopifnot = function(condition, message) {
+    if (!condition) {
+      message = message || &quot;Assertion failed&quot;;
+      if (typeof Error !== &quot;undefined&quot;) {
+        throw new Error(message);
+      }
+      throw message; // Fallback
+    }
+    else {
+      console.log(&quot;Assertion passed&quot;);
+    }
+  }
+
+  /**
+   * Get raw data url based on current parameters.
+   * @return {string} Data url e.g. &#x27;http://159.203.71.247/data?l=100&amp;amp;a1=20&amp;amp;a2=30&amp;amp;p1=0&amp;amp;p2=8&#x27;
+   */
+  app.helpers.dataUrl = function() {
+    return &#x27;data?l=&#x27; + 
+      app.vm.Generator._lifetimes() +
+      &#x27;&amp;amp;a1=&#x27; +
+      app.vm.Generator.a1() +
+      &#x27;&amp;amp;a2=&#x27; +
+      app.vm.Generator.a2() +
+      &#x27;&amp;amp;p1=&#x27; +
+      app.vm.Generator.p1() +
+      &#x27;&amp;amp;p2=&#x27; +
+      app.vm.Generator.p2();
+  }
+
+  /**
+   * Get experiment url. Experiment dataset is used in details page where we
+   * show each simulated experiment.
+   * @return {string} Experiment url.
+   */
+  app.helpers.experimentUrl = function() {
+    return app.helpers.dataUrl() +
+      &#x27;&amp;amp;p=1&#x27; +
+      &#x27;&amp;amp;g=&#x27; + _.map(app.vm.Experiment.goals(), function(v) {return v.name();}).join(&#x27;,&#x27;);
+  }
+
+  /**
+   * Picks one of 20 colors in cycle. This is used to color goal related items
+   * (boxes and lines).
+   */
+  app.helpers.pickColor = function(i) {
+    return d3.scale.category20().domain(_.range(0,20))(i%20);
+  }
+
+  /**
+   * Our main ViewModel.
+   * @class app.ViewModel
+   */
+  app.ViewModel = function() {
+    var self = this;
+
+    /**
+     * Call app.ViewModel.Generator to reference app.Generator ViewModel.
+     * You can get data stored in {@code app.data.generator} from it.
+     * @memberOf app.ViewModel
+     */
+    self.Generator = new app.Generator(app.data.generator);
+
+    /**
+     * Call app.ViewModel.Experiment to reference app.Experiment ViewModel.
+     * You can get data stored in {@code app.data.experiment} from it.
+     * @memberOf app.ViewModel
+     */
+    self.Experiment = new app.Experiment(app.data.experiment);
+
+    /**
+     * Call app.ViewModel.CurrentDetail to reference app.CurrentDetail ViewModel.
+     * You can get data stored in app.data.currentDetail from it.
+     * @memberOf app.ViewModel
+     */
+    self.CurrentDetail = new app.CurrentDetail(self, app.data.currentDetail);
+    
+    /**
+     * View Simulation Analysis page, the one showing several lines in it.
+     */
+    this.viewSimulationAnalysis = function() {
+      app.simulationAnalysis.view();
+    };
+
+    /**
+     * View Generate Dataset page.
+     */
+    this.viewGenerateDataset = function() {
+      app.generate.view();
+    };
+
+    /**
+     * View Generated Dataset page.
+     */
+    this.viewGeneratedDataset = function() {
+      app.generated.view();
+    };
+
+    /**
+     * View Detail page. The one showing many single-life simulations.
+     */
+    this.viewDetail = function() {
+      app.detail.view();
+    };
+
+    /**
+     * No longer used. Goals are now directly adjusted from app.Experiment ViewModel.
+     */
+    // this.chooseGoal = function() {
+    //   app.detail.chooseGoal();
+    // };
+
+    // this.addGoal = function() {
+    //   app.dataAnalysis.addGoal();
+    // };
+
+    // this.removeGoal = function() {
+    //   app.dataAnalysis.removeGoal();
+    // };
+  };
+
+  var buttons = d3.select(&#x27;button[data-bind=btn-start]&#x27;)
+    .on(&#x27;click&#x27;, function() {
+      var button = this;
+      d3.select(button)
+        .attr(&#x27;disabled&#x27;, true)
+        .text(&#x27;Loading the app, please wait...&#x27;)
+      // Apply bindings, then generate dataset based on values in data.
+      app.vm = new app.ViewModel();
+      ko.applyBindings(app.vm);
+      app.vm.Generator.generateDataset(function() {
+
+      }, function(data) {
+
+        d3.select(button)
+          .transition()
+          .style(&#x27;opacity&#x27;, 0)
+          .each(&#x27;end&#x27;, function() {
+            d3.select(&#x27;#start_button_container&#x27;)
+              .style(&#x27;height&#x27;, 0);
+          })
+
+        // Set initial lifetime
+        app.vm.CurrentDetail.lifetime(165);
+        app.vm.CurrentDetail.activeGoal().active(true);
+
+        app.tour = new Tour(app.getTourSettings());
+        app.setupTourFunctions();
+        app.detail.view(function() {
+          app.tour.init();
+          app.tour.start(true);          
+        });
+      });
+    });
+
+  d3.json(&quot;data/intro&quot;, app.introViz.drawIntro);
+})();</code></pre>
+          </article>
+        </div>
+      </div>
+      <nav id="jsdoc-toc-nav" role="navigation"></nav>
+    </div>
+  </div>
+  <footer id="jsdoc-footer" class="jsdoc-footer">
+    <div id="jsdoc-footer-container">
+      <p>
+        Generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc</a> 3.3.3 on October 5, 2015.
+      </p>
+    </div>
+  </footer>
+  <script src="scripts/jquery.min.js"></script>
+  <script src="scripts/jquery.cookie.js"></script>
+  <script src="scripts/tree.jquery.js"></script>
+  <script src="scripts/prettify.js"></script>
+  <script src="scripts/jsdoc-toc.js"></script>
+  <script src="scripts/linenumber.js"></script>
+  <script src="scripts/scrollanchor.js"></script>
+</body>
+
+</html>

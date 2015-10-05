@@ -3,9 +3,21 @@ var app = app || {};
 
 (function() {
   "use strict";
+  /**
+   * Plots displayed in Generated Dataset page
+   * ## Related Links
+   * - {@link app.generated}
+   * - {@link app.vizHelpers}
+   * @namespace app.generatedViz
+   */
+
   app.generatedViz = {};
 
-  // Draw the viz.
+  /**
+   * Draws generated data visualizations with a given data, inside a selector element.
+   * @param {Array} data Data from server that include all candidates and all lifetimes.
+   * @param {string} selector CSS selector where plots will be drawn at.
+   */
   app.generatedViz.draw = function(data, selector) {
     d3.select(selector)
       .transition()
@@ -22,7 +34,11 @@ var app = app || {};
       });
   }
 
-  // Draw histogram 1 at given selector location.
+  /**
+   * Draws histogram 1 at given selector location.
+   * @param {Array} data Data from server that include all candidates and all lifetimes.
+   * @param {string} selector CSS selector where plot will be drawn at.
+   */
   app.generatedViz.drawG1 = function(data, selector) {
     var margin = 50,
         width = 400,
@@ -78,7 +94,11 @@ var app = app || {};
 
   }
 
-  // Draw histogram 2 at given selector location.
+  /**
+   * Draws histogram 2 at given selector location.
+   * @param {Array} data Data from server that include all candidates and all lifetimes.
+   * @param {string} selector CSS selector where plot will be drawn at.
+   */
   app.generatedViz.drawG2 = function(data, selector) {
     var margin = 50,
         width = 400,
@@ -108,11 +128,15 @@ var app = app || {};
     });
   }
 
-  // params = {
-  //   width: Width of chart.
-  //   height: Height of chart.
-  //   margin: Margin of chart. 
-  // }
+  /**
+   * Draws histogram content.
+   * @param {Array} data Data from server that include all candidates and all lifetimes.
+   * @param {string} chartSelector CSS selector where plot is drawn at.
+   * @param {object} params Setting parameters used when drawing histogram content.
+   * @param {number} params.width Width of chart.
+   * @param {number} params.height Height of chart.
+   * @param {number} params.margin Margin of chart.
+   */
   app.generatedViz.drawHistContent = function(data, chartSelector, params) {
     // Find range of x axis.
     var xExtent = d3.extent(data, params.xFunc);

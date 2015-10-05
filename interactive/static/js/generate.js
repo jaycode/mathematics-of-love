@@ -1,79 +1,208 @@
-// Page that controls the inputs to generate dataset.
 var app = app || {};
 
 (function(){
+  /**
+   * Generate dataset page (Page that controls the inputs to generate dataset).
+   * ## Related Links
+   * - {@link app.Generator}
+   * @namespace app.generate
+   */
   app.generate = {};
+
+  /**
+   * Change currently displayed page to generate dataset page.
+   */
   app.generate.view = function() {
     app.helpers.changePage('#main_viz-generate');
   };
 
+  /**
+   * ViewModel that relates to generate dataset page. Singleton instance is available as `app.vm.Generator`.
+   * ## Related Links
+   * - {@link app.generate}
+   * - {@link app.data.generator}
+   * @param {Array} data Pass {@link app.data.generator} data to initialize this.
+   * @class app.Generator
+   */
   app.Generator =  function(data) {
     var self = this;
+    /**
+     * Observed validated status of the form.<br />
+     * Form can be submitted only when this is true.
+     */
     this.validated = ko.observable(true);
+
+    /**
+     * Observed {@link app.data.generator.a1 age start}.
+     * @type {ko.observable}
+     * @return {number}
+     */
     this._a1 = ko.observable(data['a1']);
+    
+    /** 
+     * Observed {@link app.data.generator.a2 age end}.
+     * @type {ko.observable}
+     * @return {number}
+     */
     this._a2 = ko.observable(data['a2']);
+
+    /**
+     * Observed {@link app.data.generator.p1 minimum potential partners per year}.
+     * @type {ko.observable}
+     * @return {number}
+     */
     this._p1 = ko.observable(data['p1']);
+
+    /**
+     * Observed {@link app.data.generator.p2 maximum potential partners per year}.
+     * @type {ko.observable}
+     * @return {number}
+     */
     this._p2 = ko.observable(data['p2']);
 
+    /**
+     * Computed age start. Use this to read and write to age start from bound element in HTML.
+     * @type {ko.computed}
+     * @namespace app.Generator#a1
+     */
     this.a1 = ko.computed({
+      /**
+       * Returns age start.
+       * @return {number}
+       * @memberOf app.Generator#a1
+       */
       read: function() {
         return self._a1();
       },
+      /**
+       * Validates before saving age start.
+       * @memberOf app.Generator#a1
+       * @params {string|number} value
+       */
       write: function(value) {
         self._a1(parseInt(value));
         self.validate();
       }
     });
+
+    /**
+     * Computed age end. Use this to read and write to age end from bound element in HTML.
+     * @type {ko.computed}
+     * @namespace app.Generator#a2
+     */
     this.a2 = ko.computed({
+      /**
+       * Returns age end.
+       * @return {number}
+       * @memberOf app.Generator#a2
+       */
       read: function() {
         return self._a2();
       },
+      /**
+       * Validates before saving age end.
+       * @memberOf app.Generator#a2
+       * @params {string|number} value
+       */
       write: function(value) {
         self._a2(parseInt(value));
         self.validate();
       }
     });
+
+    /**
+     * Computed minimum potential partners per year.
+     * Use this to read and write to min potential partners from bound element in HTML.
+     * @type {ko.computed}
+     * @namespace app.Generator#p1
+     */
     this.p1 = ko.computed({
+      /**
+       * Returns min potential partners.
+       * @return {number}
+       * @memberOf app.Generator#p1
+       */
       read: function() {
         return self._p1();
       },
+      /**
+       * Validates before saving min potential partners.
+       * @memberOf app.Generator#p1
+       * @params {string|number} value
+       */
       write: function(value) {
         self._p1(parseInt(value));
         self.validate();
       }
     });
+
+    /**
+     * Computed maximum potential partners per year.
+     * Use this to read and write to max potential partners from bound element in HTML.
+     * @type {ko.computed}
+     * @namespace app.Generator#p2
+     */
     this.p2 = ko.computed({
+      /**
+       * Returns max potential partners.
+       * @return {number}
+       * @memberOf app.Generator#p2
+       */
       read: function() {
         return self._p2();
       },
+      /**
+       * Validates before saving max potential partners.
+       * @memberOf app.Generator#p2
+       * @params {string|number} value
+       */
       write: function(value) {
         self._p2(parseInt(value));
         self.validate();
       }
     });
+
+    /**
+     * Observed number of lifetimes to simulate.
+     * @type {ko.observable}
+     * @return {number}
+     */
     this._lifetimes = ko.observable(data['lifetimes']);
+
+    /**
+     * Computed number of lifetimes.
+     * Use this to read and write to number of lifetimes from bound element in HTML.
+     * @type {ko.computed}
+     * @namespace app.Generator#lifetimes
+     */
     this.lifetimes = ko.computed({
+      /**
+       * Returns number of lifetimes, {@link app.helpers.formatThousandSeparators separated by commas}.
+       * @return {number}
+       * @memberOf app.Generator#lifetimes
+       */
       read: function() {
         return app.helpers.formatThousandSeparators(self._lifetimes());
       },
+      /**
+       * Validates before saving number of lifetimes.
+       * @memberOf app.Generator#lifetimes
+       * @param {string|number} value Could be "10,000" or "10000".
+       */
       write: function(value) {
         self._lifetimes(app.helpers.parseNumberWithSeparators(value));
         self.validate();
       }
     });
 
+    /**
+     * Submits generate form. Runs validation before submission.
+     * @params {object} formElement
+     */
     this.submitGenerateForm = function(formElement) {
       var self = this;
 
       if (self.validate()) {
-        // d3.select('#generate-now_loading_bg')
-        //   .transition()
-        //   .style('opacity', 1);
-        // d3.select('#generate-now_loading')
-        //   .transition()
-        //   .delay(100)
-        //   .style('opacity', 1);
-
         self.generateDataset(function() {
           // Display initial view (generated dataset).
           app.generated.view();
@@ -94,6 +223,9 @@ var app = app || {};
     self.p1Error = ko.observable(false);
     self.p2Error = ko.observable(false);
     self.lifetimesError = ko.observable(false);
+    /**
+     * Validation method.
+     */
     this.validate = function() {
       var self = this;
 
@@ -129,9 +261,13 @@ var app = app || {};
       return !error;
     }
 
-    // Use callbackDirect for actions that should directly run without waiting
-    // for dataset to be ready. On the other hand, callbackwait(data) can be used
-    // for doing stuff with generated data.
+    /**
+     * Generate dataset then run callbacks after done.
+     * @param {function} callbackDirect Use callbackDirect for actions that should directly run without waiting
+     *   for dataset to be ready.
+     * @param {function(data)} callbackWait Use callbackWait for doing stuff with generated data.
+     * @param {Array} callbackWait.data Data passed to callbackWait function.
+     */
     this.generateDataset = function(callbackDirect, callbackWait) {
       var self = this;
 

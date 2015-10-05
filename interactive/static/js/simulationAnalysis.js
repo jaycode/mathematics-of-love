@@ -2,19 +2,44 @@
 var app = app || {};
 
 (function() {
+  /**
+   * A module where functions to do stuff on {@link app.mainViz} are kept.
+   * ## Related Links
+   * - {@link app.Experiment}
+   * - {@link app.mainViz}
+   * @namespace app.simulationAnalysis
+   */
   app.simulationAnalysis = {};
 
-  // View SimulationAnalysis page
+  /**
+   * Changes currently displayed page to simulation analysis page, then runs a callback function.
+   * @param {function} callback
+   */
   app.simulationAnalysis.view = function(callback) {
     app.helpers.changePage('#main_viz-simulation_analysis', function() {
       app.simulationAnalysis.redrawPlot(callback);
     });
   }
+
+  /**
+   * Redraws {@link app.mainViz}, then runs a callback function.
+   * @param {function} callback
+   */
   app.simulationAnalysis.redrawPlot = function(callback) {
     app.helpers.showLoading('#simulation_analysis-plot_area');
     app.mainViz.draw(ko.toJS(app.vm.Experiment), '#simulation_analysis-plot_area', callback);
   }
 
+  /**
+   * Goal ViewModel, relates to goals in Simulation Analysis page.<br />
+   * The data here are initialized from {@link app.data.experiment.goals.goal goal data object}.
+   * ## Related Links
+   * - {@link app.Experiment}
+   * - {@link app.simulationAnalysis}
+   * - {@link app.data.experiment.goals}
+   * @param {app.data.experiment.goals.goal} data Settings data of a goal.
+   * @namespace app.Goal
+   */
   app.Goal = function(data) {
     this.id = ko.observable(data['id']);
     this.name = ko.computed(function() {
@@ -65,26 +90,85 @@ var app = app || {};
     }
   }
 
-  // ViewModel to display in this page.
+  /**
+   * ViewModel related to an experiment, displayed in SimulationAnalysis page.<br />
+   * Singleton instance is available as `app.vm.Experiment`.
+   * @param {app.data.experiment} data Settings data of an experiment.
+   * @class app.Experiment
+   */
   app.Experiment = function(data) {
     var self = this;
+
+    /**
+     * Observed {@link app.data.experiment.lifetime}.<br />
+     * Use `_lifetime` (or other `_varname`) method to access the numeric values directly,
+     * but for other needs e.g. updating or display, use `lifetime` (or `varname`) method.
+     * @type {ko.observable}
+     * @return {number}
+     */
     this._lifetimes = ko.observable(data['lifetimes']);
+
+    /**
+     * Computed class to get value of lifetimes and {@link app.helpers.formatThousandSeparators format thousand separators}.
+     * @type {ko.computed}
+     * @return {string}
+     * @namespace app.Experiment#lifetime
+     */
     this.lifetimes = ko.computed(function() {
       return app.helpers.formatThousandSeparators(self._lifetimes());
     }, this);
 
+    /**
+     * Observed {@link app.data.experiment.a1 age start}.
+     * @type {ko.observable}
+     * @return {number}
+     */
     this.a1 = ko.observable(data['a1']);
+
+    /**
+     * Observed {@link app.data.experiment.a2 age end}.
+     * @type {ko.observable}
+     * @return {number}
+     */
     this.a2 = ko.observable(data['a2']);
+
+    /**
+     * Observed {@link app.data.experiment.p1 minimum potential partners per year}.
+     * @type {ko.observable}
+     * @return {number}
+     */
     this.p1 = ko.observable(data['p1']);
+
+    /**
+     * Observed {@link app.data.experiment.p2 maximum potential partners per year}.
+     * @type {ko.observable}
+     * @return {number}
+     */
     this.p2 = ko.observable(data['p2']);
 
+    /**
+     * Observed {@link app.data.experiment.goals array of goals} containing multiple {@link app.Goal Goal} ViewModels.
+     * @type {ko.observableArray}
+     */
     this.goals = ko.observableArray([]);
     data.goals.forEach(function(goal) {
       self.goals.push(new app.Goal(goal));
     });
 
+    /**
+     * Observed {@link app.data.experiment.processed processed} status.<br />
+     * If processed is true, do not process again.<br />
+     * Set processed to false when generating new compatibilities
+     * i.e. {@link app.generate.generateDataset}.
+     */
     this.processed = ko.observable(data['processed']);
 
+    /**
+     * A function to be bound to "Add Goal" button in the HTML. The first call to this function
+     * will show input text for user to enter the setting of this new goal, while the second call will
+     * confirm its creation.<br />
+     * Validates goal adding with function {@link app.simulationAnalysis.validateGoal}.
+     */
     this.addGoal = function() {
       if (d3.select('#sa-hidden_inputs').classed('active')) {
         var value = parseInt(d3.select('#sa-hidden_inputs input').property('value'));
@@ -132,6 +216,10 @@ var app = app || {};
       }
     };
 
+    /**
+     * A function to be bound to "Cancel Add Goal" button in HTML. Pressing this will cancel the
+     * current goal adding process.
+     */
     this.cancelAddGoal = function() {
       d3.select('#sa-hidden_inputs')
         .classed('active', false)
@@ -143,6 +231,11 @@ var app = app || {};
 
   }
   
+  /**
+   * Validates the goal about to be added with {@link app.Experiment#addGoal} function.
+   * @param {number} value Rejection phase of the goal e.g. if a goal is "top-10%" then value is `10`.
+   * @param {string} type Either '' or '%' to decide percent flag.
+   */
   app.simulationAnalysis.validateGoal = function(value, type) {
     errors = [];
     if (!(value >= app.data.settings.min_rejection_phase && value <= app.data.settings.max_rejection_phase)) {
@@ -171,7 +264,10 @@ var app = app || {};
     return errors.length == 0
   };
 
-  // Update Experiment with data from server.
+  /**
+   * Update Experiment with data from server.
+   * @params {Array} data Experiment data from server, grouped by different goals.
+   */
   app.simulationAnalysis.updateExperiment = function(data) {
     app.vm.Experiment.goals().forEach(function(goal, i) {
       app.vm.Experiment.goals()[i].data = data[goal.name()];

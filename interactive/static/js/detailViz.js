@@ -1,6 +1,15 @@
 var app = app || {};
 
 (function() {
+  /**
+   * Detail Plot
+   * ## Related Links
+   * - {@link app.detail}
+   * - {@link app.CurrentDetail}
+   * - {@link app.detailVizHelpers}
+   * - {@link app.vizHelpers}
+   * @namespace app.detailViz
+   */
   app.detailViz = {
     selector: '',
     chartSelector: '#g-d',
@@ -22,13 +31,17 @@ var app = app || {};
     rejectionPhase: null
   };
 
-  // data: list of compatibilities for given lifetime.
-  // selector: string
-  // params: {
-  //   rejectionPhase: integer (0 to 100).
-  //   topX: numeric, top number of / percentage of candidates to choose from.
-  //   percent: boolean, to decide whether to use percent or fixed number for topX.
-  // }
+  /**
+   * Draws detailViz.
+   * ## Related Links
+   * - {@link app.detailVizHelpers.prepareData}
+   * @param {Array} data List of compatibilities for given lifetime.
+   * @param {string} selector Selector to display detailViz in.
+   * @param params Parameters to use to configure data to draw.
+   * @param {integer} params.rejectionPhase 0 to 100.
+   * @param {number} params.topX Top number of / percentage of candidates to choose from.
+   * @param {boolean} params.percent Flag to decide whether to use percent or fixed number for topX.
+   */
   app.detailViz.draw = function(data, selector, params) {
     var self = this;
     self.selector = selector;
@@ -156,7 +169,10 @@ var app = app || {};
     });
   };
 
-  // Drawing the rejection phase, then run callback.
+  /**
+   * Draws the rejection phase, then run given callback.
+   * @param {function} callback Callback function to run once rejection phase is drawn.
+   */
   app.detailViz.drawRejectionPhase = function(callback) {
     var self = this;
     var selector = '#r_phase';
@@ -223,6 +239,9 @@ var app = app || {};
     }
   }
 
+  /**
+   * Draws the bars in histogram.
+   */
   app.detailViz.drawHistContent = function() {
     var self = this;
     var xFunc = function(d) {return d['id'];};
@@ -273,11 +292,13 @@ var app = app || {};
       .on('mouseout', tip.hide);
   };
 
-  app.detailViz.addHistTooltip = function(data, chartSelector, params) {
-
-  }
-
-  // Pass in data to avoid prepareData being called again.
+  /**
+   * Draws the entire experiment.
+   * @params {Array} data Data to fill the experiment with. When not given,
+   *   this method will get data from server using method {@link app.detailVizHelpers.prepareData}.<br />
+   *   Pass in data to avoid prepareData being called again.
+   * @params {function} callback Callback to run once data loaded.
+   */
   app.detailViz.drawExperiment = function(data, callback) {
     var self = this;
     if (typeof(data) == 'undefined') {
@@ -332,7 +353,13 @@ var app = app || {};
     }
   }
 
-  // Only coloring optimal bars.
+  /**
+   * Colors bars depending on their optimal status based on chosen {@link app.DetailGoal DetailGoal}.
+   * @param data Data used in this experiment. When not given,
+   *   this method will get data from server using method {@link app.detailVizHelpers.prepareData}.<br />
+   *   Pass in data to avoid prepareData being called again.
+   * @param callback Callback method to call when data loaded.
+   */
   app.detailViz.drawOptimals = function(data, callback) {
     var self = this;
     if (typeof(data) == 'undefined') {
@@ -362,6 +389,15 @@ var app = app || {};
     }
   }
 
+  /**
+   * Draws the markers on top of a bar.
+   * @param {element} bar Bar element (a `g` element containing a `rect`).
+   * @param {string} image Image html to use in marker. See {@link app.images} for a list of images to use.
+   * @param {object} d Current datum (need to have 'id' and 'candidate_score' attributes).
+   * @param {number} i Ordering position of this marker. Use this to decide on a delay before drawing this marker.
+   * @param {string} elclass CSS class to give to this marker.
+   * @param {function} callback Function to call when marker is drawn.
+   */
   app.detailViz.drawMarker = function(bar, image, d, i, color, elclass, callback) {
     var self = this;
     self._animatedMarkers++;

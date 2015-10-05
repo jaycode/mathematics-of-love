@@ -18,7 +18,7 @@ var app = app || {};
     marginLeft: 60,
     marginTop: 30,
     x2Height: 60,
-    bottomOffset: 20,
+    bottomOffset: 60,
     rightOffset: 20,
     xExtent: null,
     yExtent: null,

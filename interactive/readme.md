@@ -99,7 +99,13 @@ We actually had fun with this app and we managed to use this app for a "dating c
 
 ### Reasoning behind the two histograms displayed in generated dataset page.
 
+These are the histograms showing distribution of generated dataset:
+
 ![Theory Graph](https://raw.githubusercontent.com/jaycode/mathematics-of-love/master/interactive/static/images/docs/generated.PNG)
+
+In "Number of Candidates Distribution" histogram, I made sure the bars are center aligned to their respective x values, because they are distinct / categorical values (i.e. there is no age 19.338 in here, for example). As well, I added a small gap between each bar so readers can tell exactly which bar belongs to which value in scale.
+
+On the contrary, "Candidate Score Distribution" combines the bars together since candidate scores are continuous.
 
 ## Summary of updates
 Due to its size, it is inevitable that this project has experienced many design changes. They can be reviewed in detail from the [github page of this project](https://github.com/jaycode/mathematics-of-love/commits/master), here are the overview of the changes:
@@ -196,3 +202,41 @@ I have created [a post in Udacity Google group forum](https://plus.google.com/10
 The comments are recorded [in this publicly available spreadsheet document](https://docs.google.com/spreadsheets/d/1i14GTZp2z4G1HT2K1AtUlcOKGxhMZCOue6WZ96z1D8U/edit?usp=sharing). I enjoyed reading them, most of them had fun reading the article (at the time of writing, at least) and had some really constructive feedback to improve this project further. I will work on this project a bit further after submitting this into the review system, you can always see the latest update at its [Github page](https://github.com/jaycode/mathematics-of-love/tree/master/interactive).
 
 ### Changes from Feedback
+
+#### Design related feedback
+
+Most design related feedback were targeted for Lifetime Simulation page.
+
+The very first version of Design 
+
+![Theory Graph](https://raw.githubusercontent.com/jaycode/mathematics-of-love/master/interactive/static/images/docs/design1-before.PNG)
+
+Here are a couple of excellent feedback I received in Google+ discussion forum:
+
+![Theory Graph](https://raw.githubusercontent.com/jaycode/mathematics-of-love/master/interactive/static/images/docs/design1-f1.PNG)
+
+![Theory Graph](https://raw.githubusercontent.com/jaycode/mathematics-of-love/master/interactive/static/images/docs/design1-f2.PNG)
+
+And following from project review:
+
+I then removed distracting colors from that visualizations:
+
+
+![Theory Graph](https://raw.githubusercontent.com/jaycode/mathematics-of-love/master/interactive/static/images/docs/2015-09-13-after.PNG)
+
+In theory, this new design makes it easier for readers to focus on the information behind the visualizations. The colors next to "Age Met" were useless since the age information has already been decoded in the larger number in X axis.
+
+#### Interaction related feedback
+
+From Google form, an anonymous user commented as follows:
+
+> On the simulation analysis graph, you can look at the success rate vs. % rejected for any point on the line. I thought that was great, but I found it to be a bit unsmooth. In particular, I found that it was a little awkward that my cursor had to actually be in contact with one of the lines to change the numbers. For example, if I started at the rejection rate of 10% and wanted to see the success rate for a rejection rate of 20%, I would have to move my mouse onto the line at the 20% mark. I feel like I would have found it more natural if the numbers would change with my cursor's x position regardless of whether it's in contact with a line or not. 
+
+I updated Simulation Analysis visualization so that the cursor don't have to be positioned exactly on top of a line to show the detail window. I did this by creating rectangles with 0 opacity that triggered detail window display when hovered over. Following is the visualization with hidden rectangles shown in semi transparent colors:
+
+![Theory Graph](https://raw.githubusercontent.com/jaycode/mathematics-of-love/master/interactive/static/images/docs/2015-09-14-after.PNG)
+
+#### Content related feedback
+
+
+

@@ -397,6 +397,8 @@ var app = app || {};
   app.detailViz.drawLegend = function() {
     var self = this;
 
+    d3.select('#legend').html('');
+    
     var legend = d3.select('#legend')
       .append('svg')
 

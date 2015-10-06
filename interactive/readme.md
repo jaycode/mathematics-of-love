@@ -1,12 +1,23 @@
 # The Mathematics of Love - When to Settle Down
 *Interactive version*
 
-This project is available for viewing here: [http://mathoflove.teguhwijaya.com/](http://mathoflove.teguhwijaya.com/)
+## Summary
+
+This project attempts to explain a mathematical concept called "Optimal Stopping Theory" by picking a subject that all people (well, most anyway) can relate to, Love! That, and by utilizing an app users can do small experiments with so they can understand how the algorithm works in their own pace.
+
+As a bonus objective, this app is (maybe) also helpful in deciding on a strategy to choose the best partner i.e. by dating how many people per year and deciding on an optimal rejection phase.
+
+The app for this project is available here: 
+[http://mathoflove.teguhwijaya.com/](http://mathoflove.teguhwijaya.com/)
+
+A complete documentation of the project's code is available [here](http://mathoflove.teguhwijaya.com/static/docs/app.html).
 
 ## How to Run
 
-This section explains how to run this project in your local machine. Please do contact me
-at te g u h w purw an to [at] gmail [dot] com if you have any question with installation.
+This section explains how to run this project in your local machine.
+Please do contact me
+at te g u h w purw an to [at] gmail [dot] com if 
+you have any question with installation.
 
 This app needs following python modules:
 - Flask (`pip install flask`)
@@ -29,7 +40,8 @@ Once you got them installed, do the following to run the app on your server:
 - `bower install --allow-root` to install all the required javascript.
 - `python server.py`
 
-Then you should be able to access this app on `http://localhost` (make sure no other app
+Then you should be able to access this app on `http://localhost`
+(make sure no other app
 is using your port 80).
 
 ## Development Notes
@@ -39,7 +51,7 @@ is using your port 80).
   You may then update the scss files and they will be compiled into app.css used in this app.
 - Documentation is made with jsdoc with baseline plugin. To export documentation, run `jsdoc -t node_modules/jsdoc-baseline static/js/ readme.md` from /interactive directory.
 
-## Initial Design Decisions
+## Design Decisions
 To put it simply, in this project I generate a large number of random numbers and apply a Mathematical
 concept to explain it. Regarding the eligibility of this project, it has been discussed [here in the Udacity forum](https://discussions.udacity.com/t/project-6-is-data-visualization-to-prove-a-mathematical-concept-eligible/29823/6).
 
@@ -50,10 +62,44 @@ major graphs:
  - **Line charts** to read the pattern produced by applying some strategies / Mathematical equations into our dataset.
  - **Bar chart with a twist** to explain the Mathematical concept.
 
-### Reasoning behind the use of multiple line charts in Simulation Analysis page.
+### Reasoning behind the use of interactive line charts in Simulation Analysis page
+The beginning of this project dated back in July 2015 when I, just for the fun of it, tried to duplicate the analysis done in a book called Mathematics of Love by Hannah Fry.
 
+The work, which was done in R, is available [here](https://jaycode.github.io/mathematics-of-love/when-to-settle-down.html). The lines graph comparing different rejection phases is also available there:
 
-### Reasoning behind interactive bar chart in Detail page.
+![Theory Graph](https://raw.githubusercontent.com/jaycode/mathematics-of-love/master/interactive/static/images/docs/old_project-3.PNG)
+
+As you can see with a static graph we can only show only a handful of goals, at best. It is also impossible to directly tell from the graph where exactly the highest points are for each goal.
+
+Compare that to the version on this app:
+
+![Theory Graph](https://raw.githubusercontent.com/jaycode/mathematics-of-love/master/interactive/static/images/docs/simulation_analysis.PNG)
+
+With this new version, you can add new goals, and hovering on top of the visualization should show a window presenting detailed information of all the three lines, so you can compare them directly (for example, in the above, we can see that in rejection phase 22%, while "theory" line does not differ much with top 5%, it does a lot with top 15% line).
+
+### Reasoning behind interactive bar chart in Detail page
+
+This is arguably the most aesthetically appealing visualization in this project, in page "Simulating Single Lifetimes" due to the various animations it has.
+
+![Theory Graph](https://raw.githubusercontent.com/jaycode/mathematics-of-love/master/interactive/static/images/docs/detail.PNG)
+
+The reason for adding this much animations here is to make sure readers can really understand what is exactly happening when we apply "Optimal Stopping Theory" strategy.
+
+To do this, each decision marked by the small icons on top of the bars must be subsequently animated to bring out the perception of time i.e. the bars / candidates on the left are met earlier than the right ones.
+
+There are also other interactivity in this page users can play with, such as adjusting lifetime to simulate, experimenting with different rejection phase, and showing different goals. All of them are there so users can understand the theory with their own pace by doing small experiments.
+
+### Reasoning behind "Generate your own dataset" feature
+
+It's quite obvious I think. An app is only good when it is useful to its user in a personal level. "Generate your own dataset" feature allows user to enter their own scenarios and future strategies e.g. If they want to settle down within the next 2-3 years of their lives, how many people should they start to date each year, and how big should their rejection phase to achieve optimum probability (while still getting a decent partner)?
+
+We actually had fun with this app and we managed to use this app for a "dating consultation".
+
+![Theory Graph](https://raw.githubusercontent.com/jaycode/mathematics-of-love/master/interactive/static/images/docs/generate.PNG)
+
+### Reasoning behind the two histograms displayed in generated dataset page.
+
+![Theory Graph](https://raw.githubusercontent.com/jaycode/mathematics-of-love/master/interactive/static/images/docs/generated.PNG)
 
 ## Summary of updates
 Due to its size, it is inevitable that this project has experienced many design changes. They can be reviewed in detail from the [github page of this project](https://github.com/jaycode/mathematics-of-love/commits/master), here are the overview of the changes:

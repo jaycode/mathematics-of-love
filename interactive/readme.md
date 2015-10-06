@@ -67,13 +67,13 @@ The beginning of this project dated back in July 2015 when I, just for the fun o
 
 The work, which was done in R, is available [here](https://jaycode.github.io/mathematics-of-love/when-to-settle-down.html). The lines graph comparing different rejection phases is also available there:
 
-![Theory Graph](https://raw.githubusercontent.com/jaycode/mathematics-of-love/master/interactive/static/images/docs/old_project-3.PNG)
+![](https://raw.githubusercontent.com/jaycode/mathematics-of-love/master/interactive/static/images/docs/old_project-3.PNG)
 
 As you can see with a static graph we can only show only a handful of goals, at best. It is also impossible to directly tell from the graph where exactly the highest points are for each goal.
 
 Compare that to the version on this app:
 
-![Theory Graph](https://raw.githubusercontent.com/jaycode/mathematics-of-love/master/interactive/static/images/docs/simulation_analysis.PNG)
+![](https://raw.githubusercontent.com/jaycode/mathematics-of-love/master/interactive/static/images/docs/simulation_analysis.PNG)
 
 With this new version, you can add new goals, and hovering on top of the visualization should show a window presenting detailed information of all the three lines, so you can compare them directly (for example, in the above, we can see that in rejection phase 22%, while "theory" line does not differ much with top 5%, it does a lot with top 15% line).
 
@@ -81,7 +81,7 @@ With this new version, you can add new goals, and hovering on top of the visuali
 
 This is arguably the most aesthetically appealing visualization in this project, in page "Simulating Single Lifetimes" due to the various animations it has.
 
-![Theory Graph](https://raw.githubusercontent.com/jaycode/mathematics-of-love/master/interactive/static/images/docs/detail.PNG)
+![](https://raw.githubusercontent.com/jaycode/mathematics-of-love/master/interactive/static/images/docs/detail.PNG)
 
 The reason for adding this much animations here is to make sure readers can really understand what is exactly happening when we apply "Optimal Stopping Theory" strategy.
 
@@ -95,13 +95,13 @@ It's quite obvious I think. An app is only good when it is useful to its user in
 
 We actually had fun with this app and we managed to use this app for a "dating consultation".
 
-![Theory Graph](https://raw.githubusercontent.com/jaycode/mathematics-of-love/master/interactive/static/images/docs/generate.PNG)
+![](https://raw.githubusercontent.com/jaycode/mathematics-of-love/master/interactive/static/images/docs/generate.PNG)
 
 ### Reasoning behind the two histograms displayed in generated dataset page.
 
 These are the histograms showing distribution of generated dataset:
 
-![Theory Graph](https://raw.githubusercontent.com/jaycode/mathematics-of-love/master/interactive/static/images/docs/generated.PNG)
+![](https://raw.githubusercontent.com/jaycode/mathematics-of-love/master/interactive/static/images/docs/generated.PNG)
 
 In "Number of Candidates Distribution" histogram, I made sure the bars are center aligned to their respective x values, because they are distinct / categorical values (i.e. there is no age 19.338 in here, for example). As well, I added a small gap between each bar so readers can tell exactly which bar belongs to which value in scale.
 
@@ -214,13 +214,11 @@ Most design related feedback were targeted for Lifetime Simulation page.
 
 The very first version of Design 
 
-![Theory Graph](https://raw.githubusercontent.com/jaycode/mathematics-of-love/master/interactive/static/images/docs/design1-before.PNG)
+![](https://raw.githubusercontent.com/jaycode/mathematics-of-love/master/interactive/static/images/docs/design1-before.PNG)
 
 Here are a couple of excellent feedback I received in Google+ discussion forum:
 
-![Theory Graph](https://raw.githubusercontent.com/jaycode/mathematics-of-love/master/interactive/static/images/docs/design1-f1.PNG)
-
-![Theory Graph](https://raw.githubusercontent.com/jaycode/mathematics-of-love/master/interactive/static/images/docs/design1-f2.PNG)
+![](https://raw.githubusercontent.com/jaycode/mathematics-of-love/master/interactive/static/images/docs/design1-f1.PNG) ![](https://raw.githubusercontent.com/jaycode/mathematics-of-love/master/interactive/static/images/docs/design1-f2.PNG)
 
 From Google Form:
 > It just needs to be more intuitive. Less busy. I have a degree in math/stats & lot's of programming experience but the "busyness" of it loses me a bit. I'm not trying to be mean. I did read the entire article and clicked through the app. I think it is nice work but it could use some polishing to take it the next level.
@@ -234,7 +232,7 @@ I found the navigation between the components of the interactive section quite c
 > ...As mentioned in some of your feedback, for small numbers of lifetimes the 1% and 5% buttons yield similar information. Perhaps they are not both required?
 >
 > Sometimes the 'rejection zone' and Xs on bars look a little out-of-place as the bars go taller than the 'rejection zone' grey, and the writing interacts with the bars; I've included a screenshot. Making the 'rejection zone' taller might solve this; if it will fit on a reasonable-sized screen, that is.
-> ![Theory Graph](https://raw.githubusercontent.com/jaycode/mathematics-of-love/master/interactive/static/images/docs/design2-before.png)
+> ![](https://raw.githubusercontent.com/jaycode/mathematics-of-love/master/interactive/static/images/docs/design2-before.png)
 
 ##### Design related changes to Detail Page
 
@@ -247,19 +245,19 @@ Based on design related feedback comments above, the following changes to the De
 
 Here is a screenshot of the new version:
 
-![Theory Graph](https://raw.githubusercontent.com/jaycode/mathematics-of-love/master/interactive/static/images/docs/design1-after.PNG)
+![](https://raw.githubusercontent.com/jaycode/mathematics-of-love/master/interactive/static/images/docs/design1-after.PNG)
 
 In theory, this new design makes it easier for readers to focus on the information behind the visualizations. The colors next to "Age Met" were useless since the age information has already been decoded in the larger number in X axis.
 
 And screenshot of the fixed rejection zone section:
 
-![Theory Graph](https://raw.githubusercontent.com/jaycode/mathematics-of-love/master/interactive/static/images/docs/design2-after.PNG)
+![](https://raw.githubusercontent.com/jaycode/mathematics-of-love/master/interactive/static/images/docs/design2-after.PNG)
 
 ##### Design related changes to links.
 
 As suggested in the review, I added static links to different pages in this app:
 
-![Theory Graph](https://raw.githubusercontent.com/jaycode/mathematics-of-love/master/interactive/static/images/docs/links_added.PNG)
+![](https://raw.githubusercontent.com/jaycode/mathematics-of-love/master/interactive/static/images/docs/links_added.PNG)
 
 #### Interaction related feedback
 
@@ -278,7 +276,7 @@ From Google form, an anonymous user commented as follows:
 
 I updated Simulation Analysis visualization so that the cursor don't have to be positioned exactly on top of a line to show the detail window. I did this by creating rectangles with 0 opacity that triggered detail window display when hovered over. Following is the visualization with hidden rectangles shown in semi transparent colors:
 
-![Theory Graph](https://raw.githubusercontent.com/jaycode/mathematics-of-love/master/interactive/static/images/docs/interaction1-after.PNG)
+![](https://raw.githubusercontent.com/jaycode/mathematics-of-love/master/interactive/static/images/docs/interaction1-after.PNG)
 
 ##### Pop-up tour
 
@@ -294,9 +292,13 @@ And another one:
 
 > ...I was checking it out on a small laptop screen. When I was running visual presentation pop windows with explanation caused image to constantly jump up and down - it was distracting and annoying. Although I do understand it might be out of your hands...
 
+And another one:
+
+> The text overlapped the graph making is hard to understand the graph.
+
 When there are two or more people requesting the same thing, that means it could be important, so I updated the tour section. Following is the screenshot:
 
-![Theory Graph](https://raw.githubusercontent.com/jaycode/mathematics-of-love/master/interactive/static/images/docs/interaction2-after.PNG)
+![](https://raw.githubusercontent.com/jaycode/mathematics-of-love/master/interactive/static/images/docs/interaction2-after.PNG)
 
 With this new version, the window stays on top right of the page. To help with the visualization, I highlighted the parts currently being explained.
 
@@ -313,11 +315,9 @@ There are a couple of content related feedback from different people:
 
 From Google+ group:
 
-![Theory Graph](https://raw.githubusercontent.com/jaycode/mathematics-of-love/master/interactive/static/images/docs/content1-f1.PNG)
+![](https://raw.githubusercontent.com/jaycode/mathematics-of-love/master/interactive/static/images/docs/content1-f1.PNG) ![](https://raw.githubusercontent.com/jaycode/mathematics-of-love/master/interactive/static/images/docs/content1-f2.PNG)
 
-![Theory Graph](https://raw.githubusercontent.com/jaycode/mathematics-of-love/master/interactive/static/images/docs/content1-f2.PNG)
-
-It seems like some information do need to be removed. There are also other comments regarding this matter, both verbally and written (and, well... implied).
+It seems like some information do need to be removed. There are also other comments regarding this matter, both verbally and written (and, well... implied, by some people for not actually trying out the app when I asked them to).
 
 From Google Form replies:
 
@@ -325,14 +325,62 @@ From Google Form replies:
 
 `r` cannot be defined like that since the process requires you to record as well as rejecting.
 
+---
+
 > The simulation is fine but .  .  .  
 When I'm faced with this sort of problem is use some actual numbers, maybe 5 applicants, then 10, then 20, etc., to gain some insight on where this is going. 
 
 That is actually possible to do by generating own dataset.
 
+---
+
 > Maybe a short video (1-2 minutes) explaining the "science behind" the research.
 
 Sorry but maybe not since I am not good with videos.
 
-> Compatability score on y axis is from from -1.5 to 2.0, but if I will hover over bars it will range from -150 to 200 ( give or take ) with no explanation of how compatibility score is calculated or mapped to the Y axis.
+---
+
+> Compatibility score on y axis is from from -1.5 to 2.0, but if I will hover over bars it will range from -150 to 200 ( give or take ) with no explanation of how compatibility score is calculated or mapped to the Y axis.
+
+Nice catch! This was actually a bug. Here are before and after screenshots:
+
+![](https://raw.githubusercontent.com/jaycode/mathematics-of-love/master/interactive/static/images/docs/content2-before.png) ![](https://raw.githubusercontent.com/jaycode/mathematics-of-love/master/interactive/static/images/docs/content2-after.png)
+
+Thank you, anonymous!
+
+---
+
+> "you don't want to keep rejecting the next suitor" doesn't make sense, maybe "you don't want to keep hoping the next suitor will be better"
+"to quick" should be "too quickly"
+>
+> The opening section has several awkward things.  For example, you can't reject the next suitor, only the present one.
+> 
+> The rest of it reads much better.
+
+Corrected the article as suggested.
+
+---
+
+Another feedback came in [audio form](https://drive.google.com/file/d/0B2ib3M3otvbDbkNLdnZTb0Q3OG85TjhwYkZLRHA1NHJvYnF3/view?usp=sharing). The transcript as follows:
+
+> Hi, my name is Eric, I'd like to comment on Jay's Udacity project, the mathematics of love. Back then Jay had shown me the app and applied it to real life situation.
+> 
+> I found the material quite interesting and the application of theory is very practical. However I find it really hard to digest the material if I have to read it on my own.
+> 
+> My suggestion is to remove the theory section and focus only on the practical parts.
+> 
+> Thank you.
+
+Looks like reducing the content is quite important as there was also another feedback that suggested that from my project's review:
+
+> You could do a clearer job of explaining the objective and the algorithm used here. My understanding is that the objective is to choose the very best possible candidate out of a set.
+I thought this led to a rather depressing finding; only 37% chance of success?! You could comment on this finding and thus make your case for relaxing the success criterion to be the 'top x%', as shown later in the visualisation. I had to guess what was meant by these 'top x%' for myself, it would be nicer to introduce them and explain why you included them.
+
+> The fact that 1/e (37%) appears both in the strategy and in the result could be clarified. A mathematical formula is confusingly included without explanation (are you able to justify it?) and its link to 1/e is unclear. As always when presenting mathematics to a general audience, there is a balance to be struck in the level of detail. The example provided is a bit confusing. Why does it yield a value higher than 37%?
+
+> I would prefer you to change references to 'proving' the rule to 'testing' or 'demonstrating' or 'showing' the rule; this is a mathematical concept and a simulation is not a mathematical proof!
+
+> There is quite a lot of text on the page, which provides a fun narrative voice. However, you should consider whether less text would be sufficient and hence allow the visualisations a little more room to shine.
+
+##### Reducing the content
 

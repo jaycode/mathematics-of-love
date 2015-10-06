@@ -10,10 +10,11 @@ var app = app || {};
   app.generate = {};
 
   /**
-   * Change currently displayed page to generate dataset page.
+   * Changes currently displayed page to generate dataset page, then runs callback function.
+   * @param {function} callback
    */
-  app.generate.view = function() {
-    app.helpers.changePage('#main_viz-generate');
+  app.generate.view = function(callback) {
+    app.helpers.changePage('#main_viz-generate', callback);
   };
 
   /**

@@ -28,7 +28,8 @@ var app = app || {};
     data: [],
     topX: null,
     percent: false,
-    rejectionPhase: null
+    rejectionPhase: null,
+    yExtentOffset: 0.6
   };
 
   /**
@@ -64,7 +65,7 @@ var app = app || {};
 
     self.xExtent = [1, self.data.length];
     self.yExtent = d3.extent(self.data, function(d) {return d['candidate_score'];});
-    self.yExtent[1] = self.yExtent[1]+0.6;
+    self.yExtent[1] = self.yExtent[1]+self.yExtentOffset;
 
     var scales = app.vizHelpers.drawAxes(self.chartSelector, {
       xExtent: self.xExtent,
@@ -284,7 +285,7 @@ var app = app || {};
 
         return "<strong>Candidate #</strong><span>" + d['id'] + "</span><br />" +
         "<strong>Score:</strong> <span style='color:red'>" + Math.round(yFunc(d)*10000)/100 +
-          "</span> <span>("+Math.round( ((d['candidate_score']-extent[0]) / (extent[1]-extent[0]))*10000)/100+"%)</span>";
+          "</span> <span>("+Math.round( ((d['candidate_score']-extent[0]) / ((extent[1]-self.yExtentOffset)-extent[0]))*10000)/100+"%)</span>";
       });
 
     d3.select(self.selector + ' svg').call(tip);
@@ -398,7 +399,7 @@ var app = app || {};
     var self = this;
 
     d3.select('#legend').html('');
-    
+
     var legend = d3.select('#legend')
       .append('svg')
 

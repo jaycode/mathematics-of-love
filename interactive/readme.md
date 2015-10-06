@@ -189,6 +189,9 @@ Improved the app based on feedback from the wonderful Udacity community:
 - Corrected grammatical and spelling errors, and typos.
 - Tiny cosmetic changes.
 
+**6 Oct 2015**
+Added JSDoc and updated the app from feedback comments previously not completed. Also added much more documentation.
+
 ## Feedback
 
 Some of the discussions were done verbally, but I have also gathered some feedback from other sources for this project.
@@ -201,7 +204,9 @@ I have created [a post in Udacity Google group forum](https://plus.google.com/10
 
 The comments are recorded [in this publicly available spreadsheet document](https://docs.google.com/spreadsheets/d/1i14GTZp2z4G1HT2K1AtUlcOKGxhMZCOue6WZ96z1D8U/edit?usp=sharing). I enjoyed reading them, most of them had fun reading the article (at the time of writing, at least) and had some really constructive feedback to improve this project further. I will work on this project a bit further after submitting this into the review system, you can always see the latest update at its [Github page](https://github.com/jaycode/mathematics-of-love/tree/master/interactive).
 
-### Changes from Feedback
+I also recorded my friend's recommendation as an [audio file](https://drive.google.com/file/d/0B2ib3M3otvbDbkNLdnZTb0Q3OG85TjhwYkZLRHA1NHJvYnF3/view?usp=sharing) after presenting this project to him and a couple others.
+
+### Changes from Feedback Comments
 
 #### Design related feedback
 
@@ -217,16 +222,55 @@ Here are a couple of excellent feedback I received in Google+ discussion forum:
 
 ![Theory Graph](https://raw.githubusercontent.com/jaycode/mathematics-of-love/master/interactive/static/images/docs/design1-f2.PNG)
 
+From Google Form:
+> It just needs to be more intuitive. Less busy. I have a degree in math/stats & lot's of programming experience but the "busyness" of it loses me a bit. I'm not trying to be mean. I did read the entire article and clicked through the app. I think it is nice work but it could use some polishing to take it the next level.
+
+This suggestion is quite abstract, but I take it maybe it would reduce the business if we can handle the coloring issue.
+
 And following from project review:
+> I have just a few comments on how you could improve this even further.
+I found the navigation between the components of the interactive section quite confusing to use. I wasn't always sure that I could get back to where I'd come from! You could use some static buttons to select the different parts, helping the viewer to stay oriented in the visualisation...[another comment related to interaction - shown in next section]
+>
+> ...As mentioned in some of your feedback, for small numbers of lifetimes the 1% and 5% buttons yield similar information. Perhaps they are not both required?
+>
+> Sometimes the 'rejection zone' and Xs on bars look a little out-of-place as the bars go taller than the 'rejection zone' grey, and the writing interacts with the bars; I've included a screenshot. Making the 'rejection zone' taller might solve this; if it will fit on a reasonable-sized screen, that is.
+> ![Theory Graph](https://raw.githubusercontent.com/jaycode/mathematics-of-love/master/interactive/static/images/docs/design2-before.png)
 
-I then removed distracting colors from that visualizations:
+##### Design related changes to Detail Page
 
+Based on design related feedback comments above, the following changes to the Detail page were then made:
 
-![Theory Graph](https://raw.githubusercontent.com/jaycode/mathematics-of-love/master/interactive/static/images/docs/2015-09-13-after.PNG)
+- Replaced the colors.
+- Added Legends.
+- Removed 5% goal.
+- Added more area on top of bars
+
+Here is a screenshot of the new version:
+
+![Theory Graph](https://raw.githubusercontent.com/jaycode/mathematics-of-love/master/interactive/static/images/docs/design1-after.PNG)
 
 In theory, this new design makes it easier for readers to focus on the information behind the visualizations. The colors next to "Age Met" were useless since the age information has already been decoded in the larger number in X axis.
 
+And screenshot of the fixed rejection zone section:
+
+![Theory Graph](https://raw.githubusercontent.com/jaycode/mathematics-of-love/master/interactive/static/images/docs/design2-after.PNG)
+
+##### Design related changes to links.
+
+As suggested in the review, I added static links to different pages in this app:
+
+![Theory Graph](https://raw.githubusercontent.com/jaycode/mathematics-of-love/master/interactive/static/images/docs/links_added.PNG)
+
 #### Interaction related feedback
+
+Assorted feedback comments from Google Form:
+
+> ...You are suggesting to enter a bigger number for the lifetime, like 2000. But I couldn't enter more than a 1000.
+
+I couldn't duplicate this issue so let's leave it until more reports are coming.
+
+
+##### Cursor hover in Simulation Analysis page
 
 From Google form, an anonymous user commented as follows:
 
@@ -234,9 +278,61 @@ From Google form, an anonymous user commented as follows:
 
 I updated Simulation Analysis visualization so that the cursor don't have to be positioned exactly on top of a line to show the detail window. I did this by creating rectangles with 0 opacity that triggered detail window display when hovered over. Following is the visualization with hidden rectangles shown in semi transparent colors:
 
-![Theory Graph](https://raw.githubusercontent.com/jaycode/mathematics-of-love/master/interactive/static/images/docs/2015-09-14-after.PNG)
+![Theory Graph](https://raw.githubusercontent.com/jaycode/mathematics-of-love/master/interactive/static/images/docs/interaction1-after.PNG)
+
+##### Pop-up tour
+
+Below is a comment regarding pop-up tour I got from the last project review (2015-09-21):
+
+> ...The pop-up tour was a little difficult to use because it sat on top of the text or visualisation, obscuring some parts. Could it sit in the top-right-hand corner to avoid this problem?
+
+This has also been mentioned in two of the replies in Google Form:
+
+> One thing that bugged me was that while I was taking the tour of the app, the explanation was right in the center of the screen on top of the actual graphs and such. Finding a way to get the text off of the graphs would have been helpful in understanding your explanation better...
+
+And another one:
+
+> ...I was checking it out on a small laptop screen. When I was running visual presentation pop windows with explanation caused image to constantly jump up and down - it was distracting and annoying. Although I do understand it might be out of your hands...
+
+When there are two or more people requesting the same thing, that means it could be important, so I updated the tour section. Following is the screenshot:
+
+![Theory Graph](https://raw.githubusercontent.com/jaycode/mathematics-of-love/master/interactive/static/images/docs/interaction2-after.PNG)
+
+With this new version, the window stays on top right of the page. To help with the visualization, I highlighted the parts currently being explained.
+
+##### Replaying the tour
+
+In one of the Google Form replies I received this:
+> ...Finally, I would have liked a button that would allow me to read the introduction for the app again after I've played with it a bit. 
+
+Unfortunately this may take quite a bit of time to do. It gets quite complicated if you have generated your own dataset (although quite possible to do), anyway since this is possible to do by refreshing the page and only requested once, let's put this in Todo list.
 
 #### Content related feedback
 
+There are a couple of content related feedback from different people:
 
+From Google+ group:
+
+![Theory Graph](https://raw.githubusercontent.com/jaycode/mathematics-of-love/master/interactive/static/images/docs/content1-f1.PNG)
+
+![Theory Graph](https://raw.githubusercontent.com/jaycode/mathematics-of-love/master/interactive/static/images/docs/content1-f2.PNG)
+
+It seems like some information do need to be removed. There are also other comments regarding this matter, both verbally and written (and, well... implied).
+
+From Google Form replies:
+
+> I think r should be defined as something like "number of candidates automatically rejected" or something, because you may end up rejecting many candidates after the rejection period.
+
+`r` cannot be defined like that since the process requires you to record as well as rejecting.
+
+> The simulation is fine but .  .  .  
+When I'm faced with this sort of problem is use some actual numbers, maybe 5 applicants, then 10, then 20, etc., to gain some insight on where this is going. 
+
+That is actually possible to do by generating own dataset.
+
+> Maybe a short video (1-2 minutes) explaining the "science behind" the research.
+
+Sorry but maybe not since I am not good with videos.
+
+> Compatability score on y axis is from from -1.5 to 2.0, but if I will hover over bars it will range from -150 to 200 ( give or take ) with no explanation of how compatibility score is calculated or mapped to the Y axis.
 

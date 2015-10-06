@@ -26,81 +26,24 @@
     <header class="row">
       <div class="small-12 columns">
         <img class="main_image" src="{{ url_for('static', filename='images/screenshot.PNG') }}" title="When is The Right Time to Settle Down?" />
-        <h5 class="subheader">The Mathematics of Love</h5>
+        <h5 class="subheader">The Mathematics of Love | <a href="{{ url_for('index') }}">The App</a>
+        <a class="alt_link" href="{{ url_for('concept') }}">read mathematical explanation</a>
+        </h5>
         <h1>When is The Right Time to Settle Down?</h1>
-        <h4 class="subheader">Proving 37% Rule + Visual Explanation of Optimal Stopping Theory</h4>
+        <h4 class="subheader">Using Mathematics to Find The Right Partner.</h4>
         <!--<div class="panel callout radius">
           Hey there! This article is one of my final projects at <a href="http://udacity.com" target="_blank" rel="nofollow">Udacity.com</a> and they need me to collect some feedbacks, so if you could <a href="http://goo.gl/forms/5X3hO6CGFl" target="_blank" rel="nofollow" >answer some questions in this form</a>, that would help me a lot and it will <b>bring you good luck in your love life</b>. 
         </div>-->
         <p>
           In finding the right partner for the rest of your life, you don't want to keep hoping the next suitor will be better and risk not finding anyone. On the other hand, "cashing in" too quickly may end you up in a suboptimal relationship.
         </p>
-        <p>
-          What is, then, the right strategy to pass / accept next potential partners with the highest probability to get us the right person with the less risk of failure? Turns out, there's a strategy called <b>the 37% rule</b> where if you reject all 37% of the candidates you met, then accept the next candidate who is better than everybody you rejected, you are most likely to end with the best candidate out of everyone (this problem is called the secretary problem</a> and was well discussed back then).
-        </p>
         <p>I got introduced into this idea from the book by <b>Hannah Fry</b> called <a target="_blank" href="https://www.ted.com/read/ted-books/ted-books-library/the-mathematics-of-love">The Mathematics of Love</a>. There are several other interesting insights there, where she framed the very abstract concept of love in the verbosity of Mathematics.
         </p>
         <p>
-          For me, what interest me the most is proving this theory using programming. I reproduced the experiment shown in that book where a number of lifetimes with different number of people met and with different compatibilities are simulated, then tried to follow <b>X% rejection strategy</b> to find out what the best <b>X</b> is. 
+          Those mathematically inclined may read <a href="{{url_for('concept')}}">mathematical explanation of Optimal Stopping Theory</a>, but the rest of us may proceed below.
         </p>
       </div>
     </header>
-    <article class="row">
-      <div class="small-12 columns">
-        <h2>Why 37% ?</h2>
-        <p>
-          As it turned out, this problem is similar to one of the problems learned in Mathematics called <a target="_blank" href="https://en.wikipedia.org/wiki/Secretary_problem">The secretary problem</a>. The secretary problem is one of many names for a famous problem of the <b>optimal stopping theory</b>. The problem has been studied extensively in the fields of applied probability, statistics, and decision theory.</p>
-        <p>The basic form of the problem is the following:</p>
-        <ul>
-          <li>Imagine an administrator willing to hire the best secretary out of n rankable applicants for a position.</li>
-          <li>The applicants are interviewed one by one in random order.</li>
-          <li>A decision about each particular applicant is to be made immediately after the interview.</li>
-          <li>Once rejected, an applicant cannot be recalled.</li>
-          <li>During the interview, the administrator can rank the applicant among all applicants interviewed so far, but is unaware of the quality of yet unseen applicants.</li>
-          <li>The decision must be made immediately.</li>
-        </ul>
-        <p>And to solve this problem, as quoted from <a target="_blank" href="https://en.wikipedia.org/wiki/Secretary_problem">Wikipedia</a>:</p>
-        <blockquote>
-          <p>The problem has an elegant solution. The optimal stopping rule prescribes always <strong>rejecting the first n/e applicants</strong> after the interview (where e is the base of the natural logarithm) and then <strong>stopping at the first applicant who is better than every applicant interviewed so far</strong> (or continuing to the last applicant if this never occurs). Sometimes this strategy is called the <strong>1/e stopping rule</strong>, because the probability of stopping at the best applicant with this strategy is about <strong>1/e</strong> already for moderate values of <strong>n</strong>.</p>
-        </blockquote>
-        <p><b>So where did 37% come from?</b> The answer lies in this sentence:</p>
-        <blockquote>
-        because the probability of stopping at the best applicant with this strategy is about 1/e already for moderate values of n.
-        </blockquote>
-        <p><i>e</i> is the transcendental number that is the base of Napierian or natural logarithms, approximately equal to <b>2.71828</b>. Thus:</p>
-        <pre>
-1/e = 1/2.71828
-    = 0.3679</pre>
-        <p>And <i>that's where <b>37%</b> comes from.</i></p>
-      </div>
-    </article>
-    <article class="row">
-      <div class="small-12 columns">
-        <h2>The mathematics behind 37% rule</h2>
-
-        <p>The formula for <b>Optimal Stopping</b> is relatively simple:</p>
-        <p><img src="{{ url_for('static', filename='images/formula.png') }}" alt="Optimal Stopping formula"></p>
-        <p>Where:<p>
-        <ul>
-          <li>P(r) = Chance that we can find optimal candidate when we rejected r number of candidates.</li>
-          <li>n = Number of candidates</li>
-          <li>r = Rejected candidates</li>
-        </ul>
-        <p>For example: With 10 candidates and stopping time at 5th person,</p>
-        <div class="row">
-          <div class="small-12 medium-7 columns end">
-        <pre>
-P(5) = 4/10 * (1/4 + 1/5 + 1/6 + 1/7 + 1/8 + 1/9)
-     = 0.398</pre>
-          </div>
-        </div>
-
-        <p>or <b>39.8%</b> chance that we will find best candidate if we follow the strategy.</p>
-        <p>From that formula, the optimal value of r can be approximated as <b>1/e</b>. Being able to find That is actually a perk of being good at calculus, which I'm not. In my case, then, instead of proving it mathematically (which you can find in Wikipedia) the only way to prove it is to program it by plotting a scenario of, say, 100 candidates with several stopping times, to see where the largest <b>P(r)</b> is:</p>
-        <div id="intro_viz"></div>
-        <p>From the above plot it's clear that the optimal value is located around the 37%-ish.</p>
-      </div>
-    </article>
     <article class="row">
       <div class="small-12 columns">
         <h2>Interactive Simulation of Our Dating Strategy</h2>

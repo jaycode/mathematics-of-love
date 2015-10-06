@@ -208,6 +208,11 @@ I also recorded my friend's recommendation as an [audio file](https://drive.goog
 
 ### Changes from Feedback Comments
 
+To summarize the changes, I stored past iterations in saved html archives:
+
+- [version 0](http://mathoflove.teguhwijaya.com/static/archives/v0.html) - When the app has just launched and during the time it was gathering some feedback from community.
+- [version 1](http://mathoflove.teguhwijaya.com/static/archives/v1.html) - After the feedback suggestions applied except for content related updates.
+
 #### Design related feedback
 
 Most design related feedback were targeted for Lifetime Simulation page.
@@ -371,16 +376,29 @@ Another feedback came in [audio form](https://drive.google.com/file/d/0B2ib3M3ot
 > 
 > Thank you.
 
-Looks like reducing the content is quite important as there was also another feedback that suggested that from my project's review:
+This opinion seems to be shared among my other friends whom I've asked to try out this app.
+
+And finally, a feedback from reviewer of this project, Charlotte Turner:
 
 > You could do a clearer job of explaining the objective and the algorithm used here. My understanding is that the objective is to choose the very best possible candidate out of a set.
 I thought this led to a rather depressing finding; only 37% chance of success?! You could comment on this finding and thus make your case for relaxing the success criterion to be the 'top x%', as shown later in the visualisation. I had to guess what was meant by these 'top x%' for myself, it would be nicer to introduce them and explain why you included them.
 
+Added some explanation to the tour, and hopefully the new content structure makes this better.
+
 > The fact that 1/e (37%) appears both in the strategy and in the result could be clarified. A mathematical formula is confusingly included without explanation (are you able to justify it?) and its link to 1/e is unclear. As always when presenting mathematics to a general audience, there is a balance to be struck in the level of detail. The example provided is a bit confusing. Why does it yield a value higher than 37%?
 
+Back then I didn't want to include too much detail, but felt like I had to. I guess the solution for this is to place the deep and complete mathematical concept to a different page.
+
 > I would prefer you to change references to 'proving' the rule to 'testing' or 'demonstrating' or 'showing' the rule; this is a mathematical concept and a simulation is not a mathematical proof!
+
+Updated.
 
 > There is quite a lot of text on the page, which provides a fun narrative voice. However, you should consider whether less text would be sufficient and hence allow the visualisations a little more room to shine.
 
 ##### Reducing the content
 
+From these content-related feedback, including the ones from Eric and Charlotte, it was very clear that the amount of content needs to be reduced to eliminate the possibility of users quitting before even trying the app.
+
+Instead of removing the content altogether, I created another page especially made to explain only the mathematically dense materials, while keeping the visualization as highlight of the main page.
+
+The version before this update can be seen [here](http://mathoflove.teguhwijaya.com/static/archives/v0.html), while this last content update is available [live](http://mathoflove.teguhwijaya.com).

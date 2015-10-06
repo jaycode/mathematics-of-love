@@ -6,12 +6,12 @@ app = Flask(__name__)
 
 @app.route('/')
 @app.route('/index')
-def run_index():
+def index():
   return render_template('index.html')
 
-@app.route('/docs')
-def documentation():
-  return app.send_static_file('docs/index.html')
+@app.route('/concept')
+def concept():
+  return render_template('concept.html')
 
 @app.route('/data/intro')
 def read_data_intro():

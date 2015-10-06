@@ -47,7 +47,9 @@ var app = app || {};
         },
         {
           title: 'Rejection Phase',
-          content: 'In here, we use the magic number 37% as our Rejection Phase, which means...',
+          content: 'In here, we use the magic number 37% as our Rejection Phase, which means...<br /><br />' +
+          '<i>Why 37%? Because, in optimal stopping theory, that gives the highest success probability. This is explained ' +
+          '<a target="_blank" href="concept">here</a> if you are interested to know more.</i>',
           onShown: function(tour) {
             d3.select('#detail-rp')
               .transition()
@@ -140,7 +142,6 @@ var app = app || {};
           onShown: function(tour) {
             d3.select(d3.selectAll('.bar')[0][7])
               .select('rect')
-              .transition()
               .style('fill', highlightNegColor)
             tour.adjustPos();
           },
@@ -153,7 +154,7 @@ var app = app || {};
         },
         {
           title: "Success Rate",
-          content: "As described in the introduction graph earlier above, using purely Mathematical calculation, we get 37.1% chance " +
+          content: "Using purely Mathematical calculation, we get 37.1% chance " +
           "of success... <br /><b>But wait!</b> that seems <b>terribly low</b>. Are there other ways to improve this?",
           onShown: function(tour) {
             if (d3.select('.goal_section.goal-0').style('opacity') == 1) {
@@ -177,8 +178,8 @@ var app = app || {};
         {
           title: "Relaxing our requirements",
           content: "In fact, there is. By relaxing our requirements to be happy with at least 15% highest candidates, we have improved our " +
-          "chance of success to 55.8%.<br /><br /><i>Wait, I understand that 37.1% success chance earlier came from the mathematical formula, but where " +
-          "did this number came from?</i><br />Relax... This number came from this small experiment that we do, I'll explain in next slides (also how this can be improved further).",
+          "chance of success to 55.8%.<br /><br /><i>Wait, I understand that 37.1% success chance earlier came from a mathematical formula, but where " +
+          "did 55.8% came from?</i><br />This number came from this small experiment that we do, I'll explain in next slides (also how this can be improved further).",
           onShown: function(tour) {
             if (d3.select('.goal_section.goal-0').style('opacity') != 1) {
               for (var i=0;i<3;i++) {

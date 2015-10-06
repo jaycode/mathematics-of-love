@@ -40,13 +40,33 @@ var app = app || {};
    * tour window.
    */
   app.getTourSettings = function() {
+    var highlightColor = &#x27;#F9E200&#x27;;
+    var highlightNegColor = &#x27;black&#x27;;
     return {
       // debug: true,
       storage: false,
       orphan: true,
+      onShown: function(tour) {
+        tour.adjustPos();
+      },
+      onStart: function(tour) {
+        for (var i=0;i&amp;lt;3;i++) {
+          d3.select(&#x27;.goal_section.goal-&#x27;+i)
+            .style(&#x27;opacity&#x27;, 1)
+            .transition()
+            .style(&#x27;opacity&#x27;, 0);
+        };
+      },
+      onEnd: function(tour) {
+        for (var i=0;i&amp;lt;3;i++) {
+          d3.select(&#x27;.goal_section.goal-&#x27;+i)
+            .style(&#x27;opacity&#x27;, 0)
+            .transition()
+            .style(&#x27;opacity&#x27;, 1);
+        };
+      },
       steps: [
         {
-          orphan: true,
           title: &#x27;Introduction to Optimal Stopping Theory&#x27;,
           content: &#x27;This is a simulation of what may happen when we &#x27; +
           &#x27;apply optimal stopping theory to choose from a set of candidates.&amp;lt;br /&gt;&#x27; +
@@ -57,42 +77,64 @@ var app = app || {};
           &#x27;&amp;lt;/ol&gt;&#x27;
         },
         {
-          element: &#x27;#detail-rp&#x27;,
           title: &#x27;Rejection Phase&#x27;,
-          content: &#x27;In here, we use the magic number 37% as our Rejection Phase, which means...&#x27;,
+          content: &#x27;In here, we use the magic number 37% as our Rejection Phase, which means...&amp;lt;br /&gt;&amp;lt;br /&gt;&#x27; +
+          &#x27;&amp;lt;i&gt;Why 37%? Because, in optimal stopping theory, that gives the highest success probability. This is explained &#x27; +
+          &#x27;&amp;lt;a target=&quot;_blank&quot; href=&quot;concept&quot;&gt;here&amp;lt;/a&gt; if you are interested to know more.&amp;lt;/i&gt;&#x27;,
+          onShown: function(tour) {
+            d3.select(&#x27;#detail-rp&#x27;)
+              .transition()
+              .style(&#x27;background-color&#x27;, highlightColor);
+            tour.adjustPos();
+          },
+          onHide: function(tour) {
+            d3.select(&#x27;#detail-rp&#x27;)
+              .transition()
+              .style(&#x27;background-color&#x27;, null);
+          }
         },
         {
-          element: &#x27;#r_phase&#x27;,
           title: &#x27;Reject 37% candidates&#x27;,
           content: &#x27;First we reject 37% of all candidates and take note of their compatibility scores.&#x27;,
-          topOffset: 100,
+          onShown: function(tour) {
+            d3.select(&#x27;#r_phase rect&#x27;)
+              .transition()
+              .style(&#x27;fill&#x27;, highlightColor);
+            tour.adjustPos();
+          },
+          onHide: function(tour) {
+            d3.select(&#x27;#r_phase rect&#x27;)
+              .transition()
+              .style(&#x27;fill&#x27;, null);
+          }
         },
         {
-          element: &#x27;.marker.chosen&#x27;,
           title: &#x27;Choose the next better candidate&#x27;,
           content: &#x27;Then at the end of that rejection period, pick the first candidate who is better than &#x27; +
           &#x27;the rest we have rejected.&#x27;,
-          topOffset: 130,
-          onShown: function(tour) {
-            tour.slightlyRight();
-          },
           onNext: function(tour) {
             app.vm.CurrentDetail.lifetime(422);
             app.detail.redrawPlot(function() {
               tour.goTo(tour.getCurrentStep()+1);
             });
+          },
+          onShown: function(tour) {
+            d3.select(&#x27;.chart rect.focus&#x27;)
+              .transition()
+              .style(&#x27;fill&#x27;, highlightColor);
+            tour.adjustPos();
+          },
+          onHide: function(tour) {
+            d3.select(&#x27;.chart rect.focus&#x27;)
+              .transition()
+              .style(&#x27;fill&#x27;, null);
           }
         },
         {
-          element: &#x27;.marker.top&#x27;,
           title: &#x27;Where things could go wrong (1)&#x27;,
           content: &quot;Of course, it&#x27;s well possible that we may meet the best candidate during our rejection phase. &quot; +
           &quot;And since the strategy requires us to reject them, we will then end up not finding anyone better, grow old and die alone, &quot; +
           &quot;probably nursing a deep hatred towards Mathematical equations.&quot;,
-          topOffset: 130,
-          onShown: function(tour) {
-            tour.slightlyRight();
-          },
           onNext: function(tour) {
             app.vm.CurrentDetail.lifetime(430);
             app.detail.redrawPlot(function() {
@@ -104,46 +146,89 @@ var app = app || {};
             app.detail.redrawPlot(function() {
               tour.goTo(tour.getCurrentStep()-1);
             });
+          },
+          onShown: function(tour) {
+            d3.select(&#x27;.chart rect.focus&#x27;)
+              .transition()
+              .style(&#x27;fill&#x27;, highlightNegColor);
+            tour.adjustPos();
+          },
+          onHide: function(tour) {
+            d3.select(&#x27;.chart rect.focus&#x27;)
+              .transition()
+              .style(&#x27;fill&#x27;, null);
           }
         },
         {
-          element: &#x27;.marker.chosen&#x27;,
           title: &#x27;Where things could go wrong (2)&#x27;,
-          placement: &#x27;top&#x27;,
           content: &quot;On the other hand, it is quite possible too that during our rejection phase we may have only a streak of awful dates, &quot; +
           &quot;and the person right after that rejection phase is just marginally better. According to the strategy, again, we would have &quot; +
           &quot;to pick this person and end up with a suboptimal marriage.&quot;,
-          onShown: function(tour) {
-            $(&#x27;.popover&#x27;).css(&#x27;left&#x27;, parseFloat($(&#x27;.popover&#x27;).css(&#x27;left&#x27;))-180);
-            $(&#x27;.popover&#x27;).css(&#x27;top&#x27;, parseFloat($(&#x27;.popover&#x27;).css(&#x27;top&#x27;))-5);
-          },
           onPrev: function(tour) {
             app.vm.CurrentDetail.lifetime(422);
             app.detail.redrawPlot(function() {
               tour.goTo(tour.getCurrentStep()-1);
             });
+          },
+          onShown: function(tour) {
+            d3.select(d3.selectAll(&#x27;.bar&#x27;)[0][7])
+              .select(&#x27;rect&#x27;)
+              .style(&#x27;fill&#x27;, highlightNegColor)
+            tour.adjustPos();
+          },
+          onHide: function(tour) {
+            d3.select(d3.selectAll(&#x27;.bar&#x27;)[0][7])
+              .select(&#x27;rect&#x27;)
+              .transition()
+              .style(&#x27;fill&#x27;, null)
           }
         },
         {
-          element: &#x27;.goal_section.goal-3&#x27;,
           title: &quot;Success Rate&quot;,
-          content: &quot;As described in the introduction graph earlier above, using purely Mathematical calculation, we get 37.1% chance &quot; +
-          &quot;of success.&quot;,
+          content: &quot;Using purely Mathematical calculation, we get 37.1% chance &quot; +
+          &quot;of success... &amp;lt;br /&gt;&amp;lt;b&gt;But wait!&amp;lt;/b&gt; that seems &amp;lt;b&gt;terribly low&amp;lt;/b&gt;. Are there other ways to improve this?&quot;,
           onShown: function(tour) {
-            for (var i=0;i&amp;lt;3;i++) {
-              d3.select(&#x27;.goal_section.goal-&#x27;+i)
-                .style(&#x27;opacity&#x27;, 1)
-                .transition()
-                .style(&#x27;opacity&#x27;, 0);
+            if (d3.select(&#x27;.goal_section.goal-0&#x27;).style(&#x27;opacity&#x27;) == 1) {
+              for (var i=0;i&amp;lt;3;i++) {
+                d3.select(&#x27;.goal_section.goal-&#x27;+i)
+                  .transition()
+                  .style(&#x27;opacity&#x27;, 0);
+              };
             }
+            d3.select(&#x27;.goal-3 .goal_success_rate&#x27;)
+              .transition()
+              .style(&#x27;background-color&#x27;, highlightColor);
+            tour.adjustPos();
           },
           onHide: function(tour) {
-            for (var i=0;i&amp;lt;3;i++) {
-              d3.select(&#x27;.goal_section.goal-&#x27;+i)
-                .style(&#x27;opacity&#x27;, 0)
-                .transition()
-                .style(&#x27;opacity&#x27;, 1);
+            d3.select(&#x27;.goal-3 .goal_success_rate&#x27;)
+              .transition()
+              .style(&#x27;background-color&#x27;, null);
+          },
+        },
+        {
+          title: &quot;Relaxing our requirements&quot;,
+          content: &quot;In fact, there is. By relaxing our requirements to be happy with at least 15% highest candidates, we have improved our &quot; +
+          &quot;chance of success to 55.8%.&amp;lt;br /&gt;&amp;lt;br /&gt;&amp;lt;i&gt;Wait, I understand that 37.1% success chance earlier came from a mathematical formula, but where &quot; +
+          &quot;did 55.8% came from?&amp;lt;/i&gt;&amp;lt;br /&gt;This number came from this small experiment that we do, I&#x27;ll explain in next slides (also how this can be improved further).&quot;,
+          onShown: function(tour) {
+            if (d3.select(&#x27;.goal_section.goal-0&#x27;).style(&#x27;opacity&#x27;) != 1) {
+              for (var i=0;i&amp;lt;3;i++) {
+                d3.select(&#x27;.goal_section.goal-&#x27;+i)
+                  .style(&#x27;opacity&#x27;, 0)
+                  .transition()
+                  .style(&#x27;opacity&#x27;, 1);
+              };
             }
+            d3.select(&#x27;.goal-2 .goal_success_rate&#x27;)
+              .transition()
+              .style(&#x27;background-color&#x27;, highlightColor);
+            tour.adjustPos();
+          },
+          onHide: function(tour) {
+            d3.select(&#x27;.goal-2 .goal_success_rate&#x27;)
+              .transition()
+              .style(&#x27;background-color&#x27;, null);
           },
           onNext: function(tour) {
             app.generated.view(function() {
@@ -152,8 +237,6 @@ var app = app || {};
           }
         },
         {
-          // element: &#x27;#sa-view_generated_dataset&#x27;,
-          orphan: true,
           title: &quot;A bigger picture&quot;,
           content: &quot;Let&#x27;s now see a bigger picture of this experiment. We have here a randomly generated dataset of 1,000 lifetimes, each with &quot; +
           &quot;different number of candidates and compatibility scores. You can see the details and distribution of generated dataset in this page.&quot;,
@@ -161,89 +244,106 @@ var app = app || {};
             app.detail.view(function() {
               tour.goTo(tour.getCurrentStep()-1);
             });
-          }
+          },
+          onShown: function(tour) {
+            d3.selectAll(&#x27;.tour-highlight&#x27;)
+              .transition()
+              .style(&#x27;background-color&#x27;, highlightColor);
+            tour.adjustPos();
+          },
+          onHide: function(tour) {
+            d3.selectAll(&#x27;.tour-highlight&#x27;)
+              .transition()
+              .style(&#x27;background-color&#x27;, null);
+          },
         },
         {
-          element: &#x27;#generated-p2&#x27;,
           title: &quot;Dating Period and Yearly Potential Partners.&quot;,
           content: &quot;In our dataset, we set some rule for data generation. In this example, we consider a person who is dating from age &quot;+
           app.vm.Experiment.a1()+&quot; to &quot;+app.vm.Experiment.a2()+&quot; and dating &quot;+app.vm.Experiment.p1()+&quot; to &quot;+app.vm.Experiment.p2() +
           &quot; candidates each year (which is a really low estimate according to &amp;lt;a href=&#x27;http://www.femalefirst.co.uk/relationships/Women+Date+24+Men+A+Year-268977.html&#x27; target=&#x27;_blank&#x27; rel=&#x27;nofollow&#x27;&gt;this research&amp;lt;/a&gt;).&quot;,
           onShown: function(tour) {
             d3.select(&#x27;#generated-dating_period&#x27;)
-              .style(&#x27;text-decoration&#x27;, &#x27;underline&#x27;);
+              .transition()
+              .style(&#x27;background-color&#x27;, highlightColor);
             d3.select(&#x27;#generated-potential_partners&#x27;)
-              .style(&#x27;text-decoration&#x27;, &#x27;underline&#x27;);
+              .transition()
+              .style(&#x27;background-color&#x27;, highlightColor);
+            tour.adjustPos();
           },
           onHide: function(tour) {
             d3.select(&#x27;#generated-dating_period&#x27;)
-              .style(&#x27;text-decoration&#x27;, &#x27;inherit&#x27;);
+              .transition()
+              .style(&#x27;background-color&#x27;, null);
             d3.select(&#x27;#generated-potential_partners&#x27;)
-              .style(&#x27;text-decoration&#x27;, &#x27;inherit&#x27;);
+              .transition()
+              .style(&#x27;background-color&#x27;, null);
           }
         },
         {
-          element: &#x27;#generated-plot_area&#x27;,
-          placement: &#x27;top&#x27;,
           title: &quot;Distribution of our Dataset&quot;,
           content: &quot;Below graphs show the distribution of number and scores of candidates throughout lifetimes, which means how many lifetimes have how many &quot; +
           &quot;candidates and how big the average scores of these candidates. To make it a little more realistic I set it up with normal distribution (&quot; +
-          &quot;i.e. most of the values are in the middle), since we don&#x27;t really meet psycopaths or A-class single rockstars (or cool scientists, if thats&#x27; your thing) everyday.&quot;,
-          topOffset: 50,
+          &quot;i.e. most of the values are in the middle), since we don&#x27;t really meet psycopaths or A-class single rockstars (or cool scientists, if that&#x27;s your thing) everyday.&quot;,
           onNext: function(tour) {
             app.simulationAnalysis.view(function() {
               tour.goTo(tour.getCurrentStep()+1);
             });
-          }
+          },
+          onShown: function(tour) {
+            d3.selectAll(&#x27;#generated-plot_area svg&#x27;)
+              .transition()
+              .style(&#x27;background-color&#x27;, highlightColor);
+            tour.adjustPos();
+          },
+          onHide: function(tour) {
+            d3.selectAll(&#x27;#generated-plot_area svg&#x27;)
+              .transition()
+              .style(&#x27;background-color&#x27;, null);
+          },
         },
         {
-          orphan: true,
           title: &quot;Analyzing our simulation results&quot;,
           content: &quot;By repeating the simulation we did previously over our dataset and taking notes on our results, we get the following graph.&quot;,
-          topOffset: 180,
-          onShown: function(tour) {
-            $(&#x27;.popover&#x27;).css(&#x27;top&#x27;, parseFloat($(&#x27;.popover&#x27;).css(&#x27;top&#x27;))+80);
-          },
           onPrev: function(tour) {
             app.generated.view(function() {
-              tour.goTo(tour.getCurrentStep()+1);
+              tour.goTo(tour.getCurrentStep()-1);
             });
           }
         },
         {
-          element: &#x27;.add_goal&#x27;,
           title: &quot;Busting the magic number 37%&quot;,
-          content: &quot;See that 37% is not all too magical when we relax our criteria to 15%. Instead the magic seems to happen at around 23% rejection phase.&quot;,
-          topOffset: 240,
-          onShown: function(tour) {
-            $(&#x27;.popover&#x27;).css(&#x27;top&#x27;, parseFloat($(&#x27;.popover&#x27;).css(&#x27;top&#x27;))+180);
-          },
+          content: &quot;See that 37% is not all too magical when we relax our criteria to 15%. Instead the highest success rates seem to happen &quot; +
+          &quot;at around 22-23% rejection phase. To improve your success rate further, rather than relaxing the criteria further, you can also &quot; +
+          &quot;try to add the number of people you meet, or increase the range of your dating age.&quot;,
         },
         {
-          element: &#x27;.add_goal&#x27;,
           title: &quot;Pattern found in the dataset&quot;,
           content: &quot;To me, what is more interesting in this graph is how the Mathematical equation can quite closely predict the pattern of the &quot; +
           &quot;dataset. Imagine that, &amp;lt;b&gt;a set of randomly generated numbers&amp;lt;/b&gt; can be guessed in close accuracy using a single equation.&amp;lt;br /&gt;&quot; +
           &quot;Imagine the usefulness of this in other fields, for example in predicting the right portfolio to pick in Finance, or finding out the rate of &quot; +
           &quot;production failures in Aircraft jet engine factories.&quot;,
-          topOffset: 240,
-          onShown: function(tour) {
-            $(&#x27;.popover&#x27;).css(&#x27;top&#x27;, parseFloat($(&#x27;.popover&#x27;).css(&#x27;top&#x27;))+180);
+          onNext: function(tour) {
+            app.generate.view(function() {
+              tour.goTo(tour.getCurrentStep()+1);
+            });
           },
         },
         {
-          orphan: true,
           title: &quot;Now Explore!&quot;,
           content: &quot;Hopefully this brief introduction helped you to understand how Optimal Stopping Theory works for this particular problem.&amp;lt;br /&gt;&quot; +
           &quot;Now that you know where things are, you can tailor this experiment to your personal scenario and planning.&amp;lt;br /&gt;&quot; +
           &#x27;Click on &quot;Generate Different Dataset&quot; link and create your own experiment. Here are some ideas:&#x27; +
-          &#x27;&amp;lt;ul&gt;&amp;lt;li&gt;You may notice that our &quot;Top 1&quot; and &quot;Top 5%&quot; results are exactly the same.&#x27; +
-          &quot; That was caused by the lacking number of people met per year, that made 5% of all candidates less than 1 person. You can try higher &quot; +
-          &quot; numbers here.&amp;lt;/li&gt;&quot;+
+          &#x27;&amp;lt;ul&gt;&#x27;+
           &quot;&amp;lt;li&gt;What&#x27;s your dating strategy? How many people are you planning / likely to meet each year? You can adjust that to see how it affects &quot; +
           &quot;your success rate.&amp;lt;/li&gt;&quot;+
           &quot;&amp;lt;li&gt;Try out with a larger number of lifetimes, say 2,000. See how that will make the pattern more prominent.&amp;lt;/li&gt;&quot; +
-          &quot;&amp;lt;/ul&gt;&amp;lt;br /&gt;Have Fun!&quot;
+          &quot;&amp;lt;/ul&gt;&amp;lt;br /&gt;Have Fun!&quot;,
+          onPrev: function(tour) {
+            app.simulationAnalysis.view(function() {
+              tour.goTo(tour.getCurrentStep()-1);
+            });
+          },
         }
       ]
     }
@@ -251,8 +351,9 @@ var app = app || {};
 
   app.setupTourFunctions = function(){
     // Move the popover window slightly right.
-    app.tour.slightlyRight = function() {
-      $(&#x27;.popover&#x27;).css(&#x27;left&#x27;, parseFloat($(&#x27;.popover&#x27;).css(&#x27;left&#x27;))+30);
+    app.tour.adjustPos = function() {
+      $(&#x27;.popover&#x27;).css(&#x27;top&#x27;, 0);
+      $(&#x27;.popover&#x27;).css(&#x27;left&#x27;, window.innerWidth - parseFloat($(&#x27;.popover&#x27;).css(&#x27;width&#x27;)));
     };
   }
 
@@ -266,7 +367,7 @@ var app = app || {};
   <footer id="jsdoc-footer" class="jsdoc-footer">
     <div id="jsdoc-footer-container">
       <p>
-        Generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc</a> 3.3.3 on October 5, 2015.
+        Generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc</a> 3.3.3 on October 7, 2015.
       </p>
     </div>
   </footer>

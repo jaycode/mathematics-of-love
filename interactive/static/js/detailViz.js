@@ -284,7 +284,7 @@ var app = app || {};
         var extent = self.yExtent;
 
         return "<strong>Candidate #</strong><span>" + d['id'] + "</span><br />" +
-        "<strong>Score:</strong> <span style='color:red'>" + Math.round(yFunc(d)*10000)/100 +
+        "<strong>Score:</strong> <span style='color:red'>" + Math.round(yFunc(d)*100)/100 +
           "</span> <span>("+Math.round( ((d['candidate_score']-extent[0]) / ((extent[1]-self.yExtentOffset)-extent[0]))*10000)/100+"%)</span>";
       });
 

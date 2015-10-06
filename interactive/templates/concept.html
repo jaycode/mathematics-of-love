@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>When is The Right Time to Settle Down?</title>
+    <meta charset="utf-8">
+    <meta property="og:title" content="When is The Right Time to Settle Down?" />
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="http://mathoflove.teguhwijaya.com" />
+    <meta property="og:image" content="{{ url_for('static', filename='images/screenshot.PNG', _external=True) }}" />
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/app.css') }}" />
+    <link rel="shortcut icon" href="{{ url_for('static', filename='images/favicon.ico') }}">
+
+    <script src="{{ url_for('static', filename='bower_components/jquery/dist/jquery.min.js') }}"></script>
+    <!--
+    No need to load what we don't use.
+    <script src="{{ url_for('static', filename='bower_components/foundation/js/foundation.min.js') }}"></script>
+    -->
+    <script src="{{ url_for('static', filename='bower_components/underscore/underscore-min.js') }}"></script>
+    <script src="{{ url_for('static', filename='bower_components/knockout/dist/knockout.js') }}"></script>
+    <script src="{{ url_for('static', filename='bower_components/d3/d3.min.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/d3-tip/d3-tip.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/d3-slider/d3.slider.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/bootstrap-tour/my-bootstrap-tour-standalone.js') }}"></script>
+  </head>
+  <body>
+    <header class="row">
+      <div class="small-12 columns">
+        <img class="main_image" src="{{ url_for('static', filename='images/screenshot.PNG') }}" title="When is The Right Time to Settle Down?" />
+        <h5 class="subheader">The Mathematics of Love | <a href="{{ url_for('concept') }}">The Concept</a>
+          <a class="alt_link" href="{{ url_for('index') }}">go back to App</a>
+        </h5>
+        <h1>When is The Right Time to Settle Down?</h1>
+        <h4 class="subheader">Mathematical Explanation of 37% Rule in Optimal Stopping Theory</h4>
+
+        <p>
+          What is the right strategy to pass / accept next potential partners with the highest probability to get us the right person with the less risk of failure? Turns out, there's a strategy called <b>the 37% rule</b> where if you reject all 37% of the candidates you met, then accept the next candidate who is better than everybody you rejected, you are most likely to end with the best candidate out of everyone (this problem is called the secretary problem</a> and was well discussed back then).
+        </p>
+        <h2>Why 37% ?</h2>
+        <p>
+          As it turned out, this problem is similar to one of the problems learned in Mathematics called <a target="_blank" href="https://en.wikipedia.org/wiki/Secretary_problem">The secretary problem</a>. The secretary problem is one of many names for a famous problem of the <b>optimal stopping theory</b>. The problem has been studied extensively in the fields of applied probability, statistics, and decision theory.</p>
+        <p>The basic form of the problem is the following:</p>
+        <ul>
+          <li>Imagine an administrator willing to hire the best secretary out of n rankable applicants for a position.</li>
+          <li>The applicants are interviewed one by one in random order.</li>
+          <li>A decision about each particular applicant is to be made immediately after the interview.</li>
+          <li>Once rejected, an applicant cannot be recalled.</li>
+          <li>During the interview, the administrator can rank the applicant among all applicants interviewed so far, but is unaware of the quality of yet unseen applicants.</li>
+          <li>The decision must be made immediately.</li>
+        </ul>
+        <p>And to solve this problem, as quoted from <a target="_blank" href="https://en.wikipedia.org/wiki/Secretary_problem">Wikipedia</a>:</p>
+        <blockquote>
+          <p>The problem has an elegant solution. The optimal stopping rule prescribes always <strong>rejecting the first n/e applicants</strong> after the interview (where e is the base of the natural logarithm) and then <strong>stopping at the first applicant who is better than every applicant interviewed so far</strong> (or continuing to the last applicant if this never occurs). Sometimes this strategy is called the <strong>1/e stopping rule</strong>, because the probability of stopping at the best applicant with this strategy is about <strong>1/e</strong> already for moderate values of <strong>n</strong>.</p>
+        </blockquote>
+        <p><b>So where did 37% come from?</b> The answer lies in this sentence:</p>
+        <blockquote>
+        because the probability of stopping at the best applicant with this strategy is about 1/e already for moderate values of n.
+        </blockquote>
+        <p><i>e</i> is the transcendental number that is the base of Napierian or natural logarithms, approximately equal to <b>2.71828</b>. Thus:</p>
+        <pre>
+1/e = 1/2.71828
+    = 0.3679</pre>
+        <p>Alright, but where did it <i>really</i> comes from?</p>
+      </div>
+    </header>
+    <article class="row">
+      <div class="small-12 columns">
+        <h2>The mathematics behind 37% rule</h2>
+
+        <p>The formula for <b>Optimal Stopping</b> is relatively simple:</p>
+        <p><img src="{{ url_for('static', filename='images/formula.png') }}" alt="Optimal Stopping formula"></p>
+        <p>Where:<p>
+        <ul>
+          <li>P(r) = Chance that we can find optimal candidate when we rejected r number of candidates.</li>
+          <li>n = Number of candidates</li>
+          <li>r = Rejected candidates</li>
+        </ul>
+        <p>For example: With 10 candidates and stopping time at 5th person,</p>
+        <div class="row">
+          <div class="small-12 medium-7 columns end">
+        <pre>
+P(5) = 4/10 * (1/4 + 1/5 + 1/6 + 1/7 + 1/8 + 1/9)
+     = 0.398</pre>
+          </div>
+        </div>
+
+        <p>or <b>39.8%</b> chance that we will find best candidate if we follow the strategy.</p>
+
+        <p>
+          Letting n tend to infinity, writing x as the limit of r/n, using t for i/n and dt for 1/n,
+          the sum can be approximated by the integral
+        </p>
+        <p>
+          <img src="{{ url_for('static', filename='images/integral.png') }}" alt="P(x)=x \int_{x}^{1}\frac{1}{t}\,dt = -x \log(x)" title="P(x)=x \int_{x}^{1}\frac{1}{t}\,dt = -x \log(x)" />
+        </p>
+        <p>Taking the <b>derivative of P(x)</b> with respect to x, setting it to 0, and solving for x, we find that the optimal x is equal to <b>1/e</b>. Thus, the optimal cutoff <b>tends to n/e</b> as n increases, and the best applicant is selected with probability <b>1/e</b>.
+        </p>
+        <p>Another way to find this is by plotting a scenario of, say, 100 candidates with several stopping times, to see which <b>r</b> gives the largest <b>P(r)</b> value:</p>
+        <div id="intro_viz"></div>
+        <p>From the above plot it's clear that the highest point can be reached after rejecting 35 to 38 candidates (in other words 35 - 38% cutoff points since we have 100 candidates). With larger number of candidates this cutoff point would get closer to <b>37%</b>.</p>
+        <p><a href="{{url_for('index')}}">Back to app</a></p>
+      </div>
+    </article>
+    <div class="row footer text-center">
+      <p>This project was built for my final submission in <a href="http://udacity.com" target="_blank" rel="nofollow">Udacity.com</a>.<br />If you are looking to build a project with similar complexities they have the best resources to learn from.</p>
+      <hr />
+      <div class="trademark">
+        <a href="http://teguhwijaya.com" target="_blank">Jay Teguh Wijaya</a> - 2015
+      </div>
+    </div>
+    <script src="{{ url_for('static', filename='js/data.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/introViz.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/generatedViz.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/mainViz.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/detailVizHelpers.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/detailViz.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/simulationAnalysis.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/detail.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/generate.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/generated.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/app.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/tour.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/images.js') }}"></script>
+  </body>
+</html>

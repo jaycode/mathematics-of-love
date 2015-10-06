@@ -28,7 +28,13 @@
           <article>
             <h1>The Mathematics of Love - When to Settle Down</h1>
             <p><em>Interactive version</em></p>
-            <p>This project is available for viewing here: <a href="http://mathoflove.teguhwijaya.com/">http://mathoflove.teguhwijaya.com/</a></p>
+            <h2>Summary</h2>
+            <p>This project attempts to explain a mathematical concept called &quot;Optimal Stopping Theory&quot; by picking a subject that all people (well, most anyway) can relate to, Love! That, and by utilizing an app users can do small experiments with
+              so they can understand how the algorithm works in their own pace.</p>
+            <p>As a bonus objective, this app is (maybe) also helpful in deciding on a strategy to choose the best partner i.e. by dating how many people per year and deciding on an optimal rejection phase.</p>
+            <p>The app for this project is available here:
+              <a href="http://mathoflove.teguhwijaya.com/">http://mathoflove.teguhwijaya.com/</a></p>
+            <p>A complete documentation of the project's code is available <a href="http://mathoflove.teguhwijaya.com/static/docs/app.html">here</a>.</p>
             <h2>How to Run</h2>
             <p>This section explains how to run this project in your local machine. Please do contact me at te g u h w purw an to [at] gmail [dot] com if you have any question with installation.</p>
             <p>This app needs following python modules:</p>
@@ -53,7 +59,7 @@ npm install load-grunt-tasks</code></pre>
               <li>This project uses Foundation with Grunt, so when you need to update your css, cd to <code>static</code> dir and run <code>grunt</code>. You may then update the scss files and they will be compiled into app.css used in this app.</li>
               <li>Documentation is made with jsdoc with baseline plugin. To export documentation, run <code>jsdoc -t node_modules/jsdoc-baseline static/js/ readme.md</code> from /interactive directory.</li>
             </ul>
-            <h2>Design</h2>
+            <h2>Design Decisions</h2>
             <p>To put it simply, in this project I generate a large number of random numbers and apply a Mathematical concept to explain it. Regarding the eligibility of this project, it has been discussed <a href="https://discussions.udacity.com/t/project-6-is-data-visualization-to-prove-a-mathematical-concept-eligible/29823/6">here in the Udacity forum</a>.</p>
             <p>This app uses various types of visualizations to explain different aspects of the dataset, divided into three major graphs:</p>
             <ul>
@@ -61,6 +67,34 @@ npm install load-grunt-tasks</code></pre>
               <li><strong>Line charts</strong> to read the pattern produced by applying some strategies / Mathematical equations into our dataset.</li>
               <li><strong>Bar chart with a twist</strong> to explain the Mathematical concept.</li>
             </ul>
+            <h3>Reasoning behind the use of interactive line charts in Simulation Analysis page</h3>
+            <p>The beginning of this project dated back in July 2015 when I, just for the fun of it, tried to duplicate the analysis done in a book called Mathematics of Love by Hannah Fry.</p>
+            <p>The work, which was done in R, is available <a href="https://jaycode.github.io/mathematics-of-love/when-to-settle-down.html">here</a>. The lines graph comparing different rejection phases is also available there:</p>
+            <p><img src="https://raw.githubusercontent.com/jaycode/mathematics-of-love/master/interactive/static/images/docs/old_project-3.PNG" alt=""></p>
+            <p>As you can see with a static graph we can only show only a handful of goals, at best. It is also impossible to directly tell from the graph where exactly the highest points are for each goal.</p>
+            <p>Compare that to the version on this app:</p>
+            <p><img src="https://raw.githubusercontent.com/jaycode/mathematics-of-love/master/interactive/static/images/docs/simulation_analysis.PNG" alt=""></p>
+            <p>With this new version, you can add new goals, and hovering on top of the visualization should show a window presenting detailed information of all the three lines, so you can compare them directly (for example, in the above, we can see that
+              in rejection phase 22%, while &quot;theory&quot; line does not differ much with top 5%, it does a lot with top 15% line).</p>
+            <h3>Reasoning behind interactive bar chart in Detail page</h3>
+            <p>This is arguably the most aesthetically appealing visualization in this project, in page &quot;Simulating Single Lifetimes&quot; due to the various animations it has.</p>
+            <p><img src="https://raw.githubusercontent.com/jaycode/mathematics-of-love/master/interactive/static/images/docs/detail.PNG" alt=""></p>
+            <p>The reason for adding this much animations here is to make sure readers can really understand what is exactly happening when we apply &quot;Optimal Stopping Theory&quot; strategy.</p>
+            <p>To do this, each decision marked by the small icons on top of the bars must be subsequently animated to bring out the perception of time i.e. the bars / candidates on the left are met earlier than the right ones.</p>
+            <p>There are also other interactivity in this page users can play with, such as adjusting lifetime to simulate, experimenting with different rejection phase, and showing different goals. All of them are there so users can understand the theory
+              with their own pace by doing small experiments.</p>
+            <h3>Reasoning behind &quot;Generate your own dataset&quot; feature</h3>
+            <p>It's quite obvious I think. An app is only good when it is useful to its user in a personal level. &quot;Generate your own dataset&quot; feature allows user to enter their own scenarios and future strategies e.g. If they want to settle down
+              within the next 2-3 years of their lives, how many people should they start to date each year, and how big should their rejection phase to achieve optimum probability (while still getting a decent partner)?</p>
+            <p>We actually had fun with this app and we managed to use this app for a &quot;dating consultation&quot;.</p>
+            <p><img src="https://raw.githubusercontent.com/jaycode/mathematics-of-love/master/interactive/static/images/docs/generate.PNG" alt=""></p>
+            <h3>Reasoning behind the two histograms displayed in generated dataset page.</h3>
+            <p>These are the histograms showing distribution of generated dataset:</p>
+            <p><img src="https://raw.githubusercontent.com/jaycode/mathematics-of-love/master/interactive/static/images/docs/generated.PNG" alt=""></p>
+            <p>In &quot;Number of Candidates Distribution&quot; histogram, I made sure the bars are center aligned to their respective x values, because they are distinct / categorical values (i.e. there is no age 19.338 in here, for example). As well, I
+              added a small gap between each bar so readers can tell exactly which bar belongs to which value in scale.</p>
+            <p>On the contrary, &quot;Candidate Score Distribution&quot; combines the bars together since candidate scores are continuous.</p>
+            <h2>Summary of updates</h2>
             <p>Due to its size, it is inevitable that this project has experienced many design changes. They can be reviewed in detail from the <a href="https://github.com/jaycode/mathematics-of-love/commits/master">github page of this project</a>, here
               are the overview of the changes:</p>
             <p><strong>3rd of July, 2015</strong></p>
@@ -115,6 +149,7 @@ npm install load-grunt-tasks</code></pre>
               <li>Corrected grammatical and spelling errors, and typos.</li>
               <li>Tiny cosmetic changes.</li>
             </ul>
+            <p><strong>6 Oct 2015</strong> Added JSDoc and updated the app from feedback comments previously not completed. Also added much more documentation.</p>
             <h2>Feedback</h2>
             <p>Some of the discussions were done verbally, but I have also gathered some feedback from other sources for this project.</p>
             <p>For one, thanks to <a href="https://discussions.udacity.com/t/project-6-is-data-visualization-to-prove-a-mathematical-concept-eligible/29823">Charlie and Sheng Kung in Udacity Forum</a> I know that I could use this idea for the project.</p>
@@ -124,6 +159,166 @@ npm install load-grunt-tasks</code></pre>
             <p>The comments are recorded <a href="https://docs.google.com/spreadsheets/d/1i14GTZp2z4G1HT2K1AtUlcOKGxhMZCOue6WZ96z1D8U/edit?usp=sharing">in this publicly available spreadsheet document</a>. I enjoyed reading them, most of them had fun reading
               the article (at the time of writing, at least) and had some really constructive feedback to improve this project further. I will work on this project a bit further after submitting this into the review system, you can always see the latest
               update at its <a href="https://github.com/jaycode/mathematics-of-love/tree/master/interactive">Github page</a>.</p>
+            <p>I also recorded my friend's recommendation as an <a href="https://drive.google.com/file/d/0B2ib3M3otvbDbkNLdnZTb0Q3OG85TjhwYkZLRHA1NHJvYnF3/view?usp=sharing">audio file</a> after presenting this project to him and a couple others.</p>
+            <h3>Changes from Feedback Comments</h3>
+            <p>To summarize the changes, I stored past iterations in saved html archives:</p>
+            <ul>
+              <li><a href="http://mathoflove.teguhwijaya.com/static/archives/v0.html">version 0</a> - When the app has just launched and during the time it was gathering some feedback from community.</li>
+              <li><a href="http://mathoflove.teguhwijaya.com/static/archives/v1.html">version 1</a> - After the feedback suggestions applied except for content related updates.</li>
+            </ul>
+            <h4>Design related feedback</h4>
+            <p>Most design related feedback were targeted for Lifetime Simulation page.</p>
+            <p>The very first version of Design </p>
+            <p><img src="https://raw.githubusercontent.com/jaycode/mathematics-of-love/master/interactive/static/images/docs/design1-before.PNG" alt=""></p>
+            <p>Here are a couple of excellent feedback I received in Google+ discussion forum:</p>
+            <p><img src="https://raw.githubusercontent.com/jaycode/mathematics-of-love/master/interactive/static/images/docs/design1-f1.PNG" alt=""> <img src="https://raw.githubusercontent.com/jaycode/mathematics-of-love/master/interactive/static/images/docs/design1-f2.PNG"
+              alt=""></p>
+            <p>From Google Form:</p>
+            <blockquote>
+              <p>It just needs to be more intuitive. Less busy. I have a degree in math/stats &amp; lot's of programming experience but the &quot;busyness&quot; of it loses me a bit. I'm not trying to be mean. I did read the entire article and clicked through
+                the app. I think it is nice work but it could use some polishing to take it the next level.</p>
+            </blockquote>
+            <p>This suggestion is quite abstract, but I take it maybe it would reduce the business if we can handle the coloring issue.</p>
+            <p>And following from project review:</p>
+            <blockquote>
+              <p>I have just a few comments on how you could improve this even further. I found the navigation between the components of the interactive section quite confusing to use. I wasn't always sure that I could get back to where I'd come from! You
+                could use some static buttons to select the different parts, helping the viewer to stay oriented in the visualisation...[another comment related to interaction - shown in next section]</p>
+              <p>...As mentioned in some of your feedback, for small numbers of lifetimes the 1% and 5% buttons yield similar information. Perhaps they are not both required?</p>
+              <p>Sometimes the 'rejection zone' and Xs on bars look a little out-of-place as the bars go taller than the 'rejection zone' grey, and the writing interacts with the bars; I've included a screenshot. Making the 'rejection zone' taller might
+                solve this; if it will fit on a reasonable-sized screen, that is.
+                <img src="https://raw.githubusercontent.com/jaycode/mathematics-of-love/master/interactive/static/images/docs/design2-before.png" alt=""></p>
+            </blockquote>
+            <h5>Design related changes to Detail Page</h5>
+            <p>Based on design related feedback comments above, the following changes to the Detail page were then made:</p>
+            <ul>
+              <li>Replaced the colors.</li>
+              <li>Added Legends.</li>
+              <li>Removed 5% goal.</li>
+              <li>Added more area on top of bars</li>
+            </ul>
+            <p>Here is a screenshot of the new version:</p>
+            <p><img src="https://raw.githubusercontent.com/jaycode/mathematics-of-love/master/interactive/static/images/docs/design1-after.PNG" alt=""></p>
+            <p>In theory, this new design makes it easier for readers to focus on the information behind the visualizations. The colors next to &quot;Age Met&quot; were useless since the age information has already been decoded in the larger number in X
+              axis.</p>
+            <p>And screenshot of the fixed rejection zone section:</p>
+            <p><img src="https://raw.githubusercontent.com/jaycode/mathematics-of-love/master/interactive/static/images/docs/design2-after.PNG" alt=""></p>
+            <h5>Design related changes to links.</h5>
+            <p>As suggested in the review, I added static links to different pages in this app:</p>
+            <p><img src="https://raw.githubusercontent.com/jaycode/mathematics-of-love/master/interactive/static/images/docs/links_added.PNG" alt=""></p>
+            <h4>Interaction related feedback</h4>
+            <p>Assorted feedback comments from Google Form:</p>
+            <blockquote>
+              <p>...You are suggesting to enter a bigger number for the lifetime, like 2000. But I couldn't enter more than a 1000.</p>
+            </blockquote>
+            <p>I couldn't duplicate this issue so let's leave it until more reports are coming.</p>
+            <h5>Cursor hover in Simulation Analysis page</h5>
+            <p>From Google form, an anonymous user commented as follows:</p>
+            <blockquote>
+              <p>On the simulation analysis graph, you can look at the success rate vs. % rejected for any point on the line. I thought that was great, but I found it to be a bit unsmooth. In particular, I found that it was a little awkward that my cursor
+                had to actually be in contact with one of the lines to change the numbers. For example, if I started at the rejection rate of 10% and wanted to see the success rate for a rejection rate of 20%, I would have to move my mouse onto the line
+                at the 20% mark. I feel like I would have found it more natural if the numbers would change with my cursor's x position regardless of whether it's in contact with a line or not. </p>
+            </blockquote>
+            <p>I updated Simulation Analysis visualization so that the cursor don't have to be positioned exactly on top of a line to show the detail window. I did this by creating rectangles with 0 opacity that triggered detail window display when hovered
+              over. Following is the visualization with hidden rectangles shown in semi transparent colors:</p>
+            <p><img src="https://raw.githubusercontent.com/jaycode/mathematics-of-love/master/interactive/static/images/docs/interaction1-after.PNG" alt=""></p>
+            <h5>Pop-up tour</h5>
+            <p>Below is a comment regarding pop-up tour I got from the last project review (2015-09-21):</p>
+            <blockquote>
+              <p>...The pop-up tour was a little difficult to use because it sat on top of the text or visualisation, obscuring some parts. Could it sit in the top-right-hand corner to avoid this problem?</p>
+            </blockquote>
+            <p>This has also been mentioned in two of the replies in Google Form:</p>
+            <blockquote>
+              <p>One thing that bugged me was that while I was taking the tour of the app, the explanation was right in the center of the screen on top of the actual graphs and such. Finding a way to get the text off of the graphs would have been helpful
+                in understanding your explanation better...</p>
+            </blockquote>
+            <p>And another one:</p>
+            <blockquote>
+              <p>...I was checking it out on a small laptop screen. When I was running visual presentation pop windows with explanation caused image to constantly jump up and down - it was distracting and annoying. Although I do understand it might be out
+                of your hands...</p>
+            </blockquote>
+            <p>And another one:</p>
+            <blockquote>
+              <p>The text overlapped the graph making is hard to understand the graph.</p>
+            </blockquote>
+            <p>When there are two or more people requesting the same thing, that means it could be important, so I updated the tour section. Following is the screenshot:</p>
+            <p><img src="https://raw.githubusercontent.com/jaycode/mathematics-of-love/master/interactive/static/images/docs/interaction2-after.PNG" alt=""></p>
+            <p>With this new version, the window stays on top right of the page. To help with the visualization, I highlighted the parts currently being explained.</p>
+            <h5>Replaying the tour</h5>
+            <p>In one of the Google Form replies I received this:</p>
+            <blockquote>
+              <p>...Finally, I would have liked a button that would allow me to read the introduction for the app again after I've played with it a bit. </p>
+            </blockquote>
+            <p>Unfortunately this may take quite a bit of time to do. It gets quite complicated if you have generated your own dataset (although quite possible to do), anyway since this is possible to do by refreshing the page and only requested once, let's
+              put this in Todo list.</p>
+            <h4>Content related feedback</h4>
+            <p>There are a couple of content related feedback from different people:</p>
+            <p>From Google+ group:</p>
+            <p><img src="https://raw.githubusercontent.com/jaycode/mathematics-of-love/master/interactive/static/images/docs/content1-f1.PNG" alt=""> <img src="https://raw.githubusercontent.com/jaycode/mathematics-of-love/master/interactive/static/images/docs/content1-f2.PNG"
+              alt=""></p>
+            <p>It seems like some information do need to be removed. There are also other comments regarding this matter, both verbally and written (and, well... implied, by some people for not actually trying out the app when I asked them to).</p>
+            <p>From Google Form replies:</p>
+            <blockquote>
+              <p>I think r should be defined as something like &quot;number of candidates automatically rejected&quot; or something, because you may end up rejecting many candidates after the rejection period.</p>
+            </blockquote>
+            <p><code>r</code> cannot be defined like that since the process requires you to record as well as rejecting.</p>
+            <hr>
+            <blockquote>
+              <p>The simulation is fine but . . .
+                <br>When I'm faced with this sort of problem is use some actual numbers, maybe 5 applicants, then 10, then 20, etc., to gain some insight on where this is going. </p>
+            </blockquote>
+            <p>That is actually possible to do by generating own dataset.</p>
+            <hr>
+            <blockquote>
+              <p>Maybe a short video (1-2 minutes) explaining the &quot;science behind&quot; the research.</p>
+            </blockquote>
+            <p>Sorry but maybe not since I am not good with videos.</p>
+            <hr>
+            <blockquote>
+              <p>Compatibility score on y axis is from from -1.5 to 2.0, but if I will hover over bars it will range from -150 to 200 ( give or take ) with no explanation of how compatibility score is calculated or mapped to the Y axis.</p>
+            </blockquote>
+            <p>Nice catch! This was actually a bug. Here are before and after screenshots:</p>
+            <p><img src="https://raw.githubusercontent.com/jaycode/mathematics-of-love/master/interactive/static/images/docs/content2-before.png" alt=""> <img src="https://raw.githubusercontent.com/jaycode/mathematics-of-love/master/interactive/static/images/docs/content2-after.png"
+              alt=""></p>
+            <p>Thank you, anonymous!</p>
+            <hr>
+            <blockquote>
+              <p>&quot;you don't want to keep rejecting the next suitor&quot; doesn't make sense, maybe &quot;you don't want to keep hoping the next suitor will be better&quot; &quot;to quick&quot; should be &quot;too quickly&quot;</p>
+              <p>The opening section has several awkward things. For example, you can't reject the next suitor, only the present one.</p>
+              <p>The rest of it reads much better.</p>
+            </blockquote>
+            <p>Corrected the article as suggested.</p>
+            <hr>
+            <p>Another feedback came in <a href="https://drive.google.com/file/d/0B2ib3M3otvbDbkNLdnZTb0Q3OG85TjhwYkZLRHA1NHJvYnF3/view?usp=sharing">audio form</a>. The transcript as follows:</p>
+            <blockquote>
+              <p>Hi, my name is Eric, I'd like to comment on Jay's Udacity project, the mathematics of love. Back then Jay had shown me the app and applied it to real life situation.</p>
+              <p>I found the material quite interesting and the application of theory is very practical. However I find it really hard to digest the material if I have to read it on my own.</p>
+              <p>My suggestion is to remove the theory section and focus only on the practical parts.</p>
+              <p>Thank you.</p>
+            </blockquote>
+            <p>This opinion seems to be shared among my other friends whom I've asked to try out this app.</p>
+            <p>And finally, a feedback from reviewer of this project, Charlotte Turner:</p>
+            <blockquote>
+              <p>You could do a clearer job of explaining the objective and the algorithm used here. My understanding is that the objective is to choose the very best possible candidate out of a set. I thought this led to a rather depressing finding; only
+                37% chance of success?! You could comment on this finding and thus make your case for relaxing the success criterion to be the 'top x%', as shown later in the visualisation. I had to guess what was meant by these 'top x%' for myself, it
+                would be nicer to introduce them and explain why you included them.</p>
+            </blockquote>
+            <p>Added some explanation to the tour, and hopefully the new content structure makes this better.</p>
+            <blockquote>
+              <p>The fact that 1/e (37%) appears both in the strategy and in the result could be clarified. A mathematical formula is confusingly included without explanation (are you able to justify it?) and its link to 1/e is unclear. As always when presenting
+                mathematics to a general audience, there is a balance to be struck in the level of detail. The example provided is a bit confusing. Why does it yield a value higher than 37%?</p>
+            </blockquote>
+            <p>Back then I didn't want to include too much detail, but felt like I had to. I guess the solution for this is to place the deep and complete mathematical concept to a different page.</p>
+            <blockquote>
+              <p>I would prefer you to change references to 'proving' the rule to 'testing' or 'demonstrating' or 'showing' the rule; this is a mathematical concept and a simulation is not a mathematical proof!</p>
+            </blockquote>
+            <p>Updated.</p>
+            <blockquote>
+              <p>There is quite a lot of text on the page, which provides a fun narrative voice. However, you should consider whether less text would be sufficient and hence allow the visualisations a little more room to shine.</p>
+            </blockquote>
+            <h5>Reducing the content</h5>
+            <p>From these content-related feedback, including the ones from Eric and Charlotte, it was very clear that the amount of content needs to be reduced to eliminate the possibility of users quitting before even trying the app.</p>
+            <p>Instead of removing the content altogether, I created another page especially made to explain only the mathematically dense materials, while keeping the visualization as highlight of the main page.</p>
+            <p>The version before this update can be seen <a href="http://mathoflove.teguhwijaya.com/static/archives/v0.html">here</a>, while this last content update is available <a href="http://mathoflove.teguhwijaya.com">live</a>.</p>
           </article>
           <div class="symbol-index">
             <section>
@@ -1316,12 +1511,12 @@ npm install load-grunt-tasks</code></pre>
                       <dd>
                       </dd>
                       <dt class="symbol-index-name">
-                <a href="app.detailViz.html#.drawMarker" class="!symbol-index-name">app.<wbr>detailViz.<wbr>drawMarker(bar, image, d, i, elclass, callback)</a>
+                <a href="app.detailViz.html#.drawLegend" class="!symbol-index-name">app.<wbr>detailViz.<wbr>drawLegend()</a>
             </dt>
                       <dd>
                       </dd>
                       <dt class="symbol-index-name">
-                <a href="app.detailViz.html#.drawOptimals" class="!symbol-index-name">app.<wbr>detailViz.<wbr>drawOptimals(data, callback)</a>
+                <a href="app.detailViz.html#.drawMarker" class="!symbol-index-name">app.<wbr>detailViz.<wbr>drawMarker(bar, image, d, i, elclass, callback)</a>
             </dt>
                       <dd>
                       </dd>
@@ -1329,6 +1524,11 @@ npm install load-grunt-tasks</code></pre>
                   </div>
                   <div class="symbol-index-column">
                     <dl class="symbol-index-list">
+                      <dt class="symbol-index-name">
+                <a href="app.detailViz.html#.drawOptimals" class="!symbol-index-name">app.<wbr>detailViz.<wbr>drawOptimals(data, callback)</a>
+            </dt>
+                      <dd>
+                      </dd>
                       <dt class="symbol-index-name">
                 <a href="app.detailViz.html#.drawRejectionPhase" class="!symbol-index-name">app.<wbr>detailViz.<wbr>drawRejectionPhase(callback)</a>
             </dt>
@@ -1404,7 +1604,7 @@ npm install load-grunt-tasks</code></pre>
                   <div class="symbol-index-column">
                     <dl class="symbol-index-list">
                       <dt class="symbol-index-name">
-                <a href="app.generate.html#.view" class="!symbol-index-name">app.<wbr>generate.<wbr>view()</a>
+                <a href="app.generate.html#.view" class="!symbol-index-name">app.<wbr>generate.<wbr>view(callback)</a>
             </dt>
                       <dd>
                       </dd>
@@ -1768,7 +1968,7 @@ npm install load-grunt-tasks</code></pre>
   <footer id="jsdoc-footer" class="jsdoc-footer">
     <div id="jsdoc-footer-container">
       <p>
-        Generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc</a> 3.3.3 on October 5, 2015.
+        Generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc</a> 3.3.3 on October 7, 2015.
       </p>
     </div>
   </footer>

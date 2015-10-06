@@ -330,7 +330,9 @@ var app = app || {};
       });
     });
 
-  d3.json("data/intro", function(error, data) {
-    app.introViz.drawIntro(data);
-  });
+  if (d3.select('#intro_viz').empty() != true) {
+    d3.json("data/intro", function(error, data) {
+      app.introViz.drawIntro(data);
+    });
+  }
 })();

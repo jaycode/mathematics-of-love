@@ -168,6 +168,7 @@ var app = app || {};
     app.detailViz.drawRejectionPhase.call(self, function() {
       app.detailViz.drawExperiment.call(self, self.data, params.callback);
     });
+    app.detailViz.drawLegend();
   };
 
   /**
@@ -389,6 +390,51 @@ var app = app || {};
       callback();
     }
   }
+
+  /**
+   * Draws the legend.
+   */
+  app.detailViz.drawLegend = function() {
+    var self = this;
+
+    var legend = d3.select('#legend')
+      .append('svg')
+
+    var drawMarkerLegend = function(image, color, text, pos) {
+      var left = 0;
+      var top = 0;
+      var scale = 0.5;
+      var allTexts = d3.selectAll('#legend text');
+
+      if (allTexts[0].length > 0 && pos > 0) {
+        var x = allTexts[0][pos-1].getBoundingClientRect()['left'] - d3.select('#legend').node().getBoundingClientRect()['left'];
+        left = x/scale + allTexts[0][pos-1].getBBox()['width']/scale;
+      }
+
+      var markerObj = legend
+        .append('g')
+        .attr('class', 'marker' )
+        .attr('transform', 'scale('+scale+'), translate('+(left)+', '+top+')')
+        .attr('fill', color)
+        .html(image);
+
+      var x = markerObj.node().getBoundingClientRect()['left'] - d3.select('#legend').node().getBoundingClientRect()['left'];
+
+      left = x + markerObj.node().getBBox()['width']*scale;
+      top = markerObj.node().getBBox()['y']*scale;
+
+      var textObj = legend
+        .append('text')
+        .attr('text-anchor', 'start')
+        .attr('dominant-baseline', 'text-before-edge') // vertical pivot = top.
+        .attr('transform', 'translate('+left+', '+top+')')
+        .text(': ' + text);
+    }
+    drawMarkerLegend(app.images.remove, 'red', 'rejected', 0)
+    drawMarkerLegend(app.images.remove2, 'red', 'not chosen', 1)
+    drawMarkerLegend(app.images.ok, 'green', 'chosen', 2)
+    drawMarkerLegend(app.images.star, 'yellow', 'top', 3)
+  };
 
   /**
    * Draws the markers on top of a bar.

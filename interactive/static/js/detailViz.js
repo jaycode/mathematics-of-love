@@ -430,8 +430,8 @@ var app = app || {};
         .attr('transform', 'translate('+left+', '+top+')')
         .text(': ' + text);
     }
-    drawMarkerLegend(app.images.remove, 'red', 'rejected', 0)
-    drawMarkerLegend(app.images.remove2, 'red', 'not chosen', 1)
+    drawMarkerLegend(app.images.remove2, 'red', 'rejected', 0)
+    drawMarkerLegend(app.images.remove, 'red', 'not chosen', 1)
     drawMarkerLegend(app.images.ok, 'green', 'chosen', 2)
     drawMarkerLegend(app.images.star, 'yellow', 'top', 3)
   };

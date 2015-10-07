@@ -312,12 +312,12 @@ var app = app || {};
           request.onprogress = function(pe) {
             if(pe.lengthComputable) {
               d3.select('button[data-bind=btn-start]')
-                .text('Loading dataset...'+
+                .text('Loading dataset... '+
                   (Math.round(pe.loaded / pe.total * 100)) + '% (' + 
                   app.helpers.getReadableFileSizeString(pe.loaded) + 
                   '/' + app.helpers.getReadableFileSizeString(pe.total) + ')');
               d3.select('.now_loading')
-                .text('Loading dataset...'+(Math.round(pe.loaded / pe.total * 100)) + '% (' + 
+                .text('Loading dataset... '+(Math.round(pe.loaded / pe.total * 100)) + '% (' + 
                   app.helpers.getReadableFileSizeString(pe.loaded) + 
                   '/' + app.helpers.getReadableFileSizeString(pe.total) + ')');
             }

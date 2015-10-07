@@ -309,11 +309,13 @@ var app = app || {};
           });
         })
         .on('progress', function(request) {
-          debugger;
+          request.onprogress = function(pe) {
+            if(pe.lengthComputable) {
+              d3.select('button[data-bind=btn-start]')
+                .text = 'Loading...'+(Math.round(pe.loaded / pe.total * 100)) + '%'
+            }
+          }
         })
-        .on('load', function() {
-          debugger;
-        });
       }
       if (typeof(callbackDirect) == 'function') {
         callbackDirect();

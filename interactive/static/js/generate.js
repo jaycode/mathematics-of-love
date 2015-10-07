@@ -312,7 +312,7 @@ var app = app || {};
           request.onprogress = function(pe) {
             if(pe.lengthComputable) {
               d3.select('button[data-bind=btn-start]')
-                .text = 'Loading...'+(Math.round(pe.loaded / pe.total * 100)) + '%'
+                .text('Loading...'+(Math.round(pe.loaded / pe.total * 100)) + '%')
             }
           }
         })

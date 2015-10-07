@@ -275,21 +275,6 @@ var app = app || {};
     this.viewDetail = function() {
       app.detail.view();
     };
-
-    /**
-     * No longer used. Goals are now directly adjusted from app.Experiment ViewModel.
-     */
-    // this.chooseGoal = function() {
-    //   app.detail.chooseGoal();
-    // };
-
-    // this.addGoal = function() {
-    //   app.dataAnalysis.addGoal();
-    // };
-
-    // this.removeGoal = function() {
-    //   app.dataAnalysis.removeGoal();
-    // };
   };
 
   var buttons = d3.select('button[data-bind=btn-start]')

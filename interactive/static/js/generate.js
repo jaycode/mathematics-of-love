@@ -288,7 +288,8 @@ var app = app || {};
         callbackWait(app.data.compatibilities);
       }
       else {
-        d3.json(url, function(data) {
+        d3
+          .json(url, function(data) {
           app.data.compatibilities = data.compatibilities;
           // Set experiment.processed to false.
 
@@ -306,6 +307,12 @@ var app = app || {};
               callbackWait(app.data.compatibilities);
             }
           });
+        })
+        .on('progress', function(request) {
+          debugger;
+        })
+        .on('load', function() {
+          debugger;
         });
       }
       if (typeof(callbackDirect) == 'function') {

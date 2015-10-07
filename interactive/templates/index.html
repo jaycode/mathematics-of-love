@@ -52,8 +52,8 @@
             <ul>
               <li><a data-bind="click: viewGenerateDataset" href="#">Generate Different Dataset</a></li>
               <li><a data-bind="click: viewGeneratedDataset" href="#">View Generated Dataset</a></li>
-              <li><a data-bind="click: viewSimulationAnalysis, enable: Experiment.processed" href="#">Simulation Analysis</a></li>
-              <li><a data-bind="click: viewDetail, enable: Experiment.processed" href="#">Single Life Simulations</a></li>
+              <li><a data-bind="click: viewSimulationAnalysis, enable: $root.Experiment.processed" href="#">Simulation Analysis</a></li>
+              <li><a data-bind="click: viewDetail, enable: $root.Experiment.processed" href="#">Single Life Simulations</a></li>
             </ul>
           </div>
           <div class="clear_both"></div>

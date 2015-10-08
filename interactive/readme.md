@@ -49,7 +49,10 @@ is using your port 80).
 - To add new javascript plugin, run `bower install pluginname`.
 - This project uses Foundation with Grunt, so when you need to update your css, cd to `static` dir and run `grunt`.
   You may then update the scss files and they will be compiled into app.css used in this app.
-- Documentation is made with jsdoc with baseline plugin. To export documentation, run `jsdoc -t node_modules/jsdoc-baseline static/js/ readme.md` from /interactive directory.
+- Documentation is made with jsdoc with baseline plugin. To export documentation,
+  first [install jsdoc-baseline node module](https://github.com/hegemonic/jsdoc-baseline) 
+  `npm install -g https://github.com/jsdoc3/jsdoc/tarball/master`
+  then to compile the documentation run `jsdoc -t node_modules/jsdoc-baseline static/js/ readme.md` from /interactive directory.
 
 ## Design Decisions
 To put it simply, in this project I generate a large number of random numbers and apply a Mathematical

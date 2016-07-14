@@ -1,3 +1,7 @@
-api_version: go1
-runtime: go
-vm: true
+runtime: python27
+api_version: 1
+threadsafe: true
+
+handlers:
+- url: .*
+  script: main.app

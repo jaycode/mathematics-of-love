@@ -17,7 +17,6 @@
   "dependencies": {
     "fastclick": ">=0.6.11",
     "d3": "~3.5.6",
-    "foundation": "zurb/bower-foundation",
     "knockout": "~3.3.0",
     "underscore": "~1.8.3"
   }

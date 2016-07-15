@@ -8,9 +8,9 @@ This project attempts to explain a mathematical concept called "Optimal Stopping
 As a bonus objective, this app is (maybe) also helpful in deciding on a strategy to choose the best partner i.e. by dating how many people per year and deciding on an optimal rejection phase.
 
 The app for this project is available here: 
-[http://mathoflove.teguhwijaya.com/](http://mathoflove.teguhwijaya.com/)
+[https://math-of-love.appspot.com/](https://math-of-love.appspot.com/)
 
-A complete documentation of the project's code is available [here](http://mathoflove.teguhwijaya.com/static/docs/app.html).
+A complete documentation of the project's code is available [here](https://math-of-love.appspot.com/static/docs/app.html).
 
 ## How to Run
 

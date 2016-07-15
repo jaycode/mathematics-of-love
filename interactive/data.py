@@ -2,7 +2,10 @@
 import numpy as np
 import random
 import os.path
-import ujson
+try:
+  import ujson
+except:
+  import json as ujson
 import pdb
 import urllib
 

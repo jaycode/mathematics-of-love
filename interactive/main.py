@@ -1,4 +1,5 @@
 from flask import Flask, render_template, jsonify, request
+import numpy
 app = Flask(__name__)
 
 @app.route('/')
@@ -34,9 +35,6 @@ def read_data():
     p=request.args.get('p', 0),
     g=request.args.get('g', 'top-1,top-10%25,top-15%25,theory')
   ))
-
-
-
 
 
 

@@ -7,7 +7,7 @@ This project attempts to explain a mathematical concept called "Optimal Stopping
 
 As a bonus objective, this app is (maybe) also helpful in deciding on a strategy to choose the best partner i.e. by dating how many people per year and deciding on an optimal rejection phase.
 
-The app for this project is available here: 
+The app for this project is available here:
 [https://math-of-love.appspot.com/](https://math-of-love.appspot.com/)
 
 A complete documentation of the project's code is available [here](https://math-of-love.appspot.com/static/docs/app.html).
@@ -16,7 +16,7 @@ A complete documentation of the project's code is available [here](https://math-
 
 This section explains how to run this project in your local machine.
 Please do contact me
-at te g u h w purw an to [at] gmail [dot] com if 
+at te g u h w purw an to [at] gmail [dot] com if
 you have any question with installation.
 
 This app needs following python modules:
@@ -44,13 +44,18 @@ Then you should be able to access this app on `http://localhost`
 (make sure no other app
 is using your port 80).
 
+### For Google AppEngine development
+Make sure `bower install --allow-root` has been run, and then simply run `gcloud app deploy` to deploy.
+More information [here](https://cloud.google.com/appengine/docs/standard/python/quickstart).
+
+
 ## Development Notes
 
 - To add new javascript plugin, run `bower install pluginname`.
 - This project uses Foundation with Grunt, so when you need to update your css, cd to `static` dir and run `grunt`.
   You may then update the scss files and they will be compiled into app.css used in this app.
 - Documentation is made with jsdoc with baseline plugin. To export documentation,
-  first [install jsdoc-baseline node module](https://github.com/hegemonic/jsdoc-baseline) 
+  first [install jsdoc-baseline node module](https://github.com/hegemonic/jsdoc-baseline)
   `npm install -g https://github.com/jsdoc3/jsdoc/tarball/master`
   then to compile the documentation run `jsdoc -t node_modules/jsdoc-baseline static/js/ readme.md` from /interactive directory.
 
@@ -138,7 +143,7 @@ During the next two days (date 5 and 6), I focused on the structure and some ini
 
 **8 Sept 2015**
 
-From then, up until date 8 I moved over the logic I used in R into Javascript. 
+From then, up until date 8 I moved over the logic I used in R into Javascript.
 
 **9 Sept 2015**
 Which was a terrible mistake since the loading time was too high that the app was practically useless. I spent the following day (date 9) on rewriting the code in Python. It was a huge success since Python has this Numpy array which made the calculation much faster.
@@ -220,7 +225,7 @@ To summarize the changes, I stored past iterations in saved html archives:
 
 Most design related feedback were targeted for Lifetime Simulation page.
 
-The very first version of Design 
+The very first version of Design
 
 ![](https://raw.githubusercontent.com/jaycode/mathematics-of-love/master/interactive/static/images/docs/design1-before.PNG)
 
@@ -280,7 +285,7 @@ I couldn't duplicate this issue so let's leave it until more reports are coming.
 
 From Google form, an anonymous user commented as follows:
 
-> On the simulation analysis graph, you can look at the success rate vs. % rejected for any point on the line. I thought that was great, but I found it to be a bit unsmooth. In particular, I found that it was a little awkward that my cursor had to actually be in contact with one of the lines to change the numbers. For example, if I started at the rejection rate of 10% and wanted to see the success rate for a rejection rate of 20%, I would have to move my mouse onto the line at the 20% mark. I feel like I would have found it more natural if the numbers would change with my cursor's x position regardless of whether it's in contact with a line or not. 
+> On the simulation analysis graph, you can look at the success rate vs. % rejected for any point on the line. I thought that was great, but I found it to be a bit unsmooth. In particular, I found that it was a little awkward that my cursor had to actually be in contact with one of the lines to change the numbers. For example, if I started at the rejection rate of 10% and wanted to see the success rate for a rejection rate of 20%, I would have to move my mouse onto the line at the 20% mark. I feel like I would have found it more natural if the numbers would change with my cursor's x position regardless of whether it's in contact with a line or not.
 
 I updated Simulation Analysis visualization so that the cursor don't have to be positioned exactly on top of a line to show the detail window. I did this by creating rectangles with 0 opacity that triggered detail window display when hovered over. Following is the visualization with hidden rectangles shown in semi transparent colors:
 
@@ -313,7 +318,7 @@ With this new version, the window stays on top right of the page. To help with t
 ##### Replaying the tour
 
 In one of the Google Form replies I received this:
-> ...Finally, I would have liked a button that would allow me to read the introduction for the app again after I've played with it a bit. 
+> ...Finally, I would have liked a button that would allow me to read the introduction for the app again after I've played with it a bit.
 
 Unfortunately this may take quite a bit of time to do. It gets quite complicated if you have generated your own dataset (although quite possible to do), anyway since this is possible to do by refreshing the page and only requested once, let's put this in Todo list.
 
@@ -335,8 +340,8 @@ From Google Form replies:
 
 ---
 
-> The simulation is fine but .  .  .  
-When I'm faced with this sort of problem is use some actual numbers, maybe 5 applicants, then 10, then 20, etc., to gain some insight on where this is going. 
+> The simulation is fine but .  .  .
+When I'm faced with this sort of problem is use some actual numbers, maybe 5 applicants, then 10, then 20, etc., to gain some insight on where this is going.
 
 That is actually possible to do by generating own dataset.
 
@@ -362,7 +367,7 @@ Thank you, anonymous!
 "to quick" should be "too quickly"
 >
 > The opening section has several awkward things.  For example, you can't reject the next suitor, only the present one.
-> 
+>
 > The rest of it reads much better.
 
 Corrected the article as suggested.
@@ -372,11 +377,11 @@ Corrected the article as suggested.
 Another feedback came in [audio form](https://drive.google.com/file/d/0B2ib3M3otvbDbkNLdnZTb0Q3OG85TjhwYkZLRHA1NHJvYnF3/view?usp=sharing). The transcript as follows:
 
 > Hi, my name is Eric, I'd like to comment on Jay's Udacity project, the mathematics of love. Back then Jay had shown me the app and applied it to real life situation.
-> 
+>
 > I found the material quite interesting and the application of theory is very practical. However I find it really hard to digest the material if I have to read it on my own.
-> 
+>
 > My suggestion is to remove the theory section and focus only on the practical parts.
-> 
+>
 > Thank you.
 
 This opinion seems to be shared among my other friends whom I've asked to try out this app.

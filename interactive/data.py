@@ -22,11 +22,28 @@ def get_intro():
   partners = processor.compute_ost_theory(100)
   return {'partners': list(partners)}
 
+def _get_compatibilities(a1, a2, p1, p2, l):
+  compatibilities = []
+  for lt in range(1, l+1):
+    # Number of candidates met per year should range between p1 and p2.
+    yearly_num_candidates = []
+    for a in range(0, (a2-a1)):
+      yearly_num_candidates.append(random.choice(range(p1, p2)))
+    for year, num_candidates in enumerate(yearly_num_candidates):
+      # Compatibility scores of candidates should follow a normal distribution.
+      scores = np.random.normal(size=num_candidates)
+      for score in scores:
+        compatibilities.append({
+          'lifetime': lt,
+          'candidate_score': round(score,3),
+          'candidate_age_met': a1+year
+        })
+  return compatibilities
+
 # Generates dataset given start age (a1), end age (a2),
 # min and max potential partners met per year (p1 and p2),
 # and number of lifetimes (l). 
 def get_compatibilities(a1=18, a2=24, p1=0, p2=8, l=10000):
-  compatibilities = []
   a1 = int(a1)
   a2 = int(a2)
   p1 = int(p1)
@@ -34,25 +51,16 @@ def get_compatibilities(a1=18, a2=24, p1=0, p2=8, l=10000):
   l = int(l)
   filename = "cached_data/a1%ia2%ip1%ip2%il%i.json" % (a1, a2, p1, p2, l)
   if not os.path.exists('cached_data'):
-    os.makedirs('cached_data')
+    try:
+      os.makedirs('cached_data')
+    except OSError as e:
+      compatibilities = _get_compatibilities(a1, a2, p1, p2, l)
+      return compatibilities
   if os.path.isfile(filename):
     with open(filename) as fhandler:    
       compatibilities = ujson.load(fhandler)
   else:
-    for lt in range(1, l+1):
-      # Number of candidates met per year should range between p1 and p2.
-      yearly_num_candidates = []
-      for a in range(0, (a2-a1)):
-        yearly_num_candidates.append(random.choice(range(p1, p2)))
-      for year, num_candidates in enumerate(yearly_num_candidates):
-        # Compatibility scores of candidates should follow a normal distribution.
-        scores = np.random.normal(size=num_candidates)
-        for score in scores:
-          compatibilities.append({
-            'lifetime': lt,
-            'candidate_score': round(score,3),
-            'candidate_age_met': a1+year
-          })
+    compatibilities = _get_compatibilities(a1, a2, p1, p2, l)
     with open(filename, 'w') as fhandler:
       ujson.dump(compatibilities, fhandler)
   return compatibilities

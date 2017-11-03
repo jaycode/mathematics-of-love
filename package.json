@@ -1,0 +1,13 @@
+{
+  "name": "myapp",
+  "description": "a really cool app",
+  "version": "1.0.0",
+  "engines": {
+    "npm": "3.5.2"
+  },
+  "dependencies": {
+    "bower": "1.8.2" 
+  },
+  "postinstall": "bower install"
+}
+

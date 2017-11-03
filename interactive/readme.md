@@ -30,6 +30,7 @@ and Grunt for styling:
 ```
 npm install -g grunt-cli
 npm install load-grunt-tasks
+sudo npm install -g bower
 ```
 
 `cd static` then `grunt` to compile css file.

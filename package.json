@@ -1,6 +1,5 @@
 {
-  "name": "myapp",
-  "description": "a really cool app",
+  "name": "Math of Love",
   "version": "1.0.0",
   "engines": {
     "npm": "3.5.2"
@@ -10,4 +9,3 @@
   },
   "postinstall": "bower install"
 }
-
